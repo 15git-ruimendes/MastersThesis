@@ -48,17 +48,17 @@ private:
         float mean = (max + min) / 2;
         for (float i = 0; i < 1 / (freq); i += delta)
         {
-            if (i <= 0.25 / (freq))
+            if (i < 0.25 / (freq))
             {
                 wave.push_back((max - mean) / (0.25 / (freq)) * i + mean);
             }
-            else if (i <= 0.75 / (freq))
+            else if (i < 0.75 / (freq))
             {
-                wave.push_back((min - max) / (0.5 / (freq)) * i + max * 2);
+                wave.push_back((min - max) / (0.5 / (freq)) * i + (max - min));
             }
             else if (i <= 1 / (freq))
             {
-                wave.push_back((mean - min) / (0.25 / (freq)) * i + min * 3);
+                wave.push_back((mean - min) / (0.25 / (freq)) * i + 4 * (min - mean));
             }
         }
     };
@@ -66,9 +66,9 @@ private:
 
 int main(int argc, char const *argv[])
 {
-    Modulator mod(-1, 1, 10, 0.0024);
+    Modulator mod(-1, 1, 20, 0.00024);
     std::cout << "Here" << std::endl;
-    for (int i = 0; i < 150; i++)
+    for (int i = 0; i < 300; i++)
     {
         std::cout << mod.nextValue() << std::endl;
     }
