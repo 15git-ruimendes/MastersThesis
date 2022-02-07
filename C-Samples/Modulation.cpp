@@ -14,18 +14,18 @@ public:
     {
         max = max_r;
         min = min_r;
-        // if (freq_r * 4 <= 1 / delta_r)
-        //{
-        freq = freq_r;
-        delta = delta_r;
-        enable = true;
-        buildWave();
-        // }
-        /*else
+        if (freq_r * 4 <= 1 / delta_r)
+        {
+            freq = freq_r;
+            delta = delta_r;
+            enable = true;
+            buildWave();
+        }
+        else
         {
             std::cout << "Time step two low for given frequency." << std::endl;
             enable = false;
-        }*/
+        }
     };
 
     float nextValue()
