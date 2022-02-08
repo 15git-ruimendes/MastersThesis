@@ -1,0 +1,340 @@
+<?xml version="1.0"?>
+<project name="" company="" manager="" phase="" project-start="20220207T000000Z" mrproject-version="2" calendar="1">
+  <properties/>
+  <phases>
+    <phase name="Simulation"/>
+    <phase name="Code Building"/>
+    <phase name="Testing"/>
+    <phase name="Writing"/>
+  </phases>
+  <calendars>
+    <day-types>
+      <day-type id="0" name="Working" description="A default working day"/>
+      <day-type id="1" name="Nonworking" description="A default non working day"/>
+      <day-type id="2" name="Use base" description="Use day from base calendar"/>
+    </day-types>
+    <calendar id="1" name="Default">
+      <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
+      <overridden-day-types>
+        <overridden-day-type id="0">
+          <interval start="0800" end="1200"/>
+          <interval start="1300" end="1700"/>
+        </overridden-day-type>
+      </overridden-day-types>
+      <days/>
+    </calendar>
+  </calendars>
+  <tasks>
+    <task id="1" name="PSim Simulations" note="" work="461700" start="20220221T000000Z" end="20220301T081500Z" work-start="20220221T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="2" name="RFOC" note="" work="86400" start="20220221T000000Z" end="20220223T170000Z" work-start="20220221T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220221T000000Z"/>
+      </task>
+      <task id="3" name="SFOC" note="" work="86400" start="20220223T000000Z" end="20220225T170000Z" work-start="20220223T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220223T000000Z"/>
+      </task>
+      <task id="4" name="Variable Id Reference" note="" work="115200" start="20220222T000000Z" end="20220225T170000Z" work-start="20220222T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220222T000000Z"/>
+      </task>
+      <task id="5" name="PI Tunning" note="" work="86400" start="20220222T000000Z" end="20220224T170000Z" work-start="20220222T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220222T000000Z"/>
+      </task>
+      <task id="6" name="Anti-Slip Functions" note="" work="87300" start="20220224T000000Z" end="20220301T081500Z" work-start="20220224T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220224T000000Z"/>
+      </task>
+    </task>
+    <task id="7" name="IM Economic Studies" note="" work="115200" start="20220302T000000Z" end="20220303T170000Z" work-start="20220302T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="8" name="Parameter Discovery" note="" work="57600" start="20220302T000000Z" end="20220303T170000Z" work-start="20220302T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220302T000000Z"/>
+      </task>
+      <task id="9" name="Workbench Limitations (nominal values)" note="" work="28800" start="20220303T000000Z" end="20220303T170000Z" work-start="20220303T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220303T000000Z"/>
+      </task>
+      <task id="10" name="Motor Model Studies" note="" work="28800" start="20220303T000000Z" end="20220303T170000Z" work-start="20220303T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220303T000000Z"/>
+      </task>
+    </task>
+    <task id="11" name="Motor Model  and Parameter Estimation(MATLAB)" note="" work="633600" start="20220307T000000Z" end="20220325T170000Z" work-start="20220307T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="12" name="General Motor Model" note="" work="201600" start="20220307T000000Z" end="20220315T170000Z" work-start="20220307T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220307T000000Z"/>
+      </task>
+      <task id="13" name="Offline Plug-In Parameter Estimation" note="" work="144000" start="20220311T000000Z" end="20220317T170000Z" work-start="20220311T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220311T000000Z"/>
+      </task>
+      <task id="14" name="Online Parameter Estimation" note="" work="288000" start="20220314T000000Z" end="20220325T170000Z" work-start="20220314T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220314T000000Z"/>
+      </task>
+    </task>
+    <task id="15" name="XMC Code Export and Creation" note="" work="1152000" start="20220307T000000Z" end="20220405T170000Z" work-start="20220307T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="16" name="FOC Code build" note="" work="576000" start="20220307T000000Z" end="20220401T170000Z" work-start="20220307T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220307T000000Z"/>
+      </task>
+      <task id="17" name="Offline Parameter Estimation Code Export" note="" work="201600" start="20220317T170000Z" end="20220328T170000Z" work-start="20220318T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="13" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="18" name="Online Parameter Estimation Code Export" note="" work="201600" start="20220325T170000Z" end="20220405T170000Z" work-start="20220328T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="14" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="19" name="Anti-Slip limitations Code build" note="" work="86400" start="20220324T000000Z" end="20220328T170000Z" work-start="20220324T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220324T000000Z"/>
+      </task>
+      <task id="20" name="Communication Protocol Build" note="" work="86400" start="20220330T000000Z" end="20220401T170000Z" work-start="20220330T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220330T000000Z"/>
+      </task>
+    </task>
+    <task id="21" name="Testing and Verification" note="" work="835200" start="20220416T170000Z" end="20220511T090320Z" work-start="20220418T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="22" name="FOC Code Testing (No Load)" note="" work="115200" start="20220416T170000Z" end="20220422T081820Z" work-start="20220418T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="16" type="FS" lag="1296000"/>
+        </predecessors>
+      </task>
+      <task id="23" name="FOC Testing (Dynamic Nominal Load)" note="" work="259200" start="20220422T081820Z" end="20220427T081820Z" work-start="20220422T081820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="22" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="24" name="Offline Parameter Estimation Testing (Individual)" note="" work="115200" start="20220427T081820Z" end="20220503T083640Z" work-start="20220427T081820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="23" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="25" name="Integrated Offline P.E. and FOC Test" note="" work="115200" start="20220503T083640Z" end="20220509T085500Z" work-start="20220503T083640Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="24" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="26" name="Anti-Slip Limiter Testing" note="" work="115200" start="20220422T081820Z" end="20220428T083640Z" work-start="20220422T081820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="22" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="27" name="Communication Testing (Off Test Bench)" note="" work="57600" start="20220422T081820Z" end="20220425T081820Z" work-start="20220422T081820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="22" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="28" name="Online Parameter Estimation Testing (integrated)" note="" work="57600" start="20220509T085500Z" end="20220511T090320Z" work-start="20220509T085500Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="25" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="29" name="Dissertation Writing" note="" work="2506500" start="20220222T000000Z" end="20220527T110000Z" work-start="20220222T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="30" name="SOTA Review" note="" work="144000" start="20220222T000000Z" end="20220228T170000Z" work-start="20220222T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220222T000000Z"/>
+      </task>
+      <task id="31" name="Test Bed Exploration" note="" work="201600" start="20220303T170000Z" end="20220314T170000Z" work-start="20220304T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="32" name="Economic Tests - Parameter Discovery" note="" work="86400" start="20220303T170000Z" end="20220308T170000Z" work-start="20220304T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="7" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="33" name="Test Bed Sensoring" note="" work="115200" start="20220308T170000Z" end="20220314T170000Z" work-start="20220309T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="32" type="FS"/>
+          </predecessors>
+        </task>
+      </task>
+      <task id="34" name="PSim Simulations" note="" work="489600" start="20220427T000000Z" end="20220512T170000Z" work-start="20220427T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="35" name="RFOC v SFOC" note="" work="201600" start="20220427T000000Z" end="20220505T170000Z" work-start="20220427T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <constraint type="must-start-on" time="20220427T000000Z"/>
+        </task>
+        <task id="36" name="Anti-Slip" note="" work="115200" start="20220503T000000Z" end="20220506T170000Z" work-start="20220503T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <constraint type="must-start-on" time="20220503T000000Z"/>
+        </task>
+        <task id="37" name="Id Reference" note="" work="86400" start="20220507T000000Z" end="20220511T170000Z" work-start="20220509T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <constraint type="must-start-on" time="20220507T000000Z"/>
+        </task>
+        <task id="38" name="PI Tunning" note="" work="86400" start="20220510T000000Z" end="20220512T170000Z" work-start="20220510T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <constraint type="must-start-on" time="20220510T000000Z"/>
+        </task>
+      </task>
+      <task id="39" name="MATLAB Parameter Estimation" note="" work="1228500" start="20220317T170000Z" end="20220505T170000Z" work-start="20220318T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="40" name="Motor Model" note="" work="86400" start="20220325T170000Z" end="20220330T170000Z" work-start="20220328T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="41" name="Motor Model Creation / Explination" note="" work="86400" start="20220325T170000Z" end="20220330T170000Z" work-start="20220328T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="14" type="FS"/>
+            </predecessors>
+          </task>
+        </task>
+        <task id="42" name="Offline Parameter Estimation" note="" work="594900" start="20220317T170000Z" end="20220415T141500Z" work-start="20220318T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="43" name="Stator Resistance Measurments" note="" work="201600" start="20220317T170000Z" end="20220328T170000Z" work-start="20220318T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="13" type="FS"/>
+            </predecessors>
+          </task>
+          <task id="44" name="Stator Inductance Measurments" note="" work="191700" start="20220328T170000Z" end="20220406T141500Z" work-start="20220329T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="43" type="FS"/>
+            </predecessors>
+          </task>
+          <task id="45" name="Rotor and Magnetic Quantities Aproximation" note="" work="201600" start="20220406T141500Z" end="20220415T141500Z" work-start="20220406T141500Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="44" type="FS"/>
+            </predecessors>
+          </task>
+        </task>
+        <task id="46" name="Online Parameter Estimation " note="" work="547200" start="20220405T170000Z" end="20220505T170000Z" work-start="20220406T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="47" name="Relevant Parameter to Estimate" note="" work="115200" start="20220405T170000Z" end="20220411T170000Z" work-start="20220406T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="18" type="FS"/>
+            </predecessors>
+          </task>
+          <task id="48" name="Kalaman Filters" note="" work="259200" start="20220414T170000Z" end="20220427T170000Z" work-start="20220415T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="47" type="FS" lag="259200"/>
+            </predecessors>
+          </task>
+          <task id="49" name="Function and Parameter Aproximation" note="" work="172800" start="20220427T170000Z" end="20220505T170000Z" work-start="20220428T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="48" type="FS"/>
+            </predecessors>
+          </task>
+        </task>
+      </task>
+      <task id="50" name="XMC Code Build" note="" work="183600" start="20220505T170000Z" end="20220516T110000Z" work-start="20220506T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="51" name="Hardware Choice and Parameters" note="" work="57600" start="20220505T170000Z" end="20220509T170000Z" work-start="20220506T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="49" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="52" name="GPIO and ADC Configuration" note="" work="7200" start="20220509T170000Z" end="20220510T100000Z" work-start="20220510T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="51" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="53" name="FOC Code Explination" note="" work="57600" start="20220510T100000Z" end="20220512T100000Z" work-start="20220510T100000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="52" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="54" name="Parameter Estimation Code Export " note="" work="57600" start="20220512T100000Z" end="20220516T100000Z" work-start="20220512T100000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="53" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="55" name="Communication protocol code" note="" work="3600" start="20220516T100000Z" end="20220516T110000Z" work-start="20220516T100000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="54" type="FS"/>
+          </predecessors>
+        </task>
+      </task>
+      <task id="56" name="Testing and Results" note="" work="201600" start="20220516T110000Z" end="20220525T110000Z" work-start="20220516T110000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="57" name="Individual Testing (Bottom-Up)" note="" work="86400" start="20220516T110000Z" end="20220519T110000Z" work-start="20220516T110000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="55" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="58" name="Integrated No-Load Testing" note="" work="28800" start="20220519T110000Z" end="20220520T110000Z" work-start="20220519T110000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="57" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="59" name="Integrated Full Load Testing " note="" work="28800" start="20220520T110000Z" end="20220523T110000Z" work-start="20220520T110000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="58" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="60" name="Efficiency Calculations" note="" work="57600" start="20220523T110000Z" end="20220525T110000Z" work-start="20220523T110000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="59" type="FS"/>
+          </predecessors>
+        </task>
+      </task>
+      <task id="61" name="Discussion and Interpretation" note="" work="57600" start="20220525T110000Z" end="20220527T110000Z" work-start="20220525T110000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="60" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="62" name="Poster &amp; Presentation" note="" work="172800" start="20220518T000000Z" end="20220601T170000Z" work-start="20220518T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="63" name="Poster" note="" work="86400" start="20220518T000000Z" end="20220520T170000Z" work-start="20220518T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220518T000000Z"/>
+      </task>
+      <task id="64" name="Defense Presentation" note="" work="86400" start="20220530T000000Z" end="20220601T170000Z" work-start="20220530T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20220530T000000Z"/>
+      </task>
+    </task>
+  </tasks>
+  <resource-groups/>
+  <resources>
+    <resource id="1" name="Test Bench Access" short-name="" type="1" units="0" email="" note="" std-rate="100"/>
+    <resource id="2" name="Writing Time" short-name="" type="1" units="0" email="" note="" std-rate="20"/>
+    <resource id="3" name="PSim Access" short-name="" type="1" units="0" email="" note="" std-rate="30"/>
+    <resource id="4" name="MATLAB Access" short-name="" type="1" units="0" email="" note="" std-rate="30"/>
+    <resource id="5" name="XMC Access" short-name="" type="1" units="0" email="" note="" std-rate="40"/>
+    <resource id="6" name="Inverter Access " short-name="" type="1" units="0" email="" note="" std-rate="150"/>
+  </resources>
+  <allocations>
+    <allocation task-id="28" resource-id="1" units="33"/>
+    <allocation task-id="26" resource-id="1" units="33"/>
+    <allocation task-id="25" resource-id="1" units="33"/>
+    <allocation task-id="24" resource-id="1" units="33"/>
+    <allocation task-id="23" resource-id="1" units="100"/>
+    <allocation task-id="22" resource-id="1" units="33"/>
+    <allocation task-id="9" resource-id="1" units="100"/>
+    <allocation task-id="8" resource-id="1" units="100"/>
+    <allocation task-id="61" resource-id="2" units="100"/>
+    <allocation task-id="60" resource-id="2" units="100"/>
+    <allocation task-id="59" resource-id="2" units="100"/>
+    <allocation task-id="58" resource-id="2" units="100"/>
+    <allocation task-id="57" resource-id="2" units="100"/>
+    <allocation task-id="56" resource-id="2" units="100"/>
+    <allocation task-id="55" resource-id="2" units="100"/>
+    <allocation task-id="54" resource-id="2" units="100"/>
+    <allocation task-id="53" resource-id="2" units="100"/>
+    <allocation task-id="52" resource-id="2" units="100"/>
+    <allocation task-id="51" resource-id="2" units="100"/>
+    <allocation task-id="50" resource-id="2" units="100"/>
+    <allocation task-id="49" resource-id="2" units="100"/>
+    <allocation task-id="48" resource-id="2" units="100"/>
+    <allocation task-id="47" resource-id="2" units="100"/>
+    <allocation task-id="46" resource-id="2" units="100"/>
+    <allocation task-id="45" resource-id="2" units="100"/>
+    <allocation task-id="44" resource-id="2" units="100"/>
+    <allocation task-id="42" resource-id="2" units="100"/>
+    <allocation task-id="40" resource-id="2" units="100"/>
+    <allocation task-id="39" resource-id="2" units="100"/>
+    <allocation task-id="34" resource-id="2" units="100"/>
+    <allocation task-id="35" resource-id="2" units="100"/>
+    <allocation task-id="36" resource-id="2" units="100"/>
+    <allocation task-id="37" resource-id="2" units="100"/>
+    <allocation task-id="38" resource-id="2" units="100"/>
+    <allocation task-id="41" resource-id="2" units="100"/>
+    <allocation task-id="43" resource-id="2" units="100"/>
+    <allocation task-id="32" resource-id="2" units="100"/>
+    <allocation task-id="33" resource-id="2" units="100"/>
+    <allocation task-id="31" resource-id="2" units="100"/>
+    <allocation task-id="30" resource-id="2" units="100"/>
+    <allocation task-id="2" resource-id="3" units="100"/>
+    <allocation task-id="3" resource-id="3" units="100"/>
+    <allocation task-id="6" resource-id="3" units="100"/>
+    <allocation task-id="5" resource-id="3" units="100"/>
+    <allocation task-id="4" resource-id="3" units="100"/>
+    <allocation task-id="14" resource-id="4" units="100"/>
+    <allocation task-id="13" resource-id="4" units="100"/>
+    <allocation task-id="12" resource-id="4" units="100"/>
+    <allocation task-id="28" resource-id="5" units="33"/>
+    <allocation task-id="27" resource-id="5" units="100"/>
+    <allocation task-id="26" resource-id="5" units="33"/>
+    <allocation task-id="25" resource-id="5" units="33"/>
+    <allocation task-id="24" resource-id="5" units="33"/>
+    <allocation task-id="23" resource-id="5" units="100"/>
+    <allocation task-id="22" resource-id="5" units="33"/>
+    <allocation task-id="20" resource-id="5" units="100"/>
+    <allocation task-id="19" resource-id="5" units="100"/>
+    <allocation task-id="18" resource-id="5" units="100"/>
+    <allocation task-id="17" resource-id="5" units="100"/>
+    <allocation task-id="16" resource-id="5" units="100"/>
+    <allocation task-id="28" resource-id="6" units="33"/>
+    <allocation task-id="27" resource-id="6" units="100"/>
+    <allocation task-id="26" resource-id="6" units="33"/>
+    <allocation task-id="25" resource-id="6" units="33"/>
+    <allocation task-id="24" resource-id="6" units="33"/>
+    <allocation task-id="23" resource-id="6" units="100"/>
+    <allocation task-id="22" resource-id="6" units="33"/>
+  </allocations>
+</project>
