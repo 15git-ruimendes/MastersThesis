@@ -3,4 +3,4 @@ Rui Mendes - Masters thesis (MEEC - FEUP 2021/2022)  - Traction control systems 
 
 ##Planing (Gantt Chart)
 
-[embed]https://github.com/15git-ruimendes/MastersThesis/blob/main/Gantt.pdf[/embed]
+[embed] https://github.com/15git-ruimendes/MastersThesis/blob/main/Gantt.pdf [/embed]
