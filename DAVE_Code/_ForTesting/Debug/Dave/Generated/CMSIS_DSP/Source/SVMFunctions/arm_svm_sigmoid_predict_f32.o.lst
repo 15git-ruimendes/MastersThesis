@@ -1,0 +1,659 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_svm_sigmoid_predict_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_svm_sigmoid_predict_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_svm_sigmoid_predict_f32
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_svm_sigmoid_predict_f32:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * Title:        arm_svm_sigmoid_predict_f32.c
+   4:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * Description:  SVM Sigmoid Classifier
+   5:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  *
+   7:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * Target Processor: Cortex-M and Cortex-A cores
+   8:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * -------------------------------------------------------------------- */
+   9:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** /*
+  10:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  11:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  *
+  12:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  13:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  15:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * not use this file except in compliance with the License.
+  16:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * You may obtain a copy of the License at
+  17:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  *
+  18:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  19:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  21:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  22:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  23:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * See the License for the specific language governing permissions and
+  24:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * limitations under the License.
+  25:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  */
+  26:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+  27:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  28:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** #include <limits.h>
+  29:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** #include <math.h>
+  30:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+  31:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** /**
+  32:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * @addtogroup groupSVM
+  33:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * @{
+  34:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  */
+  35:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+  36:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+  37:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+  38:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** /**
+  39:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * @brief SVM sigmoid prediction
+  40:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * @param[in]    S        Pointer to an instance of the rbf SVM structure.
+  41:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * @param[in]    in       Pointer to input vector
+  42:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * @param[out]   pResult  Decision value
+  43:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  * @return none.
+  44:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  *
+  45:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****  */
+  46:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+  47:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
+  48:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+  49:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** #include "CMSIS_DSP/Include/arm_helium_utils.h"
+  50:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** #include "CMSIS_DSP/Include/arm_vec_math.h"
+  51:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+  52:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** void arm_svm_sigmoid_predict_f32(
+  53:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const arm_svm_sigmoid_instance_f32 *S,
+  54:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t * in,
+  55:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     int32_t * pResult)
+  56:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** {
+  57:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /* inlined Matrix x Vector function interleaved with dot prod */
+  58:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     uint32_t        numRows = S->nbOfSupportVectors;
+  59:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     uint32_t        numCols = S->vectorDimension;
+  60:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t *pSupport = S->supportVectors;
+  61:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t *pSrcA = pSupport;
+  62:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t *pInA0;
+  63:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t *pInA1;
+  64:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     uint32_t         row;
+  65:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     uint32_t         blkCnt;     /* loop counters */
+  66:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t *pDualCoef = S->dualCoefficients;
+  67:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     float32_t       sum = S->intercept;
+  68:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     f32x4_t         vSum = vdupq_n_f32(0.0f);
+  69:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+  70:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     row = numRows;
+  71:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+  72:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     /*
+  73:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****      * compute 4 rows in parrallel
+  74:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****      */
+  75:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     while (row >= 4) {
+  76:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         const float32_t *pInA2, *pInA3;
+  77:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         float32_t const *pSrcA0Vec, *pSrcA1Vec, *pSrcA2Vec, *pSrcA3Vec, *pInVec;
+  78:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         f32x4_t         vecIn, acc0, acc1, acc2, acc3;
+  79:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         float32_t const *pSrcVecPtr = in;
+  80:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+  81:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+  82:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * Initialize the pointers to 4 consecutive MatrixA rows
+  83:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+  84:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pInA0 = pSrcA;
+  85:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pInA1 = pInA0 + numCols;
+  86:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pInA2 = pInA1 + numCols;
+  87:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pInA3 = pInA2 + numCols;
+  88:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+  89:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * Initialize the vector pointer
+  90:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+  91:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pInVec = pSrcVecPtr;
+  92:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+  93:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * reset accumulators
+  94:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+  95:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         acc0 = vdupq_n_f32(0.0f);
+  96:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         acc1 = vdupq_n_f32(0.0f);
+  97:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         acc2 = vdupq_n_f32(0.0f);
+  98:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         acc3 = vdupq_n_f32(0.0f);
+  99:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 100:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pSrcA0Vec = pInA0;
+ 101:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pSrcA1Vec = pInA1;
+ 102:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pSrcA2Vec = pInA2;
+ 103:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pSrcA3Vec = pInA3;
+ 104:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 105:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         blkCnt = numCols >> 2;
+ 106:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         while (blkCnt > 0U) {
+ 107:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             f32x4_t         vecA;
+ 108:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 109:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecIn = vld1q(pInVec);
+ 110:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pInVec += 4;
+ 111:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vld1q(pSrcA0Vec);
+ 112:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pSrcA0Vec += 4;
+ 113:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc0 = vfmaq(acc0, vecIn, vecA);
+ 114:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vld1q(pSrcA1Vec);
+ 115:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pSrcA1Vec += 4;
+ 116:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc1 = vfmaq(acc1, vecIn, vecA);
+ 117:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vld1q(pSrcA2Vec);
+ 118:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pSrcA2Vec += 4;
+ 119:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc2 = vfmaq(acc2, vecIn, vecA);
+ 120:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vld1q(pSrcA3Vec);
+ 121:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pSrcA3Vec += 4;
+ 122:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc3 = vfmaq(acc3, vecIn, vecA);
+ 123:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 124:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             blkCnt--;
+ 125:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         }
+ 126:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+ 127:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * tail
+ 128:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * (will be merged thru tail predication)
+ 129:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+ 130:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         blkCnt = numCols & 3;
+ 131:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         if (blkCnt > 0U) {
+ 132:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             mve_pred16_t    p0 = vctp32q(blkCnt);
+ 133:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             f32x4_t         vecA;
+ 134:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 135:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecIn = vldrwq_z_f32(pInVec, p0);
+ 136:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA0Vec, p0);
+ 137:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc0 = vfmaq(acc0, vecIn, vecA);
+ 138:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA1Vec, p0);
+ 139:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc1 = vfmaq(acc1, vecIn, vecA);
+ 140:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA2Vec, p0);
+ 141:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc2 = vfmaq(acc2, vecIn, vecA);
+ 142:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA3Vec, p0);
+ 143:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc3 = vfmaq(acc3, vecIn, vecA);
+ 144:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         }
+ 145:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+ 146:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * Sum the partial parts
+ 147:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+ 148:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         f32x4_t         vtmp = vuninitializedq_f32();
+ 149:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc0), vtmp, 0);
+ 150:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc1), vtmp, 1);
+ 151:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc2), vtmp, 2);
+ 152:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc3), vtmp, 3);
+ 153:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 154:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         vSum =
+ 155:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vfmaq_f32(vSum, vld1q(pDualCoef),
+ 156:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****                       vtanhq_f32(vaddq_n_f32(vmulq_n_f32(vtmp, S->gamma), S->coef0)));
+ 157:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 158:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pDualCoef += 4;
+ 159:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 160:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pSrcA += numCols * 4;
+ 161:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+ 162:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * Decrement the row loop counter
+ 163:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+ 164:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         row -= 4;
+ 165:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     }
+ 166:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 167:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     /*
+ 168:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****      * compute 2 rows in parrallel
+ 169:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****      */
+ 170:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     if (row >= 2) {
+ 171:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         float32_t const *pSrcA0Vec, *pSrcA1Vec, *pInVec;
+ 172:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         f32x4_t         vecIn, acc0, acc1;
+ 173:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         float32_t const *pSrcVecPtr = in;
+ 174:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 175:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+ 176:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * Initialize the pointers to 2 consecutive MatrixA rows
+ 177:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+ 178:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pInA0 = pSrcA;
+ 179:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pInA1 = pInA0 + numCols;
+ 180:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+ 181:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * Initialize the vector pointer
+ 182:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+ 183:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pInVec = pSrcVecPtr;
+ 184:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+ 185:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * reset accumulators
+ 186:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+ 187:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         acc0 = vdupq_n_f32(0.0f);
+ 188:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         acc1 = vdupq_n_f32(0.0f);
+ 189:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pSrcA0Vec = pInA0;
+ 190:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pSrcA1Vec = pInA1;
+ 191:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 192:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         blkCnt = numCols >> 2;
+ 193:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         while (blkCnt > 0U) {
+ 194:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             f32x4_t         vecA;
+ 195:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 196:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecIn = vld1q(pInVec);
+ 197:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pInVec += 4;
+ 198:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vld1q(pSrcA0Vec);
+ 199:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pSrcA0Vec += 4;
+ 200:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc0 = vfmaq(acc0, vecIn, vecA);
+ 201:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vld1q(pSrcA1Vec);
+ 202:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pSrcA1Vec += 4;
+ 203:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc1 = vfmaq(acc1, vecIn, vecA);
+ 204:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 205:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             blkCnt--;
+ 206:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         }
+ 207:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+ 208:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * tail
+ 209:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * (will be merged thru tail predication)
+ 210:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+ 211:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         blkCnt = numCols & 3;
+ 212:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         if (blkCnt > 0U) {
+ 213:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             mve_pred16_t    p0 = vctp32q(blkCnt);
+ 214:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             f32x4_t         vecA;
+ 215:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 216:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecIn = vldrwq_z_f32(pInVec, p0);
+ 217:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA0Vec, p0);
+ 218:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc0 = vfmaq(acc0, vecIn, vecA);
+ 219:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA1Vec, p0);
+ 220:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc1 = vfmaq(acc1, vecIn, vecA);
+ 221:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         }
+ 222:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+ 223:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * Sum the partial parts
+ 224:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+ 225:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         f32x4_t         vtmp = vuninitializedq_f32();
+ 226:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc0), vtmp, 0);
+ 227:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc1), vtmp, 1);
+ 228:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 229:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         vSum =
+ 230:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vfmaq_m_f32(vSum, vld1q(pDualCoef),
+ 231:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****                         vtanhq_f32(vaddq_n_f32(vmulq_n_f32(vtmp, S->gamma), S->coef0)),
+ 232:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****                         vctp32q(2));
+ 233:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 234:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pSrcA += numCols * 2;
+ 235:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         row -= 2;
+ 236:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     }
+ 237:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 238:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     if (row >= 1) {
+ 239:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         f32x4_t         vecIn, acc0;
+ 240:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         float32_t const *pSrcA0Vec, *pInVec;
+ 241:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         float32_t const *pSrcVecPtr = in;
+ 242:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+ 243:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * Initialize the pointers to last MatrixA row
+ 244:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+ 245:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pInA0 = pSrcA;
+ 246:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+ 247:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * Initialize the vector pointer
+ 248:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+ 249:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pInVec = pSrcVecPtr;
+ 250:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+ 251:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * reset accumulators
+ 252:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+ 253:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         acc0 = vdupq_n_f32(0.0f);
+ 254:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 255:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pSrcA0Vec = pInA0;
+ 256:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 257:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         blkCnt = numCols >> 2;
+ 258:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         while (blkCnt > 0U) {
+ 259:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             f32x4_t         vecA;
+ 260:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 261:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecIn = vld1q(pInVec);
+ 262:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pInVec += 4;
+ 263:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vld1q(pSrcA0Vec);
+ 264:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pSrcA0Vec += 4;
+ 265:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc0 = vfmaq(acc0, vecIn, vecA);
+ 266:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 267:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             blkCnt--;
+ 268:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         }
+ 269:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+ 270:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * tail
+ 271:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * (will be merged thru tail predication)
+ 272:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+ 273:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         blkCnt = numCols & 3;
+ 274:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         if (blkCnt > 0U) {
+ 275:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             mve_pred16_t    p0 = vctp32q(blkCnt);
+ 276:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             f32x4_t         vecA;
+ 277:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 278:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecIn = vldrwq_z_f32(pInVec, p0);
+ 279:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA0Vec, p0);
+ 280:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             acc0 = vfmaq(acc0, vecIn, vecA);
+ 281:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         }
+ 282:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         /*
+ 283:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          * Sum the partial parts
+ 284:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****          */
+ 285:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         f32x4_t         vtmp = vuninitializedq_f32();
+ 286:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc0), vtmp, 0);
+ 287:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 288:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         vSum =
+ 289:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vfmaq_m_f32(vSum, vld1q(pDualCoef),
+ 290:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****                         vtanhq_f32(vaddq_n_f32(vmulq_n_f32(vtmp, S->gamma), S->coef0)),
+ 291:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****                         vctp32q(1));
+ 292:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     }
+ 293:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     sum += vecAddAcrossF32Mve(vSum);
+ 294:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 295:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     *pResult = S->classes[STEP(sum)];
+ 296:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** }
+ 297:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 298:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** #else
+ 299:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** #if defined(ARM_MATH_NEON)
+ 300:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** #include "NEMath.h"
+ 301:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 302:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** void arm_svm_sigmoid_predict_f32(
+ 303:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const arm_svm_sigmoid_instance_f32 *S,
+ 304:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t * in,
+ 305:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     int32_t * pResult)
+ 306:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** {
+ 307:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     float32_t sum = S->intercept;
+ 308:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****    
+ 309:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     float32_t dot;
+ 310:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     float32x4_t dotV; 
+ 311:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 312:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     float32x4_t accuma,accumb,accumc,accumd,accum;
+ 313:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     float32x2_t accum2;
+ 314:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     float32x4_t vec1;
+ 315:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     float32x4_t coef0 = vdupq_n_f32(S->coef0);
+ 316:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 317:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     float32x4_t vec2,vec2a,vec2b,vec2c,vec2d;
+ 318:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 319:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     uint32_t blkCnt;   
+ 320:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     uint32_t vectorBlkCnt;   
+ 321:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 322:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t *pIn = in;
+ 323:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 324:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t *pSupport = S->supportVectors;
+ 325:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 326:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t *pSupporta = S->supportVectors;
+ 327:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t *pSupportb;
+ 328:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t *pSupportc;
+ 329:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t *pSupportd;
+ 330:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 331:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     pSupportb = pSupporta + S->vectorDimension;
+ 332:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     pSupportc = pSupportb + S->vectorDimension;
+ 333:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     pSupportd = pSupportc + S->vectorDimension;
+ 334:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 335:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t *pDualCoefs = S->dualCoefficients;
+ 336:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 337:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     vectorBlkCnt = S->nbOfSupportVectors >> 2;
+ 338:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     while (vectorBlkCnt > 0U)
+ 339:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     {
+ 340:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         accuma = vdupq_n_f32(0);
+ 341:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         accumb = vdupq_n_f32(0);
+ 342:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         accumc = vdupq_n_f32(0);
+ 343:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         accumd = vdupq_n_f32(0);
+ 344:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 345:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pIn = in;
+ 346:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 347:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         blkCnt = S->vectorDimension >> 2;
+ 348:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         while (blkCnt > 0U)
+ 349:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         {
+ 350:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         
+ 351:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vec1 = vld1q_f32(pIn);
+ 352:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vec2a = vld1q_f32(pSupporta);
+ 353:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vec2b = vld1q_f32(pSupportb);
+ 354:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vec2c = vld1q_f32(pSupportc);
+ 355:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vec2d = vld1q_f32(pSupportd);
+ 356:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 357:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pIn += 4;
+ 358:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pSupporta += 4;
+ 359:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pSupportb += 4;
+ 360:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pSupportc += 4;
+ 361:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pSupportd += 4;
+ 362:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 363:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             accuma = vmlaq_f32(accuma, vec1,vec2a);
+ 364:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             accumb = vmlaq_f32(accumb, vec1,vec2b);
+ 365:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             accumc = vmlaq_f32(accumc, vec1,vec2c);
+ 366:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             accumd = vmlaq_f32(accumd, vec1,vec2d);
+ 367:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 368:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             blkCnt -- ;
+ 369:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         }
+ 370:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         accum2 = vpadd_f32(vget_low_f32(accuma),vget_high_f32(accuma));
+ 371:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         dotV = vsetq_lane_f32(vget_lane_f32(accum2, 0) + vget_lane_f32(accum2, 1),dotV,0);
+ 372:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 373:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         accum2 = vpadd_f32(vget_low_f32(accumb),vget_high_f32(accumb));
+ 374:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         dotV = vsetq_lane_f32(vget_lane_f32(accum2, 0) + vget_lane_f32(accum2, 1),dotV,1);
+ 375:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 376:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         accum2 = vpadd_f32(vget_low_f32(accumc),vget_high_f32(accumc));
+ 377:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         dotV = vsetq_lane_f32(vget_lane_f32(accum2, 0) + vget_lane_f32(accum2, 1),dotV,2);
+ 378:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 379:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         accum2 = vpadd_f32(vget_low_f32(accumd),vget_high_f32(accumd));
+ 380:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         dotV = vsetq_lane_f32(vget_lane_f32(accum2, 0) + vget_lane_f32(accum2, 1),dotV,3);
+ 381:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 382:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 383:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         blkCnt = S->vectorDimension & 3;
+ 384:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         while (blkCnt > 0U)
+ 385:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         {
+ 386:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             dotV = vsetq_lane_f32(vgetq_lane_f32(dotV,0) + *pIn * *pSupporta++, dotV,0);
+ 387:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             dotV = vsetq_lane_f32(vgetq_lane_f32(dotV,1) + *pIn * *pSupportb++, dotV,1);
+ 388:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             dotV = vsetq_lane_f32(vgetq_lane_f32(dotV,2) + *pIn * *pSupportc++, dotV,2);
+ 389:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             dotV = vsetq_lane_f32(vgetq_lane_f32(dotV,3) + *pIn * *pSupportd++, dotV,3);
+ 390:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 391:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pIn++;
+ 392:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 393:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             blkCnt -- ;
+ 394:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         }
+ 395:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 396:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         vec1 = vld1q_f32(pDualCoefs);
+ 397:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pDualCoefs += 4; 
+ 398:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 399:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         // To vectorize later
+ 400:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         dotV = vmulq_n_f32(dotV, S->gamma);
+ 401:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         dotV = vaddq_f32(dotV, coef0);
+ 402:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 403:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         dotV = vtanhq_f32(dotV);
+ 404:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 405:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         accum = vmulq_f32(vec1,dotV);
+ 406:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         accum2 = vpadd_f32(vget_low_f32(accum),vget_high_f32(accum));
+ 407:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         sum += vget_lane_f32(accum2, 0) + vget_lane_f32(accum2, 1);
+ 408:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 409:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pSupporta += 3*S->vectorDimension;
+ 410:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pSupportb += 3*S->vectorDimension;
+ 411:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pSupportc += 3*S->vectorDimension;
+ 412:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pSupportd += 3*S->vectorDimension;
+ 413:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 414:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         vectorBlkCnt -- ;
+ 415:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     }
+ 416:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 417:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     pSupport = pSupporta;
+ 418:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     vectorBlkCnt = S->nbOfSupportVectors & 3;
+ 419:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 420:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     while (vectorBlkCnt > 0U)
+ 421:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     {
+ 422:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         accum = vdupq_n_f32(0);
+ 423:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         dot = 0.0f;
+ 424:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         pIn = in;
+ 425:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 426:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         blkCnt = S->vectorDimension >> 2;
+ 427:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         while (blkCnt > 0U)
+ 428:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         {
+ 429:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         
+ 430:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vec1 = vld1q_f32(pIn);
+ 431:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             vec2 = vld1q_f32(pSupport);
+ 432:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pIn += 4;
+ 433:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             pSupport += 4;
+ 434:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 435:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             accum = vmlaq_f32(accum, vec1,vec2);
+ 436:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 437:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             blkCnt -- ;
+ 438:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         }
+ 439:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         accum2 = vpadd_f32(vget_low_f32(accum),vget_high_f32(accum));
+ 440:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         dot = vget_lane_f32(accum2, 0) + vget_lane_f32(accum2, 1);
+ 441:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 442:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 443:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         blkCnt = S->vectorDimension & 3;
+ 444:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         while (blkCnt > 0U)
+ 445:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         {
+ 446:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             dot = dot + *pIn++ * *pSupport++;
+ 447:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 448:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             blkCnt -- ;
+ 449:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         }
+ 450:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 451:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         sum += *pDualCoefs++ * tanhf(S->gamma * dot + S->coef0);
+ 452:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         vectorBlkCnt -- ;
+ 453:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     }
+ 454:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 455:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     *pResult=S->classes[STEP(sum)];
+ 456:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** }
+ 457:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** #else
+ 458:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** void arm_svm_sigmoid_predict_f32(
+ 459:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const arm_svm_sigmoid_instance_f32 *S,
+ 460:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t * in,
+ 461:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     int32_t * pResult)
+ 462:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** {
+  28              	 .loc 1 462 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32 0000 80B5     	 push {r7,lr}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 8
+  35              	 .cfi_offset 7,-8
+  36              	 .cfi_offset 14,-4
+  37 0002 2DED028B 	 fstmfdd sp!,{d8}
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 16
+  40              	 .cfi_offset 80,-16
+  41              	 .cfi_offset 81,-12
+  42 0006 8AB0     	 sub sp,sp,#40
+  43              	.LCFI2:
+  44              	 .cfi_def_cfa_offset 56
+  45 0008 00AF     	 add r7,sp,#0
+  46              	.LCFI3:
+  47              	 .cfi_def_cfa_register 7
+  48 000a F860     	 str r0,[r7,#12]
+  49 000c B960     	 str r1,[r7,#8]
+  50 000e 7A60     	 str r2,[r7,#4]
+ 463:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     float32_t sum=S->intercept;
+  51              	 .loc 1 463 0
+  52 0010 FB68     	 ldr r3,[r7,#12]
+  53 0012 9B68     	 ldr r3,[r3,#8]
+  54 0014 7B62     	 str r3,[r7,#36]
+ 464:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     float32_t dot=0;
+  55              	 .loc 1 464 0
+  56 0016 4FF00003 	 mov r3,#0
+  57 001a 3B62     	 str r3,[r7,#32]
+ 465:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     uint32_t i,j;
+ 466:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     const float32_t *pSupport = S->supportVectors;
+  58              	 .loc 1 466 0
+  59 001c FB68     	 ldr r3,[r7,#12]
+  60 001e 1B69     	 ldr r3,[r3,#16]
+  61 0020 7B61     	 str r3,[r7,#20]
+ 467:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** 
+ 468:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     for(i=0; i < S->nbOfSupportVectors; i++)
+  62              	 .loc 1 468 0
+  63 0022 0023     	 movs r3,#0
+  64 0024 FB61     	 str r3,[r7,#28]
+  65 0026 44E0     	 b .L2
+  66              	.L5:
+ 469:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     {
+ 470:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         dot=0;
+  67              	 .loc 1 470 0
+  68 0028 4FF00003 	 mov r3,#0
+  69 002c 3B62     	 str r3,[r7,#32]
+ 471:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         for(j=0; j < S->vectorDimension; j++)
+  70              	 .loc 1 471 0
+  71 002e 0023     	 movs r3,#0
+  72 0030 BB61     	 str r3,[r7,#24]
+  73 0032 15E0     	 b .L3
+  74              	.L4:
+ 472:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         {
+ 473:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****             dot = dot + in[j]* *pSupport++;
+  75              	 .loc 1 473 0 discriminator 3
+  76 0034 BB69     	 ldr r3,[r7,#24]
+  77 0036 9B00     	 lsls r3,r3,#2
+  78 0038 BA68     	 ldr r2,[r7,#8]
+  79 003a 1344     	 add r3,r3,r2
+  80 003c 93ED007A 	 flds s14,[r3]
+  81 0040 7B69     	 ldr r3,[r7,#20]
+  82 0042 1A1D     	 adds r2,r3,#4
+  83 0044 7A61     	 str r2,[r7,#20]
+  84 0046 D3ED007A 	 flds s15,[r3]
+  85 004a 67EE277A 	 fmuls s15,s14,s15
+  86 004e 97ED087A 	 flds s14,[r7,#32]
+  87 0052 77EE277A 	 fadds s15,s14,s15
+  88 0056 C7ED087A 	 fsts s15,[r7,#32]
+ 471:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         for(j=0; j < S->vectorDimension; j++)
+  89              	 .loc 1 471 0 discriminator 3
+  90 005a BB69     	 ldr r3,[r7,#24]
+  91 005c 0133     	 adds r3,r3,#1
+  92 005e BB61     	 str r3,[r7,#24]
+  93              	.L3:
+ 471:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         for(j=0; j < S->vectorDimension; j++)
+  94              	 .loc 1 471 0 is_stmt 0 discriminator 1
+  95 0060 FB68     	 ldr r3,[r7,#12]
+  96 0062 5A68     	 ldr r2,[r3,#4]
+  97 0064 BB69     	 ldr r3,[r7,#24]
+  98 0066 9A42     	 cmp r2,r3
+  99 0068 E4D8     	 bhi .L4
+ 474:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         }
+ 475:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****         sum += S->dualCoefficients[i] * tanhf(S->gamma * dot + S->coef0);
+ 100              	 .loc 1 475 0 is_stmt 1 discriminator 2
+ 101 006a FB68     	 ldr r3,[r7,#12]
+ 102 006c DA68     	 ldr r2,[r3,#12]
+ 103 006e FB69     	 ldr r3,[r7,#28]
+ 104 0070 9B00     	 lsls r3,r3,#2
+ 105 0072 1344     	 add r3,r3,r2
+ 106 0074 93ED008A 	 flds s16,[r3]
+ 107 0078 FB68     	 ldr r3,[r7,#12]
+ 108 007a 93ED077A 	 flds s14,[r3,#28]
+ 109 007e D7ED087A 	 flds s15,[r7,#32]
+ 110 0082 27EE277A 	 fmuls s14,s14,s15
+ 111 0086 FB68     	 ldr r3,[r7,#12]
+ 112 0088 D3ED067A 	 flds s15,[r3,#24]
+ 113 008c 77EE277A 	 fadds s15,s14,s15
+ 114 0090 17EE900A 	 fmrs r0,s15
+ 115 0094 FFF7FEFF 	 bl tanhf
+ 116 0098 07EE900A 	 fmsr s15,r0
+ 117 009c 68EE277A 	 fmuls s15,s16,s15
+ 118 00a0 97ED097A 	 flds s14,[r7,#36]
+ 119 00a4 77EE277A 	 fadds s15,s14,s15
+ 120 00a8 C7ED097A 	 fsts s15,[r7,#36]
+ 468:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     {
+ 121              	 .loc 1 468 0 discriminator 2
+ 122 00ac FB69     	 ldr r3,[r7,#28]
+ 123 00ae 0133     	 adds r3,r3,#1
+ 124 00b0 FB61     	 str r3,[r7,#28]
+ 125              	.L2:
+ 468:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     {
+ 126              	 .loc 1 468 0 is_stmt 0 discriminator 1
+ 127 00b2 FB68     	 ldr r3,[r7,#12]
+ 128 00b4 1A68     	 ldr r2,[r3]
+ 129 00b6 FB69     	 ldr r3,[r7,#28]
+ 130 00b8 9A42     	 cmp r2,r3
+ 131 00ba B5D8     	 bhi .L5
+ 476:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     }
+ 477:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c ****     *pResult=S->classes[STEP(sum)];
+ 132              	 .loc 1 477 0 is_stmt 1
+ 133 00bc FB68     	 ldr r3,[r7,#12]
+ 134 00be 5A69     	 ldr r2,[r3,#20]
+ 135 00c0 D7ED097A 	 flds s15,[r7,#36]
+ 136 00c4 F5EEC07A 	 fcmpezs s15
+ 137 00c8 F1EE10FA 	 fmstat
+ 138 00cc 94BF     	 ite ls
+ 139 00ce 0123     	 movls r3,#1
+ 140 00d0 0023     	 movhi r3,#0
+ 141 00d2 DBB2     	 uxtb r3,r3
+ 142 00d4 83F00103 	 eor r3,r3,#1
+ 143 00d8 DBB2     	 uxtb r3,r3
+ 144 00da 9B00     	 lsls r3,r3,#2
+ 145 00dc 1344     	 add r3,r3,r2
+ 146 00de 1A68     	 ldr r2,[r3]
+ 147 00e0 7B68     	 ldr r3,[r7,#4]
+ 148 00e2 1A60     	 str r2,[r3]
+ 478:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_sigmoid_predict_f32.c **** }
+ 149              	 .loc 1 478 0
+ 150 00e4 2837     	 adds r7,r7,#40
+ 151              	.LCFI4:
+ 152              	 .cfi_def_cfa_offset 16
+ 153 00e6 BD46     	 mov sp,r7
+ 154              	.LCFI5:
+ 155              	 .cfi_def_cfa_register 13
+ 156              	 
+ 157 00e8 BDEC028B 	 fldmfdd sp!,{d8}
+ 158              	.LCFI6:
+ 159              	 .cfi_restore 80
+ 160              	 .cfi_restore 81
+ 161              	 .cfi_def_cfa_offset 8
+ 162 00ec 80BD     	 pop {r7,pc}
+ 163              	 .cfi_endproc
+ 164              	.LFE149:
+ 166 00ee 00BF     	 .text
+ 167              	.Letext0:
+ 168              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 169              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 170              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 171              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_svm_sigmoid_predict_f32.c
+    {standard input}:20     .text.arm_svm_sigmoid_predict_f32:00000000 $t
+    {standard input}:25     .text.arm_svm_sigmoid_predict_f32:00000000 arm_svm_sigmoid_predict_f32
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+tanhf

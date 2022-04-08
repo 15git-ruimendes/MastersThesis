@@ -1,0 +1,623 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_gaussian_naive_bayes_predict_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_gaussian_naive_bayes_predict_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_gaussian_naive_bayes_predict_f32
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_gaussian_naive_bayes_predict_f32:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * Title:        arm_naive_gaussian_bayes_predict_f32
+   4:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * Description:  Naive Gaussian Bayesian Estimator
+   5:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  *
+   7:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * Target Processor: Cortex-M and Cortex-A cores
+   8:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * -------------------------------------------------------------------- */
+   9:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** /*
+  10:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  11:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  *
+  12:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  13:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  15:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * not use this file except in compliance with the License.
+  16:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * You may obtain a copy of the License at
+  17:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  *
+  18:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  19:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  21:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  22:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  23:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * See the License for the specific language governing permissions and
+  24:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * limitations under the License.
+  25:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  */
+  26:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  27:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  28:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** #include <limits.h>
+  29:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** #include <math.h>
+  30:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  31:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** #define PI_F 3.1415926535897932384626433832795f
+  32:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** #define DPI_F (2.0f*3.1415926535897932384626433832795f)
+  33:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  34:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** /**
+  35:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * @addtogroup groupBayes
+  36:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * @{
+  37:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  */
+  38:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  39:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** /**
+  40:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * @brief Naive Gaussian Bayesian Estimator
+  41:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  *
+  42:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * @param[in]  *S         points to a naive bayes instance structure
+  43:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * @param[in]  *in        points to the elements of the input vector.
+  44:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * @param[in]  *pBuffer   points to a buffer of length numberOfClasses
+  45:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * @return The predicted class
+  46:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  *
+  47:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * @par If the number of classes is big, MVE version will consume lot of
+  48:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * stack since the log prior are computed on the stack.
+  49:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  *
+  50:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  */
+  51:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  52:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
+  53:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  54:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** #include "CMSIS_DSP/Include/arm_helium_utils.h"
+  55:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** #include "CMSIS_DSP/Include/arm_vec_math.h"
+  56:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  57:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** uint32_t arm_gaussian_naive_bayes_predict_f32(const arm_gaussian_naive_bayes_instance_f32 *S, 
+  58:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****    const float32_t * in, 
+  59:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****    float32_t *pBuffer)
+  60:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** {
+  61:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     uint32_t         nbClass;
+  62:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     const float32_t *pTheta = S->theta;
+  63:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     const float32_t *pSigma = S->sigma;
+  64:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t      *buffer = pBuffer;
+  65:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     const float32_t *pIn = in;
+  66:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t       result;
+  67:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     f32x4_t         vsigma;
+  68:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t       tmp;
+  69:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     f32x4_t         vacc1, vacc2;
+  70:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     uint32_t        index;
+  71:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t       logclassPriors[S->numberOfClasses];
+  72:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t      *pLogPrior = logclassPriors;
+  73:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  74:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     arm_vlog_f32((float32_t *) S->classPriors, logclassPriors, S->numberOfClasses);
+  75:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  76:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     pTheta = S->theta;
+  77:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     pSigma = S->sigma;
+  78:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  79:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     for (nbClass = 0; nbClass < S->numberOfClasses; nbClass++) {
+  80:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         pIn = in;
+  81:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  82:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         vacc1 = vdupq_n_f32(0);
+  83:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         vacc2 = vdupq_n_f32(0);
+  84:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  85:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         uint32_t         blkCnt =S->vectorDimension >> 2;
+  86:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         while (blkCnt > 0U) {
+  87:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             f32x4_t         vinvSigma, vtmp;
+  88:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  89:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             vsigma = vaddq_n_f32(vld1q(pSigma), S->epsilon);
+  90:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             vacc1 = vaddq(vacc1, vlogq_f32(vmulq_n_f32(vsigma, 2.0f * PI)));
+  91:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  92:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             vinvSigma = vrecip_medprec_f32(vsigma);
+  93:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  94:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             vtmp = vsubq(vld1q(pIn), vld1q(pTheta));
+  95:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             /* squaring */
+  96:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             vtmp = vmulq(vtmp, vtmp);
+  97:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+  98:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             vacc2 = vfmaq(vacc2, vtmp, vinvSigma);
+  99:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 100:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             pIn += 4;
+ 101:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             pTheta += 4;
+ 102:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             pSigma += 4;
+ 103:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             blkCnt--;
+ 104:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         }
+ 105:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 106:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         blkCnt = S->vectorDimension & 3;
+ 107:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         if (blkCnt > 0U) {
+ 108:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             mve_pred16_t    p0 = vctp32q(blkCnt);
+ 109:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             f32x4_t         vinvSigma, vtmp;
+ 110:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 111:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             vsigma = vaddq_n_f32(vld1q(pSigma), S->epsilon);
+ 112:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             vacc1 =
+ 113:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****                 vaddq_m_f32(vacc1, vacc1, vlogq_f32(vmulq_n_f32(vsigma, 2.0f * PI)), p0);
+ 114:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 115:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             vinvSigma = vrecip_medprec_f32(vsigma);
+ 116:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 117:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             vtmp = vsubq(vld1q(pIn), vld1q(pTheta));
+ 118:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             /* squaring */
+ 119:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             vtmp = vmulq(vtmp, vtmp);
+ 120:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 121:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             vacc2 = vfmaq_m_f32(vacc2, vtmp, vinvSigma, p0);
+ 122:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 123:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             pTheta += blkCnt;
+ 124:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****             pSigma += blkCnt;
+ 125:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         }
+ 126:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 127:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmp = -0.5f * vecAddAcrossF32Mve(vacc1);
+ 128:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmp -= 0.5f * vecAddAcrossF32Mve(vacc2);
+ 129:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 130:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         *buffer = tmp + *pLogPrior++;
+ 131:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         buffer++;
+ 132:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     }
+ 133:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 134:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     arm_max_f32(pBuffer, S->numberOfClasses, &result, &index);
+ 135:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 136:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     return (index);
+ 137:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** }
+ 138:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 139:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** #else
+ 140:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 141:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** #if defined(ARM_MATH_NEON)
+ 142:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 143:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** #include "NEMath.h"
+ 144:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 145:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 146:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 147:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** uint32_t arm_gaussian_naive_bayes_predict_f32(const arm_gaussian_naive_bayes_instance_f32 *S, 
+ 148:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****    const float32_t * in, 
+ 149:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****    float32_t *pBuffer)
+ 150:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** {
+ 151:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     
+ 152:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     const float32_t *pPrior = S->classPriors;
+ 153:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 154:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     const float32_t *pTheta = S->theta;
+ 155:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     const float32_t *pSigma = S->sigma;
+ 156:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 157:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     const float32_t *pTheta1 = S->theta + S->vectorDimension;
+ 158:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     const float32_t *pSigma1 = S->sigma + S->vectorDimension;
+ 159:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 160:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t *buffer = pBuffer;
+ 161:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     const float32_t *pIn=in;
+ 162:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 163:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t result;
+ 164:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t sigma,sigma1;
+ 165:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t tmp,tmp1;
+ 166:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     uint32_t index;
+ 167:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     uint32_t vecBlkCnt;
+ 168:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     uint32_t classBlkCnt;
+ 169:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32x4_t epsilonV;
+ 170:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32x4_t sigmaV,sigmaV1;
+ 171:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32x4_t tmpV,tmpVb,tmpV1;
+ 172:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32x2_t tmpV2;
+ 173:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32x4_t thetaV,thetaV1;
+ 174:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32x4_t inV;
+ 175:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 176:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     epsilonV = vdupq_n_f32(S->epsilon);
+ 177:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 178:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     classBlkCnt = S->numberOfClasses >> 1;
+ 179:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     while(classBlkCnt > 0)
+ 180:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     {
+ 181:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 182:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         
+ 183:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         pIn = in;
+ 184:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 185:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmp = logf(*pPrior++);
+ 186:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmp1 = logf(*pPrior++);
+ 187:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmpV = vdupq_n_f32(0.0f);
+ 188:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmpV1 = vdupq_n_f32(0.0f);
+ 189:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 190:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         vecBlkCnt = S->vectorDimension >> 2;
+ 191:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         while(vecBlkCnt > 0)
+ 192:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         {
+ 193:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            sigmaV = vld1q_f32(pSigma);
+ 194:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            thetaV = vld1q_f32(pTheta);
+ 195:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 196:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            sigmaV1 = vld1q_f32(pSigma1);
+ 197:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            thetaV1 = vld1q_f32(pTheta1);
+ 198:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 199:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            inV = vld1q_f32(pIn);
+ 200:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 201:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            sigmaV = vaddq_f32(sigmaV, epsilonV);
+ 202:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            sigmaV1 = vaddq_f32(sigmaV1, epsilonV);
+ 203:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 204:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vmulq_n_f32(sigmaV,DPI_F);
+ 205:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vlogq_f32(tmpVb);
+ 206:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpV = vmlsq_n_f32(tmpV,tmpVb,0.5f);
+ 207:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 208:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vmulq_n_f32(sigmaV1,DPI_F);
+ 209:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vlogq_f32(tmpVb);
+ 210:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpV1 = vmlsq_n_f32(tmpV1,tmpVb,0.5f);
+ 211:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            
+ 212:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vsubq_f32(inV,thetaV);
+ 213:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vmulq_f32(tmpVb,tmpVb);
+ 214:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vmulq_f32(tmpVb, vinvq_f32(sigmaV));
+ 215:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpV = vmlsq_n_f32(tmpV,tmpVb,0.5f);
+ 216:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 217:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vsubq_f32(inV,thetaV1);
+ 218:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vmulq_f32(tmpVb,tmpVb);
+ 219:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vmulq_f32(tmpVb, vinvq_f32(sigmaV1));
+ 220:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpV1 = vmlsq_n_f32(tmpV1,tmpVb,0.5f);
+ 221:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 222:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pIn += 4;
+ 223:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pTheta += 4;
+ 224:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pSigma += 4;
+ 225:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pTheta1 += 4;
+ 226:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pSigma1 += 4;
+ 227:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 228:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            vecBlkCnt--;
+ 229:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         }
+ 230:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmpV2 = vpadd_f32(vget_low_f32(tmpV),vget_high_f32(tmpV));
+ 231:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmp += vget_lane_f32(tmpV2, 0) + vget_lane_f32(tmpV2, 1);
+ 232:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****          
+ 233:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmpV2 = vpadd_f32(vget_low_f32(tmpV1),vget_high_f32(tmpV1));
+ 234:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmp1 += vget_lane_f32(tmpV2, 0) + vget_lane_f32(tmpV2, 1);
+ 235:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 236:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         vecBlkCnt = S->vectorDimension & 3;
+ 237:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         while(vecBlkCnt > 0)
+ 238:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         {
+ 239:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            sigma = *pSigma + S->epsilon;
+ 240:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            sigma1 = *pSigma1 + S->epsilon;
+ 241:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 242:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmp -= 0.5f*logf(2.0f * PI_F * sigma);
+ 243:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmp -= 0.5f*(*pIn - *pTheta) * (*pIn - *pTheta) / sigma;
+ 244:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 245:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmp1 -= 0.5f*logf(2.0f * PI_F * sigma1);
+ 246:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmp1 -= 0.5f*(*pIn - *pTheta1) * (*pIn - *pTheta1) / sigma1;
+ 247:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 248:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pIn++;
+ 249:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pTheta++;
+ 250:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pSigma++;
+ 251:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pTheta1++;
+ 252:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pSigma1++;
+ 253:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            vecBlkCnt--;
+ 254:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         }
+ 255:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 256:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         *buffer++ = tmp;
+ 257:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         *buffer++ = tmp1;
+ 258:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 259:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         pSigma += S->vectorDimension;
+ 260:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         pTheta += S->vectorDimension;
+ 261:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         pSigma1 += S->vectorDimension;
+ 262:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         pTheta1 += S->vectorDimension;
+ 263:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         
+ 264:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         classBlkCnt--;
+ 265:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     }
+ 266:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 267:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     classBlkCnt = S->numberOfClasses & 1;
+ 268:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 269:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     while(classBlkCnt > 0)
+ 270:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     {
+ 271:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 272:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         
+ 273:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         pIn = in;
+ 274:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 275:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmp = logf(*pPrior++);
+ 276:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmpV = vdupq_n_f32(0.0f);
+ 277:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 278:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         vecBlkCnt = S->vectorDimension >> 2;
+ 279:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         while(vecBlkCnt > 0)
+ 280:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         {
+ 281:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            sigmaV = vld1q_f32(pSigma);
+ 282:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            thetaV = vld1q_f32(pTheta);
+ 283:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            inV = vld1q_f32(pIn);
+ 284:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 285:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            sigmaV = vaddq_f32(sigmaV, epsilonV);
+ 286:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 287:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vmulq_n_f32(sigmaV,DPI_F);
+ 288:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vlogq_f32(tmpVb);
+ 289:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpV = vmlsq_n_f32(tmpV,tmpVb,0.5f);
+ 290:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            
+ 291:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vsubq_f32(inV,thetaV);
+ 292:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vmulq_f32(tmpVb,tmpVb);
+ 293:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpVb = vmulq_f32(tmpVb, vinvq_f32(sigmaV));
+ 294:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmpV = vmlsq_n_f32(tmpV,tmpVb,0.5f);
+ 295:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 296:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pIn += 4;
+ 297:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pTheta += 4;
+ 298:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pSigma += 4;
+ 299:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 300:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            vecBlkCnt--;
+ 301:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         }
+ 302:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmpV2 = vpadd_f32(vget_low_f32(tmpV),vget_high_f32(tmpV));
+ 303:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmp += vget_lane_f32(tmpV2, 0) + vget_lane_f32(tmpV2, 1);
+ 304:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 305:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         vecBlkCnt = S->vectorDimension & 3;
+ 306:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         while(vecBlkCnt > 0)
+ 307:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         {
+ 308:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            sigma = *pSigma + S->epsilon;
+ 309:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmp -= 0.5f*logf(2.0f * PI_F * sigma);
+ 310:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            tmp -= 0.5f*(*pIn - *pTheta) * (*pIn - *pTheta) / sigma;
+ 311:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 312:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pIn++;
+ 313:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pTheta++;
+ 314:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pSigma++;
+ 315:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            vecBlkCnt--;
+ 316:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         }
+ 317:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 318:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         *buffer++ = tmp;
+ 319:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         
+ 320:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         classBlkCnt--;
+ 321:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     }
+ 322:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 323:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     arm_max_f32(pBuffer,S->numberOfClasses,&result,&index);
+ 324:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 325:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     return(index);
+ 326:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** }
+ 327:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 328:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** #else
+ 329:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 330:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** /**
+ 331:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * @brief Naive Gaussian Bayesian Estimator
+ 332:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  *
+ 333:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * @param[in]  *S         points to a naive bayes instance structure
+ 334:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * @param[in]  *in        points to the elements of the input vector.
+ 335:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * @param[in]  *pBuffer   points to a buffer of length numberOfClasses
+ 336:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  * @return The predicted class
+ 337:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  *
+ 338:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****  */
+ 339:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** uint32_t arm_gaussian_naive_bayes_predict_f32(const arm_gaussian_naive_bayes_instance_f32 *S, 
+ 340:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****    const float32_t * in, 
+ 341:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****    float32_t *pBuffer)
+ 342:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** {
+  28              	 .loc 1 342 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32 0000 80B5     	 push {r7,lr}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 8
+  35              	 .cfi_offset 7,-8
+  36              	 .cfi_offset 14,-4
+  37 0002 92B0     	 sub sp,sp,#72
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 80
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 F860     	 str r0,[r7,#12]
+  44 0008 B960     	 str r1,[r7,#8]
+  45 000a 7A60     	 str r2,[r7,#4]
+ 343:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     uint32_t nbClass;
+ 344:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     uint32_t nbDim;
+ 345:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     const float32_t *pPrior = S->classPriors;
+  46              	 .loc 1 345 0
+  47 000c FB68     	 ldr r3,[r7,#12]
+  48 000e 1B69     	 ldr r3,[r3,#16]
+  49 0010 FB63     	 str r3,[r7,#60]
+ 346:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     const float32_t *pTheta = S->theta;
+  50              	 .loc 1 346 0
+  51 0012 FB68     	 ldr r3,[r7,#12]
+  52 0014 9B68     	 ldr r3,[r3,#8]
+  53 0016 BB63     	 str r3,[r7,#56]
+ 347:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     const float32_t *pSigma = S->sigma;
+  54              	 .loc 1 347 0
+  55 0018 FB68     	 ldr r3,[r7,#12]
+  56 001a DB68     	 ldr r3,[r3,#12]
+  57 001c 7B63     	 str r3,[r7,#52]
+ 348:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t *buffer = pBuffer;
+  58              	 .loc 1 348 0
+  59 001e 7B68     	 ldr r3,[r7,#4]
+  60 0020 3B63     	 str r3,[r7,#48]
+ 349:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     const float32_t *pIn=in;
+  61              	 .loc 1 349 0
+  62 0022 BB68     	 ldr r3,[r7,#8]
+  63 0024 FB62     	 str r3,[r7,#44]
+ 350:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t result;
+ 351:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t sigma;
+ 352:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t tmp;
+ 353:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     float32_t acc1,acc2;
+ 354:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     uint32_t index;
+ 355:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 356:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     pTheta=S->theta;
+  64              	 .loc 1 356 0
+  65 0026 FB68     	 ldr r3,[r7,#12]
+  66 0028 9B68     	 ldr r3,[r3,#8]
+  67 002a BB63     	 str r3,[r7,#56]
+ 357:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     pSigma=S->sigma;
+  68              	 .loc 1 357 0
+  69 002c FB68     	 ldr r3,[r7,#12]
+  70 002e DB68     	 ldr r3,[r3,#12]
+  71 0030 7B63     	 str r3,[r7,#52]
+ 358:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 359:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     for(nbClass = 0; nbClass < S->numberOfClasses; nbClass++)
+  72              	 .loc 1 359 0
+  73 0032 0023     	 movs r3,#0
+  74 0034 7B64     	 str r3,[r7,#68]
+  75 0036 80E0     	 b .L2
+  76              	.L5:
+ 360:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     {
+ 361:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 362:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         
+ 363:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         pIn = in;
+  77              	 .loc 1 363 0
+  78 0038 BB68     	 ldr r3,[r7,#8]
+  79 003a FB62     	 str r3,[r7,#44]
+ 364:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 365:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmp = 0.0;
+  80              	 .loc 1 365 0
+  81 003c 4FF00003 	 mov r3,#0
+  82 0040 3B62     	 str r3,[r7,#32]
+ 366:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         acc1 = 0.0f;
+  83              	 .loc 1 366 0
+  84 0042 4FF00003 	 mov r3,#0
+  85 0046 BB62     	 str r3,[r7,#40]
+ 367:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         acc2 = 0.0f;
+  86              	 .loc 1 367 0
+  87 0048 4FF00003 	 mov r3,#0
+  88 004c 7B62     	 str r3,[r7,#36]
+ 368:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         for(nbDim = 0; nbDim < S->vectorDimension; nbDim++)
+  89              	 .loc 1 368 0
+  90 004e 0023     	 movs r3,#0
+  91 0050 3B64     	 str r3,[r7,#64]
+  92 0052 43E0     	 b .L3
+  93              	.L4:
+ 369:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         {
+ 370:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            sigma = *pSigma + S->epsilon;
+  94              	 .loc 1 370 0 discriminator 3
+  95 0054 7B6B     	 ldr r3,[r7,#52]
+  96 0056 93ED007A 	 flds s14,[r3]
+  97 005a FB68     	 ldr r3,[r7,#12]
+  98 005c D3ED057A 	 flds s15,[r3,#20]
+  99 0060 77EE277A 	 fadds s15,s14,s15
+ 100 0064 C7ED077A 	 fsts s15,[r7,#28]
+ 371:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            acc1 += logf(2.0f * PI_F * sigma);
+ 101              	 .loc 1 371 0 discriminator 3
+ 102 0068 D7ED077A 	 flds s15,[r7,#28]
+ 103 006c 9FED3D7A 	 flds s14,.L7
+ 104 0070 67EE877A 	 fmuls s15,s15,s14
+ 105 0074 17EE900A 	 fmrs r0,s15
+ 106 0078 FFF7FEFF 	 bl logf
+ 107 007c 07EE100A 	 fmsr s14,r0
+ 108 0080 D7ED0A7A 	 flds s15,[r7,#40]
+ 109 0084 77EE877A 	 fadds s15,s15,s14
+ 110 0088 C7ED0A7A 	 fsts s15,[r7,#40]
+ 372:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            acc2 += (*pIn - *pTheta) * (*pIn - *pTheta) / sigma;
+ 111              	 .loc 1 372 0 discriminator 3
+ 112 008c FB6A     	 ldr r3,[r7,#44]
+ 113 008e 93ED007A 	 flds s14,[r3]
+ 114 0092 BB6B     	 ldr r3,[r7,#56]
+ 115 0094 D3ED007A 	 flds s15,[r3]
+ 116 0098 37EE677A 	 fsubs s14,s14,s15
+ 117 009c FB6A     	 ldr r3,[r7,#44]
+ 118 009e D3ED006A 	 flds s13,[r3]
+ 119 00a2 BB6B     	 ldr r3,[r7,#56]
+ 120 00a4 D3ED007A 	 flds s15,[r3]
+ 121 00a8 76EEE77A 	 fsubs s15,s13,s15
+ 122 00ac 27EE277A 	 fmuls s14,s14,s15
+ 123 00b0 D7ED077A 	 flds s15,[r7,#28]
+ 124 00b4 C7EE277A 	 fdivs s15,s14,s15
+ 125 00b8 97ED097A 	 flds s14,[r7,#36]
+ 126 00bc 77EE277A 	 fadds s15,s14,s15
+ 127 00c0 C7ED097A 	 fsts s15,[r7,#36]
+ 373:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 374:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pIn++;
+ 128              	 .loc 1 374 0 discriminator 3
+ 129 00c4 FB6A     	 ldr r3,[r7,#44]
+ 130 00c6 0433     	 adds r3,r3,#4
+ 131 00c8 FB62     	 str r3,[r7,#44]
+ 375:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pTheta++;
+ 132              	 .loc 1 375 0 discriminator 3
+ 133 00ca BB6B     	 ldr r3,[r7,#56]
+ 134 00cc 0433     	 adds r3,r3,#4
+ 135 00ce BB63     	 str r3,[r7,#56]
+ 376:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****            pSigma++;
+ 136              	 .loc 1 376 0 discriminator 3
+ 137 00d0 7B6B     	 ldr r3,[r7,#52]
+ 138 00d2 0433     	 adds r3,r3,#4
+ 139 00d4 7B63     	 str r3,[r7,#52]
+ 368:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         {
+ 140              	 .loc 1 368 0 discriminator 3
+ 141 00d6 3B6C     	 ldr r3,[r7,#64]
+ 142 00d8 0133     	 adds r3,r3,#1
+ 143 00da 3B64     	 str r3,[r7,#64]
+ 144              	.L3:
+ 368:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         {
+ 145              	 .loc 1 368 0 is_stmt 0 discriminator 1
+ 146 00dc FB68     	 ldr r3,[r7,#12]
+ 147 00de 1A68     	 ldr r2,[r3]
+ 148 00e0 3B6C     	 ldr r3,[r7,#64]
+ 149 00e2 9A42     	 cmp r2,r3
+ 150 00e4 B6D8     	 bhi .L4
+ 377:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         }
+ 378:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 379:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmp = -0.5f * acc1;
+ 151              	 .loc 1 379 0 is_stmt 1 discriminator 2
+ 152 00e6 D7ED0A7A 	 flds s15,[r7,#40]
+ 153 00ea BEEE007A 	 fconsts s14,#224
+ 154 00ee 67EE877A 	 fmuls s15,s15,s14
+ 155 00f2 C7ED087A 	 fsts s15,[r7,#32]
+ 380:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         tmp -= 0.5f * acc2;
+ 156              	 .loc 1 380 0 discriminator 2
+ 157 00f6 D7ED097A 	 flds s15,[r7,#36]
+ 158 00fa B6EE007A 	 fconsts s14,#96
+ 159 00fe 67EE877A 	 fmuls s15,s15,s14
+ 160 0102 97ED087A 	 flds s14,[r7,#32]
+ 161 0106 77EE677A 	 fsubs s15,s14,s15
+ 162 010a C7ED087A 	 fsts s15,[r7,#32]
+ 381:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 382:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 383:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         *buffer = tmp + logf(*pPrior++);
+ 163              	 .loc 1 383 0 discriminator 2
+ 164 010e FB6B     	 ldr r3,[r7,#60]
+ 165 0110 1A1D     	 adds r2,r3,#4
+ 166 0112 FA63     	 str r2,[r7,#60]
+ 167 0114 1B68     	 ldr r3,[r3]
+ 168 0116 1846     	 mov r0,r3
+ 169 0118 FFF7FEFF 	 bl logf
+ 170 011c 07EE100A 	 fmsr s14,r0
+ 171 0120 D7ED087A 	 flds s15,[r7,#32]
+ 172 0124 77EE277A 	 fadds s15,s14,s15
+ 173 0128 3B6B     	 ldr r3,[r7,#48]
+ 174 012a C3ED007A 	 fsts s15,[r3]
+ 384:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****         buffer++;
+ 175              	 .loc 1 384 0 discriminator 2
+ 176 012e 3B6B     	 ldr r3,[r7,#48]
+ 177 0130 0433     	 adds r3,r3,#4
+ 178 0132 3B63     	 str r3,[r7,#48]
+ 359:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     {
+ 179              	 .loc 1 359 0 discriminator 2
+ 180 0134 7B6C     	 ldr r3,[r7,#68]
+ 181 0136 0133     	 adds r3,r3,#1
+ 182 0138 7B64     	 str r3,[r7,#68]
+ 183              	.L2:
+ 359:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     {
+ 184              	 .loc 1 359 0 is_stmt 0 discriminator 1
+ 185 013a FB68     	 ldr r3,[r7,#12]
+ 186 013c 5A68     	 ldr r2,[r3,#4]
+ 187 013e 7B6C     	 ldr r3,[r7,#68]
+ 188 0140 9A42     	 cmp r2,r3
+ 189 0142 3FF679AF 	 bhi .L5
+ 385:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     }
+ 386:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 387:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     arm_max_f32(pBuffer,S->numberOfClasses,&result,&index);
+ 190              	 .loc 1 387 0 is_stmt 1
+ 191 0146 FB68     	 ldr r3,[r7,#12]
+ 192 0148 5968     	 ldr r1,[r3,#4]
+ 193 014a 07F11802 	 add r2,r7,#24
+ 194 014e 07F11403 	 add r3,r7,#20
+ 195 0152 7868     	 ldr r0,[r7,#4]
+ 196 0154 FFF7FEFF 	 bl arm_max_f32
+ 388:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** 
+ 389:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c ****     return(index);
+ 197              	 .loc 1 389 0
+ 198 0158 7B69     	 ldr r3,[r7,#20]
+ 390:../Dave/Generated/CMSIS_DSP/Source/BayesFunctions/arm_gaussian_naive_bayes_predict_f32.c **** }
+ 199              	 .loc 1 390 0
+ 200 015a 1846     	 mov r0,r3
+ 201 015c 4837     	 adds r7,r7,#72
+ 202              	.LCFI3:
+ 203              	 .cfi_def_cfa_offset 8
+ 204 015e BD46     	 mov sp,r7
+ 205              	.LCFI4:
+ 206              	 .cfi_def_cfa_register 13
+ 207              	 
+ 208 0160 80BD     	 pop {r7,pc}
+ 209              	.L8:
+ 210 0162 00BF     	 .align 2
+ 211              	.L7:
+ 212 0164 DB0FC940 	 .word 1086918619
+ 213              	 .cfi_endproc
+ 214              	.LFE149:
+ 216              	 .text
+ 217              	.Letext0:
+ 218              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 219              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 220              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 221              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_gaussian_naive_bayes_predict_f32.c
+    {standard input}:20     .text.arm_gaussian_naive_bayes_predict_f32:00000000 $t
+    {standard input}:25     .text.arm_gaussian_naive_bayes_predict_f32:00000000 arm_gaussian_naive_bayes_predict_f32
+    {standard input}:212    .text.arm_gaussian_naive_bayes_predict_f32:00000164 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+logf
+arm_max_f32

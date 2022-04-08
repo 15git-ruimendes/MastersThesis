@@ -1,0 +1,285 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_negate_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_negate_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_negate_f32
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_negate_f32:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * Title:        arm_negate_f32.c
+   4:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * Description:  Negates floating-point vectors
+   5:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * $Date:        18. March 2019
+   7:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * $Revision:    V1.6.0
+   8:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  *
+   9:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * Target Processor: Cortex-M cores
+  10:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * -------------------------------------------------------------------- */
+  11:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** /*
+  12:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  *
+  16:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * not use this file except in compliance with the License.
+  18:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * You may obtain a copy of the License at
+  19:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  *
+  22:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * See the License for the specific language governing permissions and
+  26:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  * limitations under the License.
+  27:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  */
+  28:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  29:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  30:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  31:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** /**
+  32:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   @ingroup groupMath
+  33:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  */
+  34:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  35:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** /**
+  36:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   @defgroup BasicNegate Vector Negate
+  37:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  38:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   Negates the elements of a vector.
+  39:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  40:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   <pre>
+  41:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****       pDst[n] = -pSrc[n],   0 <= n < blockSize.
+  42:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   </pre>
+  43:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  44:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   The functions support in-place computation allowing the source and
+  45:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   destination pointers to reference the same memory buffer.
+  46:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   There are separate functions for floating-point, Q7, Q15, and Q31 data types.
+  47:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  */
+  48:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  49:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** /**
+  50:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   @addtogroup BasicNegate
+  51:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   @{
+  52:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  */
+  53:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  54:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** /**
+  55:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   @brief         Negates the elements of a floating-point vector.
+  56:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   @param[in]     pSrc       points to input vector.
+  57:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   @param[out]    pDst       points to output vector.
+  58:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   @param[in]     blockSize  number of samples in each vector.
+  59:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   @return        none
+  60:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****  */
+  61:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  62:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
+  63:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  64:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** #include "CMSIS_DSP/Include/arm_helium_utils.h"
+  65:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  66:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** void arm_negate_f32(
+  67:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   const float32_t * pSrc,
+  68:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         float32_t * pDst,
+  69:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         uint32_t blockSize)
+  70:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** {
+  71:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     uint32_t blkCnt;                               /* Loop counter */
+  72:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     f32x4_t vec1;
+  73:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     f32x4_t res;
+  74:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  75:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  76:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     /* Compute 4 outputs at a time */
+  77:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     blkCnt = blockSize >> 2U;
+  78:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     while (blkCnt > 0U)
+  79:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     {
+  80:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         /* C = |A| */
+  81:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  82:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         /* Calculate absolute values and then store the results in the destination buffer. */
+  83:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         vec1 = vld1q(pSrc);
+  84:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         res = vnegq(vec1);
+  85:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         vst1q(pDst, res);
+  86:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  87:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         /* Increment pointers */
+  88:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         pSrc += 4;
+  89:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         pDst += 4;
+  90:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         
+  91:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         /* Decrement the loop counter */
+  92:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         blkCnt--;
+  93:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     }
+  94:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+  95:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     /* Tail */
+  96:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     blkCnt = blockSize & 0x3;
+  97:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     if (blkCnt > 0U)
+  98:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     {
+  99:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****       /* C = |A| */
+ 100:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****       mve_pred16_t p0 = vctp32q(blkCnt);
+ 101:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****       vec1 = vld1q((float32_t const *) pSrc);
+ 102:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****       vstrwq_p(pDst, vnegq(vec1), p0);
+ 103:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     }
+ 104:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 105:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** }
+ 106:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 107:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** #else
+ 108:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** void arm_negate_f32(
+ 109:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   const float32_t * pSrc,
+ 110:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         float32_t * pDst,
+ 111:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         uint32_t blockSize)
+ 112:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** {
+  28              	 .loc 1 112 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 87B0     	 sub sp,sp,#28
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 32
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 F860     	 str r0,[r7,#12]
+  44 0008 B960     	 str r1,[r7,#8]
+  45 000a 7A60     	 str r2,[r7,#4]
+ 113:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         uint32_t blkCnt;                               /* Loop counter */
+ 114:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 115:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** #if defined(ARM_MATH_NEON_EXPERIMENTAL) && !defined(ARM_MATH_AUTOVECTORIZE)
+ 116:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     f32x4_t vec1;
+ 117:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     f32x4_t res;
+ 118:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 119:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     /* Compute 4 outputs at a time */
+ 120:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     blkCnt = blockSize >> 2U;
+ 121:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 122:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     while (blkCnt > 0U)
+ 123:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     {
+ 124:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         /* C = -A */
+ 125:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 126:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     	/* Negate and then store the results in the destination buffer. */
+ 127:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         vec1 = vld1q_f32(pSrc);
+ 128:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         res = vnegq_f32(vec1);
+ 129:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         vst1q_f32(pDst, res);
+ 130:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 131:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         /* Increment pointers */
+ 132:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         pSrc += 4;
+ 133:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         pDst += 4;
+ 134:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         
+ 135:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         /* Decrement the loop counter */
+ 136:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****         blkCnt--;
+ 137:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     }
+ 138:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 139:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     /* Tail */
+ 140:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     blkCnt = blockSize & 0x3;
+ 141:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 142:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** #else
+ 143:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** #if defined (ARM_MATH_LOOPUNROLL) && !defined(ARM_MATH_AUTOVECTORIZE)
+ 144:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 145:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   /* Loop unrolling: Compute 4 outputs at a time */
+ 146:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   blkCnt = blockSize >> 2U;
+ 147:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 148:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   while (blkCnt > 0U)
+ 149:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   {
+ 150:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     /* C = -A */
+ 151:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 152:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     /* Negate and store result in destination buffer. */
+ 153:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     *pDst++ = -*pSrc++;
+ 154:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 155:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     *pDst++ = -*pSrc++;
+ 156:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 157:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     *pDst++ = -*pSrc++;
+ 158:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 159:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     *pDst++ = -*pSrc++;
+ 160:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 161:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     /* Decrement loop counter */
+ 162:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     blkCnt--;
+ 163:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   }
+ 164:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 165:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   /* Loop unrolling: Compute remaining outputs */
+ 166:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   blkCnt = blockSize % 0x4U;
+ 167:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 168:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** #else
+ 169:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 170:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   /* Initialize blkCnt with number of samples */
+ 171:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   blkCnt = blockSize;
+  46              	 .loc 1 171 0
+  47 000c 7B68     	 ldr r3,[r7,#4]
+  48 000e 7B61     	 str r3,[r7,#20]
+ 172:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 173:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** #endif /* #if defined (ARM_MATH_LOOPUNROLL) */
+ 174:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** #endif /* #if defined(ARM_MATH_NEON_EXPERIMENTAL) */
+ 175:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 176:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   while (blkCnt > 0U)
+  49              	 .loc 1 176 0
+  50 0010 0EE0     	 b .L2
+  51              	.L3:
+ 177:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   {
+ 178:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     /* C = -A */
+ 179:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 180:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     /* Negate and store result in destination buffer. */
+ 181:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     *pDst++ = -*pSrc++;
+  52              	 .loc 1 181 0
+  53 0012 BB68     	 ldr r3,[r7,#8]
+  54 0014 1A1D     	 adds r2,r3,#4
+  55 0016 BA60     	 str r2,[r7,#8]
+  56 0018 FA68     	 ldr r2,[r7,#12]
+  57 001a 111D     	 adds r1,r2,#4
+  58 001c F960     	 str r1,[r7,#12]
+  59 001e D2ED007A 	 flds s15,[r2]
+  60 0022 F1EE677A 	 fnegs s15,s15
+  61 0026 C3ED007A 	 fsts s15,[r3]
+ 182:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 183:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     /* Decrement loop counter */
+ 184:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****     blkCnt--;
+  62              	 .loc 1 184 0
+  63 002a 7B69     	 ldr r3,[r7,#20]
+  64 002c 013B     	 subs r3,r3,#1
+  65 002e 7B61     	 str r3,[r7,#20]
+  66              	.L2:
+ 176:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   {
+  67              	 .loc 1 176 0
+  68 0030 7B69     	 ldr r3,[r7,#20]
+  69 0032 002B     	 cmp r3,#0
+  70 0034 EDD1     	 bne .L3
+ 185:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c ****   }
+ 186:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** 
+ 187:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_negate_f32.c **** }
+  71              	 .loc 1 187 0
+  72 0036 1C37     	 adds r7,r7,#28
+  73              	.LCFI3:
+  74              	 .cfi_def_cfa_offset 4
+  75 0038 BD46     	 mov sp,r7
+  76              	.LCFI4:
+  77              	 .cfi_def_cfa_register 13
+  78              	 
+  79 003a 5DF8047B 	 ldr r7,[sp],#4
+  80              	.LCFI5:
+  81              	 .cfi_restore 7
+  82              	 .cfi_def_cfa_offset 0
+  83 003e 7047     	 bx lr
+  84              	 .cfi_endproc
+  85              	.LFE149:
+  87              	 .text
+  88              	.Letext0:
+  89              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+  90              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+  91              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+  92              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_negate_f32.c
+    {standard input}:20     .text.arm_negate_f32:00000000 $t
+    {standard input}:25     .text.arm_negate_f32:00000000 arm_negate_f32
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

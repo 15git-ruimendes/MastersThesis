@@ -1,0 +1,1230 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_rfft_fast_init_f64.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_rfft_32_fast_init_f64,"ax",%progbits
+  20              	 .align 2
+  21              	 .thumb
+  22              	 .thumb_func
+  24              	arm_rfft_32_fast_init_f64:
+  25              	.LFB149:
+  26              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * Title:        arm_cfft_init_f64.c
+   4:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * Description:  Split Radix Decimation in Frequency CFFT Double Precision Floating point processin
+   5:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * $Date:        29. November 2019
+   7:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * $Revision:    V1.0.0
+   8:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  *
+   9:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * Target Processor: Cortex-M cores
+  10:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * -------------------------------------------------------------------- */
+  11:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** /*
+  12:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  *
+  16:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * not use this file except in compliance with the License.
+  18:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * You may obtain a copy of the License at
+  19:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  *
+  22:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * See the License for the specific language governing permissions and
+  26:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  * limitations under the License.
+  27:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  */
+  28:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  29:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  30:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #include "CMSIS_DSP/Include/arm_common_tables.h"
+  31:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  32:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** /**
+  33:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @ingroup groupTransforms
+  34:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  */
+  35:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  36:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** /**
+  37:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @addtogroup RealFFT
+  38:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @{
+  39:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  */
+  40:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  41:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+  42:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  43:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** /**
+  44:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @brief         Initialization function for the 32pt double precision floating-point real FFT.
+  45:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @param[in,out] S  points to an arm_rfft_fast_instance_f64 structure
+  46:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @return        execution status
+  47:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_SUCCESS        : Operation successful
+  48:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_ARGUMENT_ERROR : an error is detected
+  49:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  */
+  50:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  51:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** static arm_status arm_rfft_32_fast_init_f64( arm_rfft_fast_instance_f64 * S ) {
+  27              	 .loc 1 51 0
+  28              	 .cfi_startproc
+  29              	 
+  30              	 
+  31              	 
+  32 0000 80B4     	 push {r7}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 4
+  35              	 .cfi_offset 7,-4
+  36 0002 85B0     	 sub sp,sp,#20
+  37              	.LCFI1:
+  38              	 .cfi_def_cfa_offset 24
+  39 0004 00AF     	 add r7,sp,#0
+  40              	.LCFI2:
+  41              	 .cfi_def_cfa_register 7
+  42 0006 7860     	 str r0,[r7,#4]
+  52:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  53:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   arm_cfft_instance_f64 * Sint;
+  54:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  55:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   if( !S ) return ARM_MATH_ARGUMENT_ERROR;
+  43              	 .loc 1 55 0
+  44 0008 7B68     	 ldr r3,[r7,#4]
+  45 000a 002B     	 cmp r3,#0
+  46 000c 01D1     	 bne .L2
+  47              	 .loc 1 55 0 is_stmt 0 discriminator 1
+  48 000e FF23     	 movs r3,#255
+  49 0010 14E0     	 b .L3
+  50              	.L2:
+  56:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  57:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint = &(S->Sint);
+  51              	 .loc 1 57 0 is_stmt 1
+  52 0012 7B68     	 ldr r3,[r7,#4]
+  53 0014 FB60     	 str r3,[r7,#12]
+  58:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->fftLen = 16U;
+  54              	 .loc 1 58 0
+  55 0016 FB68     	 ldr r3,[r7,#12]
+  56 0018 1022     	 movs r2,#16
+  57 001a 1A80     	 strh r2,[r3]
+  59:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->fftLenRFFT = 32U;
+  58              	 .loc 1 59 0
+  59 001c 7B68     	 ldr r3,[r7,#4]
+  60 001e 2022     	 movs r2,#32
+  61 0020 1A82     	 strh r2,[r3,#16]
+  60:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  61:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->bitRevLength = ARMBITREVINDEXTABLEF64_16_TABLE_LENGTH;
+  62              	 .loc 1 61 0
+  63 0022 FB68     	 ldr r3,[r7,#12]
+  64 0024 0C22     	 movs r2,#12
+  65 0026 9A81     	 strh r2,[r3,#12]
+  62:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pBitRevTable = (uint16_t *)armBitRevIndexTableF64_16;
+  66              	 .loc 1 62 0
+  67 0028 FB68     	 ldr r3,[r7,#12]
+  68 002a 084A     	 ldr r2,.L4
+  69 002c 9A60     	 str r2,[r3,#8]
+  63:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pTwiddle     = (float64_t *) twiddleCoefF64_16;
+  70              	 .loc 1 63 0
+  71 002e FB68     	 ldr r3,[r7,#12]
+  72 0030 074A     	 ldr r2,.L4+4
+  73 0032 5A60     	 str r2,[r3,#4]
+  64:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->pTwiddleRFFT    = (float64_t *) twiddleCoefF64_rfft_32;
+  74              	 .loc 1 64 0
+  75 0034 7B68     	 ldr r3,[r7,#4]
+  76 0036 074A     	 ldr r2,.L4+8
+  77 0038 5A61     	 str r2,[r3,#20]
+  65:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  66:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   return ARM_MATH_SUCCESS;
+  78              	 .loc 1 66 0
+  79 003a 0023     	 movs r3,#0
+  80              	.L3:
+  81 003c 5BB2     	 sxtb r3,r3
+  67:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** }
+  82              	 .loc 1 67 0
+  83 003e 1846     	 mov r0,r3
+  84 0040 1437     	 adds r7,r7,#20
+  85              	.LCFI3:
+  86              	 .cfi_def_cfa_offset 4
+  87 0042 BD46     	 mov sp,r7
+  88              	.LCFI4:
+  89              	 .cfi_def_cfa_register 13
+  90              	 
+  91 0044 5DF8047B 	 ldr r7,[sp],#4
+  92              	.LCFI5:
+  93              	 .cfi_restore 7
+  94              	 .cfi_def_cfa_offset 0
+  95 0048 7047     	 bx lr
+  96              	.L5:
+  97 004a 00BF     	 .align 2
+  98              	.L4:
+  99 004c 00000000 	 .word armBitRevIndexTableF64_16
+ 100 0050 00000000 	 .word twiddleCoefF64_16
+ 101 0054 00000000 	 .word twiddleCoefF64_rfft_32
+ 102              	 .cfi_endproc
+ 103              	.LFE149:
+ 105              	 .section .text.arm_rfft_64_fast_init_f64,"ax",%progbits
+ 106              	 .align 2
+ 107              	 .thumb
+ 108              	 .thumb_func
+ 110              	arm_rfft_64_fast_init_f64:
+ 111              	.LFB150:
+  68:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+  69:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  70:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+  71:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  72:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** /**
+  73:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @brief         Initialization function for the 64pt Double Precision floating-point real FFT.
+  74:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @param[in,out] S  points to an arm_rfft_fast_instance_f64 structure
+  75:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @return        execution status
+  76:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_SUCCESS        : Operation successful
+  77:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_ARGUMENT_ERROR : an error is detected
+  78:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  */
+  79:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  80:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** static arm_status arm_rfft_64_fast_init_f64( arm_rfft_fast_instance_f64 * S ) {
+ 112              	 .loc 1 80 0
+ 113              	 .cfi_startproc
+ 114              	 
+ 115              	 
+ 116              	 
+ 117 0000 80B4     	 push {r7}
+ 118              	.LCFI6:
+ 119              	 .cfi_def_cfa_offset 4
+ 120              	 .cfi_offset 7,-4
+ 121 0002 85B0     	 sub sp,sp,#20
+ 122              	.LCFI7:
+ 123              	 .cfi_def_cfa_offset 24
+ 124 0004 00AF     	 add r7,sp,#0
+ 125              	.LCFI8:
+ 126              	 .cfi_def_cfa_register 7
+ 127 0006 7860     	 str r0,[r7,#4]
+  81:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  82:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   arm_cfft_instance_f64 * Sint;
+  83:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  84:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   if( !S ) return ARM_MATH_ARGUMENT_ERROR;
+ 128              	 .loc 1 84 0
+ 129 0008 7B68     	 ldr r3,[r7,#4]
+ 130 000a 002B     	 cmp r3,#0
+ 131 000c 01D1     	 bne .L7
+ 132              	 .loc 1 84 0 is_stmt 0 discriminator 1
+ 133 000e FF23     	 movs r3,#255
+ 134 0010 14E0     	 b .L8
+ 135              	.L7:
+  85:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  86:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint = &(S->Sint);
+ 136              	 .loc 1 86 0 is_stmt 1
+ 137 0012 7B68     	 ldr r3,[r7,#4]
+ 138 0014 FB60     	 str r3,[r7,#12]
+  87:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->fftLen = 32U;
+ 139              	 .loc 1 87 0
+ 140 0016 FB68     	 ldr r3,[r7,#12]
+ 141 0018 2022     	 movs r2,#32
+ 142 001a 1A80     	 strh r2,[r3]
+  88:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->fftLenRFFT = 64U;
+ 143              	 .loc 1 88 0
+ 144 001c 7B68     	 ldr r3,[r7,#4]
+ 145 001e 4022     	 movs r2,#64
+ 146 0020 1A82     	 strh r2,[r3,#16]
+  89:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  90:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->bitRevLength = ARMBITREVINDEXTABLEF64_32_TABLE_LENGTH;
+ 147              	 .loc 1 90 0
+ 148 0022 FB68     	 ldr r3,[r7,#12]
+ 149 0024 1822     	 movs r2,#24
+ 150 0026 9A81     	 strh r2,[r3,#12]
+  91:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pBitRevTable = (uint16_t *)armBitRevIndexTableF64_32;
+ 151              	 .loc 1 91 0
+ 152 0028 FB68     	 ldr r3,[r7,#12]
+ 153 002a 084A     	 ldr r2,.L9
+ 154 002c 9A60     	 str r2,[r3,#8]
+  92:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pTwiddle     = (float64_t *) twiddleCoefF64_32;
+ 155              	 .loc 1 92 0
+ 156 002e FB68     	 ldr r3,[r7,#12]
+ 157 0030 074A     	 ldr r2,.L9+4
+ 158 0032 5A60     	 str r2,[r3,#4]
+  93:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->pTwiddleRFFT    = (float64_t *) twiddleCoefF64_rfft_64;
+ 159              	 .loc 1 93 0
+ 160 0034 7B68     	 ldr r3,[r7,#4]
+ 161 0036 074A     	 ldr r2,.L9+8
+ 162 0038 5A61     	 str r2,[r3,#20]
+  94:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  95:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   return ARM_MATH_SUCCESS;
+ 163              	 .loc 1 95 0
+ 164 003a 0023     	 movs r3,#0
+ 165              	.L8:
+ 166 003c 5BB2     	 sxtb r3,r3
+  96:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** }
+ 167              	 .loc 1 96 0
+ 168 003e 1846     	 mov r0,r3
+ 169 0040 1437     	 adds r7,r7,#20
+ 170              	.LCFI9:
+ 171              	 .cfi_def_cfa_offset 4
+ 172 0042 BD46     	 mov sp,r7
+ 173              	.LCFI10:
+ 174              	 .cfi_def_cfa_register 13
+ 175              	 
+ 176 0044 5DF8047B 	 ldr r7,[sp],#4
+ 177              	.LCFI11:
+ 178              	 .cfi_restore 7
+ 179              	 .cfi_def_cfa_offset 0
+ 180 0048 7047     	 bx lr
+ 181              	.L10:
+ 182 004a 00BF     	 .align 2
+ 183              	.L9:
+ 184 004c 00000000 	 .word armBitRevIndexTableF64_32
+ 185 0050 00000000 	 .word twiddleCoefF64_32
+ 186 0054 00000000 	 .word twiddleCoefF64_rfft_64
+ 187              	 .cfi_endproc
+ 188              	.LFE150:
+ 190              	 .section .text.arm_rfft_128_fast_init_f64,"ax",%progbits
+ 191              	 .align 2
+ 192              	 .thumb
+ 193              	 .thumb_func
+ 195              	arm_rfft_128_fast_init_f64:
+ 196              	.LFB151:
+  97:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+  98:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+  99:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 100:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 101:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** /**
+ 102:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @brief         Initialization function for the 128pt Double Precision floating-point real FFT.
+ 103:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @param[in,out] S  points to an arm_rfft_fast_instance_f64 structure
+ 104:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @return        execution status
+ 105:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_SUCCESS        : Operation successful
+ 106:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_ARGUMENT_ERROR : an error is detected
+ 107:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  */
+ 108:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 109:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** static arm_status arm_rfft_128_fast_init_f64( arm_rfft_fast_instance_f64 * S ) {
+ 197              	 .loc 1 109 0
+ 198              	 .cfi_startproc
+ 199              	 
+ 200              	 
+ 201              	 
+ 202 0000 80B4     	 push {r7}
+ 203              	.LCFI12:
+ 204              	 .cfi_def_cfa_offset 4
+ 205              	 .cfi_offset 7,-4
+ 206 0002 85B0     	 sub sp,sp,#20
+ 207              	.LCFI13:
+ 208              	 .cfi_def_cfa_offset 24
+ 209 0004 00AF     	 add r7,sp,#0
+ 210              	.LCFI14:
+ 211              	 .cfi_def_cfa_register 7
+ 212 0006 7860     	 str r0,[r7,#4]
+ 110:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 111:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   arm_cfft_instance_f64 * Sint;
+ 112:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 113:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   if( !S ) return ARM_MATH_ARGUMENT_ERROR;
+ 213              	 .loc 1 113 0
+ 214 0008 7B68     	 ldr r3,[r7,#4]
+ 215 000a 002B     	 cmp r3,#0
+ 216 000c 01D1     	 bne .L12
+ 217              	 .loc 1 113 0 is_stmt 0 discriminator 1
+ 218 000e FF23     	 movs r3,#255
+ 219 0010 14E0     	 b .L13
+ 220              	.L12:
+ 114:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 115:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint = &(S->Sint);
+ 221              	 .loc 1 115 0 is_stmt 1
+ 222 0012 7B68     	 ldr r3,[r7,#4]
+ 223 0014 FB60     	 str r3,[r7,#12]
+ 116:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->fftLen = 64U;
+ 224              	 .loc 1 116 0
+ 225 0016 FB68     	 ldr r3,[r7,#12]
+ 226 0018 4022     	 movs r2,#64
+ 227 001a 1A80     	 strh r2,[r3]
+ 117:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->fftLenRFFT = 128U;
+ 228              	 .loc 1 117 0
+ 229 001c 7B68     	 ldr r3,[r7,#4]
+ 230 001e 8022     	 movs r2,#128
+ 231 0020 1A82     	 strh r2,[r3,#16]
+ 118:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 119:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->bitRevLength = ARMBITREVINDEXTABLEF64_64_TABLE_LENGTH;
+ 232              	 .loc 1 119 0
+ 233 0022 FB68     	 ldr r3,[r7,#12]
+ 234 0024 3822     	 movs r2,#56
+ 235 0026 9A81     	 strh r2,[r3,#12]
+ 120:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pBitRevTable = (uint16_t *)armBitRevIndexTableF64_64;
+ 236              	 .loc 1 120 0
+ 237 0028 FB68     	 ldr r3,[r7,#12]
+ 238 002a 084A     	 ldr r2,.L14
+ 239 002c 9A60     	 str r2,[r3,#8]
+ 121:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pTwiddle     = (float64_t *) twiddleCoefF64_64;
+ 240              	 .loc 1 121 0
+ 241 002e FB68     	 ldr r3,[r7,#12]
+ 242 0030 074A     	 ldr r2,.L14+4
+ 243 0032 5A60     	 str r2,[r3,#4]
+ 122:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->pTwiddleRFFT    = (float64_t *) twiddleCoefF64_rfft_128;
+ 244              	 .loc 1 122 0
+ 245 0034 7B68     	 ldr r3,[r7,#4]
+ 246 0036 074A     	 ldr r2,.L14+8
+ 247 0038 5A61     	 str r2,[r3,#20]
+ 123:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 124:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   return ARM_MATH_SUCCESS;
+ 248              	 .loc 1 124 0
+ 249 003a 0023     	 movs r3,#0
+ 250              	.L13:
+ 251 003c 5BB2     	 sxtb r3,r3
+ 125:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** }
+ 252              	 .loc 1 125 0
+ 253 003e 1846     	 mov r0,r3
+ 254 0040 1437     	 adds r7,r7,#20
+ 255              	.LCFI15:
+ 256              	 .cfi_def_cfa_offset 4
+ 257 0042 BD46     	 mov sp,r7
+ 258              	.LCFI16:
+ 259              	 .cfi_def_cfa_register 13
+ 260              	 
+ 261 0044 5DF8047B 	 ldr r7,[sp],#4
+ 262              	.LCFI17:
+ 263              	 .cfi_restore 7
+ 264              	 .cfi_def_cfa_offset 0
+ 265 0048 7047     	 bx lr
+ 266              	.L15:
+ 267 004a 00BF     	 .align 2
+ 268              	.L14:
+ 269 004c 00000000 	 .word armBitRevIndexTableF64_64
+ 270 0050 00000000 	 .word twiddleCoefF64_64
+ 271 0054 00000000 	 .word twiddleCoefF64_rfft_128
+ 272              	 .cfi_endproc
+ 273              	.LFE151:
+ 275              	 .section .text.arm_rfft_256_fast_init_f64,"ax",%progbits
+ 276              	 .align 2
+ 277              	 .thumb
+ 278              	 .thumb_func
+ 280              	arm_rfft_256_fast_init_f64:
+ 281              	.LFB152:
+ 126:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 127:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 128:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 129:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 130:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** /**
+ 131:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @brief         Initialization function for the 256pt Double Precision floating-point real FFT.
+ 132:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @param[in,out] S  points to an arm_rfft_fast_instance_f64 structure
+ 133:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @return        execution status
+ 134:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_SUCCESS        : Operation successful
+ 135:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_ARGUMENT_ERROR : an error is detected
+ 136:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** */
+ 137:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 138:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** static arm_status arm_rfft_256_fast_init_f64( arm_rfft_fast_instance_f64 * S ) {
+ 282              	 .loc 1 138 0
+ 283              	 .cfi_startproc
+ 284              	 
+ 285              	 
+ 286              	 
+ 287 0000 80B4     	 push {r7}
+ 288              	.LCFI18:
+ 289              	 .cfi_def_cfa_offset 4
+ 290              	 .cfi_offset 7,-4
+ 291 0002 85B0     	 sub sp,sp,#20
+ 292              	.LCFI19:
+ 293              	 .cfi_def_cfa_offset 24
+ 294 0004 00AF     	 add r7,sp,#0
+ 295              	.LCFI20:
+ 296              	 .cfi_def_cfa_register 7
+ 297 0006 7860     	 str r0,[r7,#4]
+ 139:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 140:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   arm_cfft_instance_f64 * Sint;
+ 141:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 142:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   if( !S ) return ARM_MATH_ARGUMENT_ERROR;
+ 298              	 .loc 1 142 0
+ 299 0008 7B68     	 ldr r3,[r7,#4]
+ 300 000a 002B     	 cmp r3,#0
+ 301 000c 01D1     	 bne .L17
+ 302              	 .loc 1 142 0 is_stmt 0 discriminator 1
+ 303 000e FF23     	 movs r3,#255
+ 304 0010 15E0     	 b .L18
+ 305              	.L17:
+ 143:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 144:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint = &(S->Sint);
+ 306              	 .loc 1 144 0 is_stmt 1
+ 307 0012 7B68     	 ldr r3,[r7,#4]
+ 308 0014 FB60     	 str r3,[r7,#12]
+ 145:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->fftLen = 128U;
+ 309              	 .loc 1 145 0
+ 310 0016 FB68     	 ldr r3,[r7,#12]
+ 311 0018 8022     	 movs r2,#128
+ 312 001a 1A80     	 strh r2,[r3]
+ 146:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->fftLenRFFT = 256U;
+ 313              	 .loc 1 146 0
+ 314 001c 7B68     	 ldr r3,[r7,#4]
+ 315 001e 4FF48072 	 mov r2,#256
+ 316 0022 1A82     	 strh r2,[r3,#16]
+ 147:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 148:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->bitRevLength = ARMBITREVINDEXTABLEF64_128_TABLE_LENGTH;
+ 317              	 .loc 1 148 0
+ 318 0024 FB68     	 ldr r3,[r7,#12]
+ 319 0026 7022     	 movs r2,#112
+ 320 0028 9A81     	 strh r2,[r3,#12]
+ 149:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pBitRevTable = (uint16_t *)armBitRevIndexTableF64_128;
+ 321              	 .loc 1 149 0
+ 322 002a FB68     	 ldr r3,[r7,#12]
+ 323 002c 074A     	 ldr r2,.L19
+ 324 002e 9A60     	 str r2,[r3,#8]
+ 150:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pTwiddle     = (float64_t *) twiddleCoefF64_128;
+ 325              	 .loc 1 150 0
+ 326 0030 FB68     	 ldr r3,[r7,#12]
+ 327 0032 074A     	 ldr r2,.L19+4
+ 328 0034 5A60     	 str r2,[r3,#4]
+ 151:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->pTwiddleRFFT    = (float64_t *) twiddleCoefF64_rfft_256;
+ 329              	 .loc 1 151 0
+ 330 0036 7B68     	 ldr r3,[r7,#4]
+ 331 0038 064A     	 ldr r2,.L19+8
+ 332 003a 5A61     	 str r2,[r3,#20]
+ 152:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 153:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   return ARM_MATH_SUCCESS;
+ 333              	 .loc 1 153 0
+ 334 003c 0023     	 movs r3,#0
+ 335              	.L18:
+ 336 003e 5BB2     	 sxtb r3,r3
+ 154:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** }
+ 337              	 .loc 1 154 0
+ 338 0040 1846     	 mov r0,r3
+ 339 0042 1437     	 adds r7,r7,#20
+ 340              	.LCFI21:
+ 341              	 .cfi_def_cfa_offset 4
+ 342 0044 BD46     	 mov sp,r7
+ 343              	.LCFI22:
+ 344              	 .cfi_def_cfa_register 13
+ 345              	 
+ 346 0046 5DF8047B 	 ldr r7,[sp],#4
+ 347              	.LCFI23:
+ 348              	 .cfi_restore 7
+ 349              	 .cfi_def_cfa_offset 0
+ 350 004a 7047     	 bx lr
+ 351              	.L20:
+ 352              	 .align 2
+ 353              	.L19:
+ 354 004c 00000000 	 .word armBitRevIndexTableF64_128
+ 355 0050 00000000 	 .word twiddleCoefF64_128
+ 356 0054 00000000 	 .word twiddleCoefF64_rfft_256
+ 357              	 .cfi_endproc
+ 358              	.LFE152:
+ 360              	 .section .text.arm_rfft_512_fast_init_f64,"ax",%progbits
+ 361              	 .align 2
+ 362              	 .thumb
+ 363              	 .thumb_func
+ 365              	arm_rfft_512_fast_init_f64:
+ 366              	.LFB153:
+ 155:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 156:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 157:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 158:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 159:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** /**
+ 160:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @brief         Initialization function for the 512pt Double Precision floating-point real FFT.
+ 161:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @param[in,out] S  points to an arm_rfft_fast_instance_f64 structure
+ 162:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @return        execution status
+ 163:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_SUCCESS        : Operation successful
+ 164:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_ARGUMENT_ERROR : an error is detected
+ 165:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  */
+ 166:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 167:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** static arm_status arm_rfft_512_fast_init_f64( arm_rfft_fast_instance_f64 * S ) {
+ 367              	 .loc 1 167 0
+ 368              	 .cfi_startproc
+ 369              	 
+ 370              	 
+ 371              	 
+ 372 0000 80B4     	 push {r7}
+ 373              	.LCFI24:
+ 374              	 .cfi_def_cfa_offset 4
+ 375              	 .cfi_offset 7,-4
+ 376 0002 85B0     	 sub sp,sp,#20
+ 377              	.LCFI25:
+ 378              	 .cfi_def_cfa_offset 24
+ 379 0004 00AF     	 add r7,sp,#0
+ 380              	.LCFI26:
+ 381              	 .cfi_def_cfa_register 7
+ 382 0006 7860     	 str r0,[r7,#4]
+ 168:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 169:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   arm_cfft_instance_f64 * Sint;
+ 170:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 171:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   if( !S ) return ARM_MATH_ARGUMENT_ERROR;
+ 383              	 .loc 1 171 0
+ 384 0008 7B68     	 ldr r3,[r7,#4]
+ 385 000a 002B     	 cmp r3,#0
+ 386 000c 01D1     	 bne .L22
+ 387              	 .loc 1 171 0 is_stmt 0 discriminator 1
+ 388 000e FF23     	 movs r3,#255
+ 389 0010 16E0     	 b .L23
+ 390              	.L22:
+ 172:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 173:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint = &(S->Sint);
+ 391              	 .loc 1 173 0 is_stmt 1
+ 392 0012 7B68     	 ldr r3,[r7,#4]
+ 393 0014 FB60     	 str r3,[r7,#12]
+ 174:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->fftLen = 256U;
+ 394              	 .loc 1 174 0
+ 395 0016 FB68     	 ldr r3,[r7,#12]
+ 396 0018 4FF48072 	 mov r2,#256
+ 397 001c 1A80     	 strh r2,[r3]
+ 175:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->fftLenRFFT = 512U;
+ 398              	 .loc 1 175 0
+ 399 001e 7B68     	 ldr r3,[r7,#4]
+ 400 0020 4FF40072 	 mov r2,#512
+ 401 0024 1A82     	 strh r2,[r3,#16]
+ 176:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 177:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->bitRevLength = ARMBITREVINDEXTABLEF64_256_TABLE_LENGTH;
+ 402              	 .loc 1 177 0
+ 403 0026 FB68     	 ldr r3,[r7,#12]
+ 404 0028 F022     	 movs r2,#240
+ 405 002a 9A81     	 strh r2,[r3,#12]
+ 178:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pBitRevTable = (uint16_t *)armBitRevIndexTableF64_256;
+ 406              	 .loc 1 178 0
+ 407 002c FB68     	 ldr r3,[r7,#12]
+ 408 002e 084A     	 ldr r2,.L24
+ 409 0030 9A60     	 str r2,[r3,#8]
+ 179:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pTwiddle     = (float64_t *) twiddleCoefF64_256;
+ 410              	 .loc 1 179 0
+ 411 0032 FB68     	 ldr r3,[r7,#12]
+ 412 0034 074A     	 ldr r2,.L24+4
+ 413 0036 5A60     	 str r2,[r3,#4]
+ 180:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->pTwiddleRFFT    = (float64_t *) twiddleCoefF64_rfft_512;
+ 414              	 .loc 1 180 0
+ 415 0038 7B68     	 ldr r3,[r7,#4]
+ 416 003a 074A     	 ldr r2,.L24+8
+ 417 003c 5A61     	 str r2,[r3,#20]
+ 181:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 182:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   return ARM_MATH_SUCCESS;
+ 418              	 .loc 1 182 0
+ 419 003e 0023     	 movs r3,#0
+ 420              	.L23:
+ 421 0040 5BB2     	 sxtb r3,r3
+ 183:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** }
+ 422              	 .loc 1 183 0
+ 423 0042 1846     	 mov r0,r3
+ 424 0044 1437     	 adds r7,r7,#20
+ 425              	.LCFI27:
+ 426              	 .cfi_def_cfa_offset 4
+ 427 0046 BD46     	 mov sp,r7
+ 428              	.LCFI28:
+ 429              	 .cfi_def_cfa_register 13
+ 430              	 
+ 431 0048 5DF8047B 	 ldr r7,[sp],#4
+ 432              	.LCFI29:
+ 433              	 .cfi_restore 7
+ 434              	 .cfi_def_cfa_offset 0
+ 435 004c 7047     	 bx lr
+ 436              	.L25:
+ 437 004e 00BF     	 .align 2
+ 438              	.L24:
+ 439 0050 00000000 	 .word armBitRevIndexTableF64_256
+ 440 0054 00000000 	 .word twiddleCoefF64_256
+ 441 0058 00000000 	 .word twiddleCoefF64_rfft_512
+ 442              	 .cfi_endproc
+ 443              	.LFE153:
+ 445              	 .section .text.arm_rfft_1024_fast_init_f64,"ax",%progbits
+ 446              	 .align 2
+ 447              	 .thumb
+ 448              	 .thumb_func
+ 450              	arm_rfft_1024_fast_init_f64:
+ 451              	.LFB154:
+ 184:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 185:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 186:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 187:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** /**
+ 188:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @brief         Initialization function for the 1024pt Double Precision floating-point real FFT.
+ 189:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @param[in,out] S  points to an arm_rfft_fast_instance_f64 structure
+ 190:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @return        execution status
+ 191:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_SUCCESS        : Operation successful
+ 192:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_ARGUMENT_ERROR : an error is detected
+ 193:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  */
+ 194:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 195:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** static arm_status arm_rfft_1024_fast_init_f64( arm_rfft_fast_instance_f64 * S ) {
+ 452              	 .loc 1 195 0
+ 453              	 .cfi_startproc
+ 454              	 
+ 455              	 
+ 456              	 
+ 457 0000 80B4     	 push {r7}
+ 458              	.LCFI30:
+ 459              	 .cfi_def_cfa_offset 4
+ 460              	 .cfi_offset 7,-4
+ 461 0002 85B0     	 sub sp,sp,#20
+ 462              	.LCFI31:
+ 463              	 .cfi_def_cfa_offset 24
+ 464 0004 00AF     	 add r7,sp,#0
+ 465              	.LCFI32:
+ 466              	 .cfi_def_cfa_register 7
+ 467 0006 7860     	 str r0,[r7,#4]
+ 196:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 197:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   arm_cfft_instance_f64 * Sint;
+ 198:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 199:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   if( !S ) return ARM_MATH_ARGUMENT_ERROR;
+ 468              	 .loc 1 199 0
+ 469 0008 7B68     	 ldr r3,[r7,#4]
+ 470 000a 002B     	 cmp r3,#0
+ 471 000c 01D1     	 bne .L27
+ 472              	 .loc 1 199 0 is_stmt 0 discriminator 1
+ 473 000e FF23     	 movs r3,#255
+ 474 0010 17E0     	 b .L28
+ 475              	.L27:
+ 200:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 201:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint = &(S->Sint);
+ 476              	 .loc 1 201 0 is_stmt 1
+ 477 0012 7B68     	 ldr r3,[r7,#4]
+ 478 0014 FB60     	 str r3,[r7,#12]
+ 202:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->fftLen = 512U;
+ 479              	 .loc 1 202 0
+ 480 0016 FB68     	 ldr r3,[r7,#12]
+ 481 0018 4FF40072 	 mov r2,#512
+ 482 001c 1A80     	 strh r2,[r3]
+ 203:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->fftLenRFFT = 1024U;
+ 483              	 .loc 1 203 0
+ 484 001e 7B68     	 ldr r3,[r7,#4]
+ 485 0020 4FF48062 	 mov r2,#1024
+ 486 0024 1A82     	 strh r2,[r3,#16]
+ 204:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 205:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->bitRevLength = ARMBITREVINDEXTABLEF64_512_TABLE_LENGTH;
+ 487              	 .loc 1 205 0
+ 488 0026 FB68     	 ldr r3,[r7,#12]
+ 489 0028 4FF4F072 	 mov r2,#480
+ 490 002c 9A81     	 strh r2,[r3,#12]
+ 206:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pBitRevTable = (uint16_t *)armBitRevIndexTableF64_512;
+ 491              	 .loc 1 206 0
+ 492 002e FB68     	 ldr r3,[r7,#12]
+ 493 0030 074A     	 ldr r2,.L29
+ 494 0032 9A60     	 str r2,[r3,#8]
+ 207:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pTwiddle     = (float64_t *) twiddleCoefF64_512;
+ 495              	 .loc 1 207 0
+ 496 0034 FB68     	 ldr r3,[r7,#12]
+ 497 0036 074A     	 ldr r2,.L29+4
+ 498 0038 5A60     	 str r2,[r3,#4]
+ 208:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->pTwiddleRFFT    = (float64_t *) twiddleCoefF64_rfft_1024;
+ 499              	 .loc 1 208 0
+ 500 003a 7B68     	 ldr r3,[r7,#4]
+ 501 003c 064A     	 ldr r2,.L29+8
+ 502 003e 5A61     	 str r2,[r3,#20]
+ 209:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 210:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   return ARM_MATH_SUCCESS;
+ 503              	 .loc 1 210 0
+ 504 0040 0023     	 movs r3,#0
+ 505              	.L28:
+ 506 0042 5BB2     	 sxtb r3,r3
+ 211:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** }
+ 507              	 .loc 1 211 0
+ 508 0044 1846     	 mov r0,r3
+ 509 0046 1437     	 adds r7,r7,#20
+ 510              	.LCFI33:
+ 511              	 .cfi_def_cfa_offset 4
+ 512 0048 BD46     	 mov sp,r7
+ 513              	.LCFI34:
+ 514              	 .cfi_def_cfa_register 13
+ 515              	 
+ 516 004a 5DF8047B 	 ldr r7,[sp],#4
+ 517              	.LCFI35:
+ 518              	 .cfi_restore 7
+ 519              	 .cfi_def_cfa_offset 0
+ 520 004e 7047     	 bx lr
+ 521              	.L30:
+ 522              	 .align 2
+ 523              	.L29:
+ 524 0050 00000000 	 .word armBitRevIndexTableF64_512
+ 525 0054 00000000 	 .word twiddleCoefF64_512
+ 526 0058 00000000 	 .word twiddleCoefF64_rfft_1024
+ 527              	 .cfi_endproc
+ 528              	.LFE154:
+ 530              	 .section .text.arm_rfft_2048_fast_init_f64,"ax",%progbits
+ 531              	 .align 2
+ 532              	 .thumb
+ 533              	 .thumb_func
+ 535              	arm_rfft_2048_fast_init_f64:
+ 536              	.LFB155:
+ 212:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 213:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 214:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 215:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** /**
+ 216:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @brief         Initialization function for the 2048pt Double Precision floating-point real FFT.
+ 217:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @param[in,out] S  points to an arm_rfft_fast_instance_f64 structure
+ 218:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @return        execution status
+ 219:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_SUCCESS        : Operation successful
+ 220:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_ARGUMENT_ERROR : an error is detected
+ 221:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  */
+ 222:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** static arm_status arm_rfft_2048_fast_init_f64( arm_rfft_fast_instance_f64 * S ) {
+ 537              	 .loc 1 222 0
+ 538              	 .cfi_startproc
+ 539              	 
+ 540              	 
+ 541              	 
+ 542 0000 80B4     	 push {r7}
+ 543              	.LCFI36:
+ 544              	 .cfi_def_cfa_offset 4
+ 545              	 .cfi_offset 7,-4
+ 546 0002 85B0     	 sub sp,sp,#20
+ 547              	.LCFI37:
+ 548              	 .cfi_def_cfa_offset 24
+ 549 0004 00AF     	 add r7,sp,#0
+ 550              	.LCFI38:
+ 551              	 .cfi_def_cfa_register 7
+ 552 0006 7860     	 str r0,[r7,#4]
+ 223:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 224:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   arm_cfft_instance_f64 * Sint;
+ 225:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 226:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   if( !S ) return ARM_MATH_ARGUMENT_ERROR;
+ 553              	 .loc 1 226 0
+ 554 0008 7B68     	 ldr r3,[r7,#4]
+ 555 000a 002B     	 cmp r3,#0
+ 556 000c 01D1     	 bne .L32
+ 557              	 .loc 1 226 0 is_stmt 0 discriminator 1
+ 558 000e FF23     	 movs r3,#255
+ 559 0010 17E0     	 b .L33
+ 560              	.L32:
+ 227:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 228:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint = &(S->Sint);
+ 561              	 .loc 1 228 0 is_stmt 1
+ 562 0012 7B68     	 ldr r3,[r7,#4]
+ 563 0014 FB60     	 str r3,[r7,#12]
+ 229:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->fftLen = 1024U;
+ 564              	 .loc 1 229 0
+ 565 0016 FB68     	 ldr r3,[r7,#12]
+ 566 0018 4FF48062 	 mov r2,#1024
+ 567 001c 1A80     	 strh r2,[r3]
+ 230:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->fftLenRFFT = 2048U;
+ 568              	 .loc 1 230 0
+ 569 001e 7B68     	 ldr r3,[r7,#4]
+ 570 0020 4FF40062 	 mov r2,#2048
+ 571 0024 1A82     	 strh r2,[r3,#16]
+ 231:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 232:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->bitRevLength = ARMBITREVINDEXTABLEF64_1024_TABLE_LENGTH;
+ 572              	 .loc 1 232 0
+ 573 0026 FB68     	 ldr r3,[r7,#12]
+ 574 0028 4FF47872 	 mov r2,#992
+ 575 002c 9A81     	 strh r2,[r3,#12]
+ 233:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pBitRevTable = (uint16_t *)armBitRevIndexTableF64_1024;
+ 576              	 .loc 1 233 0
+ 577 002e FB68     	 ldr r3,[r7,#12]
+ 578 0030 074A     	 ldr r2,.L34
+ 579 0032 9A60     	 str r2,[r3,#8]
+ 234:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pTwiddle     = (float64_t *) twiddleCoefF64_1024;
+ 580              	 .loc 1 234 0
+ 581 0034 FB68     	 ldr r3,[r7,#12]
+ 582 0036 074A     	 ldr r2,.L34+4
+ 583 0038 5A60     	 str r2,[r3,#4]
+ 235:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->pTwiddleRFFT    = (float64_t *) twiddleCoefF64_rfft_2048;
+ 584              	 .loc 1 235 0
+ 585 003a 7B68     	 ldr r3,[r7,#4]
+ 586 003c 064A     	 ldr r2,.L34+8
+ 587 003e 5A61     	 str r2,[r3,#20]
+ 236:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 237:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   return ARM_MATH_SUCCESS;
+ 588              	 .loc 1 237 0
+ 589 0040 0023     	 movs r3,#0
+ 590              	.L33:
+ 591 0042 5BB2     	 sxtb r3,r3
+ 238:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** }
+ 592              	 .loc 1 238 0
+ 593 0044 1846     	 mov r0,r3
+ 594 0046 1437     	 adds r7,r7,#20
+ 595              	.LCFI39:
+ 596              	 .cfi_def_cfa_offset 4
+ 597 0048 BD46     	 mov sp,r7
+ 598              	.LCFI40:
+ 599              	 .cfi_def_cfa_register 13
+ 600              	 
+ 601 004a 5DF8047B 	 ldr r7,[sp],#4
+ 602              	.LCFI41:
+ 603              	 .cfi_restore 7
+ 604              	 .cfi_def_cfa_offset 0
+ 605 004e 7047     	 bx lr
+ 606              	.L35:
+ 607              	 .align 2
+ 608              	.L34:
+ 609 0050 00000000 	 .word armBitRevIndexTableF64_1024
+ 610 0054 00000000 	 .word twiddleCoefF64_1024
+ 611 0058 00000000 	 .word twiddleCoefF64_rfft_2048
+ 612              	 .cfi_endproc
+ 613              	.LFE155:
+ 615              	 .section .text.arm_rfft_4096_fast_init_f64,"ax",%progbits
+ 616              	 .align 2
+ 617              	 .thumb
+ 618              	 .thumb_func
+ 620              	arm_rfft_4096_fast_init_f64:
+ 621              	.LFB156:
+ 239:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 240:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 241:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 242:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** /**
+ 243:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** * @brief         Initialization function for the 4096pt Double Precision floating-point real FFT.
+ 244:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** * @param[in,out] S  points to an arm_rfft_fast_instance_f64 structure
+ 245:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @return        execution status
+ 246:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_SUCCESS        : Operation successful
+ 247:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_ARGUMENT_ERROR : an error is detected
+ 248:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  */
+ 249:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 250:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** static arm_status arm_rfft_4096_fast_init_f64( arm_rfft_fast_instance_f64 * S ) {
+ 622              	 .loc 1 250 0
+ 623              	 .cfi_startproc
+ 624              	 
+ 625              	 
+ 626              	 
+ 627 0000 80B4     	 push {r7}
+ 628              	.LCFI42:
+ 629              	 .cfi_def_cfa_offset 4
+ 630              	 .cfi_offset 7,-4
+ 631 0002 85B0     	 sub sp,sp,#20
+ 632              	.LCFI43:
+ 633              	 .cfi_def_cfa_offset 24
+ 634 0004 00AF     	 add r7,sp,#0
+ 635              	.LCFI44:
+ 636              	 .cfi_def_cfa_register 7
+ 637 0006 7860     	 str r0,[r7,#4]
+ 251:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 252:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   arm_cfft_instance_f64 * Sint;
+ 253:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 254:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   if( !S ) return ARM_MATH_ARGUMENT_ERROR;
+ 638              	 .loc 1 254 0
+ 639 0008 7B68     	 ldr r3,[r7,#4]
+ 640 000a 002B     	 cmp r3,#0
+ 641 000c 01D1     	 bne .L37
+ 642              	 .loc 1 254 0 is_stmt 0 discriminator 1
+ 643 000e FF23     	 movs r3,#255
+ 644 0010 17E0     	 b .L38
+ 645              	.L37:
+ 255:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 256:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint = &(S->Sint);
+ 646              	 .loc 1 256 0 is_stmt 1
+ 647 0012 7B68     	 ldr r3,[r7,#4]
+ 648 0014 FB60     	 str r3,[r7,#12]
+ 257:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->fftLen = 2048U;
+ 649              	 .loc 1 257 0
+ 650 0016 FB68     	 ldr r3,[r7,#12]
+ 651 0018 4FF40062 	 mov r2,#2048
+ 652 001c 1A80     	 strh r2,[r3]
+ 258:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->fftLenRFFT = 4096U;
+ 653              	 .loc 1 258 0
+ 654 001e 7B68     	 ldr r3,[r7,#4]
+ 655 0020 4FF48052 	 mov r2,#4096
+ 656 0024 1A82     	 strh r2,[r3,#16]
+ 259:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 260:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->bitRevLength = ARMBITREVINDEXTABLEF64_2048_TABLE_LENGTH;
+ 657              	 .loc 1 260 0
+ 658 0026 FB68     	 ldr r3,[r7,#12]
+ 659 0028 4FF4F862 	 mov r2,#1984
+ 660 002c 9A81     	 strh r2,[r3,#12]
+ 261:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pBitRevTable = (uint16_t *)armBitRevIndexTableF64_2048;
+ 661              	 .loc 1 261 0
+ 662 002e FB68     	 ldr r3,[r7,#12]
+ 663 0030 074A     	 ldr r2,.L39
+ 664 0032 9A60     	 str r2,[r3,#8]
+ 262:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   Sint->pTwiddle     = (float64_t *) twiddleCoefF64_2048;
+ 665              	 .loc 1 262 0
+ 666 0034 FB68     	 ldr r3,[r7,#12]
+ 667 0036 074A     	 ldr r2,.L39+4
+ 668 0038 5A60     	 str r2,[r3,#4]
+ 263:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   S->pTwiddleRFFT    = (float64_t *) twiddleCoefF64_rfft_4096;
+ 669              	 .loc 1 263 0
+ 670 003a 7B68     	 ldr r3,[r7,#4]
+ 671 003c 064A     	 ldr r2,.L39+8
+ 672 003e 5A61     	 str r2,[r3,#20]
+ 264:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 265:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   return ARM_MATH_SUCCESS;
+ 673              	 .loc 1 265 0
+ 674 0040 0023     	 movs r3,#0
+ 675              	.L38:
+ 676 0042 5BB2     	 sxtb r3,r3
+ 266:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** }
+ 677              	 .loc 1 266 0
+ 678 0044 1846     	 mov r0,r3
+ 679 0046 1437     	 adds r7,r7,#20
+ 680              	.LCFI45:
+ 681              	 .cfi_def_cfa_offset 4
+ 682 0048 BD46     	 mov sp,r7
+ 683              	.LCFI46:
+ 684              	 .cfi_def_cfa_register 13
+ 685              	 
+ 686 004a 5DF8047B 	 ldr r7,[sp],#4
+ 687              	.LCFI47:
+ 688              	 .cfi_restore 7
+ 689              	 .cfi_def_cfa_offset 0
+ 690 004e 7047     	 bx lr
+ 691              	.L40:
+ 692              	 .align 2
+ 693              	.L39:
+ 694 0050 00000000 	 .word armBitRevIndexTableF64_2048
+ 695 0054 00000000 	 .word twiddleCoefF64_2048
+ 696 0058 00000000 	 .word twiddleCoefF64_rfft_4096
+ 697              	 .cfi_endproc
+ 698              	.LFE156:
+ 700              	 .section .text.arm_rfft_fast_init_f64,"ax",%progbits
+ 701              	 .align 2
+ 702              	 .global arm_rfft_fast_init_f64
+ 703              	 .thumb
+ 704              	 .thumb_func
+ 706              	arm_rfft_fast_init_f64:
+ 707              	.LFB157:
+ 267:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 268:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 269:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** /**
+ 270:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @brief         Initialization function for the Double Precision floating-point real FFT.
+ 271:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @param[in,out] S       points to an arm_rfft_fast_instance_f64 structure
+ 272:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @param[in]     fftLen  length of the Real Sequence
+ 273:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @return        execution status
+ 274:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_SUCCESS        : Operation successful
+ 275:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    - \ref ARM_MATH_ARGUMENT_ERROR : <code>fftLen</code> is not a supported length
+ 276:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 277:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @par           Description
+ 278:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    The parameter <code>fftLen</code> specifies the length of RFFT/CIFFT process.
+ 279:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    Supported FFT Lengths are 32, 64, 128, 256, 512, 1024, 2048, 4096.
+ 280:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   @par
+ 281:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****                    This Function also initializes Twiddle factor table pointer and Bit reversal tab
+ 282:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****  */
+ 283:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 284:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** arm_status arm_rfft_fast_init_f64(
+ 285:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   arm_rfft_fast_instance_f64 * S,
+ 286:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   uint16_t fftLen)
+ 287:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** {
+ 708              	 .loc 1 287 0
+ 709              	 .cfi_startproc
+ 710              	 
+ 711              	 
+ 712 0000 80B5     	 push {r7,lr}
+ 713              	.LCFI48:
+ 714              	 .cfi_def_cfa_offset 8
+ 715              	 .cfi_offset 7,-8
+ 716              	 .cfi_offset 14,-4
+ 717 0002 84B0     	 sub sp,sp,#16
+ 718              	.LCFI49:
+ 719              	 .cfi_def_cfa_offset 24
+ 720 0004 00AF     	 add r7,sp,#0
+ 721              	.LCFI50:
+ 722              	 .cfi_def_cfa_register 7
+ 723 0006 7860     	 str r0,[r7,#4]
+ 724 0008 0B46     	 mov r3,r1
+ 725 000a 7B80     	 strh r3,[r7,#2]
+ 288:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   typedef arm_status(*fft_init_ptr)( arm_rfft_fast_instance_f64 *);
+ 289:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   fft_init_ptr fptr = 0x0;
+ 726              	 .loc 1 289 0
+ 727 000c 0023     	 movs r3,#0
+ 728 000e FB60     	 str r3,[r7,#12]
+ 290:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 291:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   switch (fftLen)
+ 729              	 .loc 1 291 0
+ 730 0010 7B88     	 ldrh r3,[r7,#2]
+ 731 0012 B3F5807F 	 cmp r3,#256
+ 732 0016 25D0     	 beq .L43
+ 733 0018 B3F5807F 	 cmp r3,#256
+ 734 001c 06DC     	 bgt .L44
+ 735 001e 402B     	 cmp r3,#64
+ 736 0020 26D0     	 beq .L45
+ 737 0022 802B     	 cmp r3,#128
+ 738 0024 21D0     	 beq .L46
+ 739 0026 202B     	 cmp r3,#32
+ 740 0028 25D0     	 beq .L47
+ 741 002a 27E0     	 b .L42
+ 742              	.L44:
+ 743 002c B3F5806F 	 cmp r3,#1024
+ 744 0030 12D0     	 beq .L48
+ 745 0032 B3F5806F 	 cmp r3,#1024
+ 746 0036 03DC     	 bgt .L49
+ 747 0038 B3F5007F 	 cmp r3,#512
+ 748 003c 0FD0     	 beq .L50
+ 749 003e 1DE0     	 b .L42
+ 750              	.L49:
+ 751 0040 B3F5006F 	 cmp r3,#2048
+ 752 0044 05D0     	 beq .L51
+ 753 0046 B3F5805F 	 cmp r3,#4096
+ 754 004a 17D1     	 bne .L42
+ 292:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   {
+ 293:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 294:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   case 4096U:
+ 295:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     fptr = arm_rfft_4096_fast_init_f64;
+ 755              	 .loc 1 295 0
+ 756 004c 134B     	 ldr r3,.L56
+ 757 004e FB60     	 str r3,[r7,#12]
+ 296:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     break;
+ 758              	 .loc 1 296 0
+ 759 0050 16E0     	 b .L53
+ 760              	.L51:
+ 297:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 298:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 299:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   case 2048U:
+ 300:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     fptr = arm_rfft_2048_fast_init_f64;
+ 761              	 .loc 1 300 0
+ 762 0052 134B     	 ldr r3,.L56+4
+ 763 0054 FB60     	 str r3,[r7,#12]
+ 301:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     break;
+ 764              	 .loc 1 301 0
+ 765 0056 13E0     	 b .L53
+ 766              	.L48:
+ 302:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 303:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 304:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   case 1024U:
+ 305:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     fptr = arm_rfft_1024_fast_init_f64;
+ 767              	 .loc 1 305 0
+ 768 0058 124B     	 ldr r3,.L56+8
+ 769 005a FB60     	 str r3,[r7,#12]
+ 306:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     break;
+ 770              	 .loc 1 306 0
+ 771 005c 10E0     	 b .L53
+ 772              	.L50:
+ 307:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 308:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 309:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   case 512U:
+ 310:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     fptr = arm_rfft_512_fast_init_f64;
+ 773              	 .loc 1 310 0
+ 774 005e 124B     	 ldr r3,.L56+12
+ 775 0060 FB60     	 str r3,[r7,#12]
+ 311:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     break;
+ 776              	 .loc 1 311 0
+ 777 0062 0DE0     	 b .L53
+ 778              	.L43:
+ 312:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 313:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 314:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   case 256U:
+ 315:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     fptr = arm_rfft_256_fast_init_f64;
+ 779              	 .loc 1 315 0
+ 780 0064 114B     	 ldr r3,.L56+16
+ 781 0066 FB60     	 str r3,[r7,#12]
+ 316:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     break;
+ 782              	 .loc 1 316 0
+ 783 0068 0AE0     	 b .L53
+ 784              	.L46:
+ 317:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 318:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 319:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   case 128U:
+ 320:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     fptr = arm_rfft_128_fast_init_f64;
+ 785              	 .loc 1 320 0
+ 786 006a 114B     	 ldr r3,.L56+20
+ 787 006c FB60     	 str r3,[r7,#12]
+ 321:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     break;
+ 788              	 .loc 1 321 0
+ 789 006e 07E0     	 b .L53
+ 790              	.L45:
+ 322:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 323:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 324:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   case 64U:
+ 325:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     fptr = arm_rfft_64_fast_init_f64;
+ 791              	 .loc 1 325 0
+ 792 0070 104B     	 ldr r3,.L56+24
+ 793 0072 FB60     	 str r3,[r7,#12]
+ 326:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     break;
+ 794              	 .loc 1 326 0
+ 795 0074 04E0     	 b .L53
+ 796              	.L47:
+ 327:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 328:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 329:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   case 32U:
+ 330:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     fptr = arm_rfft_32_fast_init_f64;
+ 797              	 .loc 1 330 0
+ 798 0076 104B     	 ldr r3,.L56+28
+ 799 0078 FB60     	 str r3,[r7,#12]
+ 331:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     break;
+ 800              	 .loc 1 331 0
+ 801 007a 01E0     	 b .L53
+ 802              	.L42:
+ 332:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** #endif
+ 333:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   default:
+ 334:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****     return ARM_MATH_ARGUMENT_ERROR;
+ 803              	 .loc 1 334 0
+ 804 007c FF23     	 movs r3,#255
+ 805 007e 08E0     	 b .L54
+ 806              	.L53:
+ 335:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   }
+ 336:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 337:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   if( ! fptr ) return ARM_MATH_ARGUMENT_ERROR;
+ 807              	 .loc 1 337 0
+ 808 0080 FB68     	 ldr r3,[r7,#12]
+ 809 0082 002B     	 cmp r3,#0
+ 810 0084 01D1     	 bne .L55
+ 811              	 .loc 1 337 0 is_stmt 0 discriminator 1
+ 812 0086 FF23     	 movs r3,#255
+ 813 0088 03E0     	 b .L54
+ 814              	.L55:
+ 338:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c ****   return fptr( S );
+ 815              	 .loc 1 338 0 is_stmt 1
+ 816 008a FB68     	 ldr r3,[r7,#12]
+ 817 008c 7868     	 ldr r0,[r7,#4]
+ 818 008e 9847     	 blx r3
+ 819 0090 0346     	 mov r3,r0
+ 820              	.L54:
+ 821 0092 5BB2     	 sxtb r3,r3
+ 339:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** 
+ 340:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_fast_init_f64.c **** }
+ 822              	 .loc 1 340 0
+ 823 0094 1846     	 mov r0,r3
+ 824 0096 1037     	 adds r7,r7,#16
+ 825              	.LCFI51:
+ 826              	 .cfi_def_cfa_offset 8
+ 827 0098 BD46     	 mov sp,r7
+ 828              	.LCFI52:
+ 829              	 .cfi_def_cfa_register 13
+ 830              	 
+ 831 009a 80BD     	 pop {r7,pc}
+ 832              	.L57:
+ 833              	 .align 2
+ 834              	.L56:
+ 835 009c 00000000 	 .word arm_rfft_4096_fast_init_f64
+ 836 00a0 00000000 	 .word arm_rfft_2048_fast_init_f64
+ 837 00a4 00000000 	 .word arm_rfft_1024_fast_init_f64
+ 838 00a8 00000000 	 .word arm_rfft_512_fast_init_f64
+ 839 00ac 00000000 	 .word arm_rfft_256_fast_init_f64
+ 840 00b0 00000000 	 .word arm_rfft_128_fast_init_f64
+ 841 00b4 00000000 	 .word arm_rfft_64_fast_init_f64
+ 842 00b8 00000000 	 .word arm_rfft_32_fast_init_f64
+ 843              	 .cfi_endproc
+ 844              	.LFE157:
+ 846              	 .text
+ 847              	.Letext0:
+ 848              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 849              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 850              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 851              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+ 852              	 .file 6 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_common_tables.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_rfft_fast_init_f64.c
+    {standard input}:20     .text.arm_rfft_32_fast_init_f64:00000000 $t
+    {standard input}:24     .text.arm_rfft_32_fast_init_f64:00000000 arm_rfft_32_fast_init_f64
+    {standard input}:99     .text.arm_rfft_32_fast_init_f64:0000004c $d
+    {standard input}:106    .text.arm_rfft_64_fast_init_f64:00000000 $t
+    {standard input}:110    .text.arm_rfft_64_fast_init_f64:00000000 arm_rfft_64_fast_init_f64
+    {standard input}:184    .text.arm_rfft_64_fast_init_f64:0000004c $d
+    {standard input}:191    .text.arm_rfft_128_fast_init_f64:00000000 $t
+    {standard input}:195    .text.arm_rfft_128_fast_init_f64:00000000 arm_rfft_128_fast_init_f64
+    {standard input}:269    .text.arm_rfft_128_fast_init_f64:0000004c $d
+    {standard input}:276    .text.arm_rfft_256_fast_init_f64:00000000 $t
+    {standard input}:280    .text.arm_rfft_256_fast_init_f64:00000000 arm_rfft_256_fast_init_f64
+    {standard input}:354    .text.arm_rfft_256_fast_init_f64:0000004c $d
+    {standard input}:361    .text.arm_rfft_512_fast_init_f64:00000000 $t
+    {standard input}:365    .text.arm_rfft_512_fast_init_f64:00000000 arm_rfft_512_fast_init_f64
+    {standard input}:439    .text.arm_rfft_512_fast_init_f64:00000050 $d
+    {standard input}:446    .text.arm_rfft_1024_fast_init_f64:00000000 $t
+    {standard input}:450    .text.arm_rfft_1024_fast_init_f64:00000000 arm_rfft_1024_fast_init_f64
+    {standard input}:524    .text.arm_rfft_1024_fast_init_f64:00000050 $d
+    {standard input}:531    .text.arm_rfft_2048_fast_init_f64:00000000 $t
+    {standard input}:535    .text.arm_rfft_2048_fast_init_f64:00000000 arm_rfft_2048_fast_init_f64
+    {standard input}:609    .text.arm_rfft_2048_fast_init_f64:00000050 $d
+    {standard input}:616    .text.arm_rfft_4096_fast_init_f64:00000000 $t
+    {standard input}:620    .text.arm_rfft_4096_fast_init_f64:00000000 arm_rfft_4096_fast_init_f64
+    {standard input}:694    .text.arm_rfft_4096_fast_init_f64:00000050 $d
+    {standard input}:701    .text.arm_rfft_fast_init_f64:00000000 $t
+    {standard input}:706    .text.arm_rfft_fast_init_f64:00000000 arm_rfft_fast_init_f64
+    {standard input}:835    .text.arm_rfft_fast_init_f64:0000009c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+armBitRevIndexTableF64_16
+twiddleCoefF64_16
+twiddleCoefF64_rfft_32
+armBitRevIndexTableF64_32
+twiddleCoefF64_32
+twiddleCoefF64_rfft_64
+armBitRevIndexTableF64_64
+twiddleCoefF64_64
+twiddleCoefF64_rfft_128
+armBitRevIndexTableF64_128
+twiddleCoefF64_128
+twiddleCoefF64_rfft_256
+armBitRevIndexTableF64_256
+twiddleCoefF64_256
+twiddleCoefF64_rfft_512
+armBitRevIndexTableF64_512
+twiddleCoefF64_512
+twiddleCoefF64_rfft_1024
+armBitRevIndexTableF64_1024
+twiddleCoefF64_1024
+twiddleCoefF64_rfft_2048
+armBitRevIndexTableF64_2048
+twiddleCoefF64_2048
+twiddleCoefF64_rfft_4096

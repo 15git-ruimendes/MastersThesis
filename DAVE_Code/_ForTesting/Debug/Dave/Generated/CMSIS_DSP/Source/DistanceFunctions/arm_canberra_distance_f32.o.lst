@@ -1,0 +1,348 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_canberra_distance_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_canberra_distance_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_canberra_distance_f32
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_canberra_distance_f32:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+   2:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** /* ----------------------------------------------------------------------
+   3:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * Project:      CMSIS DSP Library
+   4:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * Title:        arm_canberra_distance_f32.c
+   5:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * Description:  Canberra distance between two vectors
+   6:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  *
+   7:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  *
+   8:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * Target Processor: Cortex-M cores
+   9:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * -------------------------------------------------------------------- */
+  10:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** /*
+  11:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  12:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  *
+  13:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  14:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  *
+  15:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  16:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * not use this file except in compliance with the License.
+  17:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * You may obtain a copy of the License at
+  18:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  *
+  19:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  20:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  *
+  21:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  22:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  23:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  24:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * See the License for the specific language governing permissions and
+  25:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * limitations under the License.
+  26:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  */
+  27:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  28:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  29:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** #include <limits.h>
+  30:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** #include <math.h>
+  31:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  32:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  33:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** /**
+  34:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****   @addtogroup FloatDist
+  35:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****   @{
+  36:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  */
+  37:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  38:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  39:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** /**
+  40:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * @brief        Canberra distance between two vectors
+  41:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  *
+  42:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * This function may divide by zero when samples pA[i] and pB[i] are both zero.
+  43:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * The result of the computation will be correct. So the division per zero may be
+  44:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * ignored.
+  45:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  *
+  46:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * @param[in]    pA         First vector
+  47:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * @param[in]    pB         Second vector
+  48:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * @param[in]    blockSize  vector length
+  49:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  * @return distance
+  50:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  *
+  51:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****  */
+  52:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  53:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
+  54:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  55:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** #include "CMSIS_DSP/Include/arm_helium_utils.h"
+  56:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** #include "CMSIS_DSP/Include/arm_vec_math.h"
+  57:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  58:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** float32_t arm_canberra_distance_f32(const float32_t *pA,const float32_t *pB, uint32_t blockSize)
+  59:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** {
+  60:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****     float32_t       accum = 0.0f;
+  61:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****     uint32_t         blkCnt;
+  62:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****     f32x4_t         a, b, c, accumV;
+  63:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  64:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****     accumV = vdupq_n_f32(0.0f);
+  65:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  66:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****     blkCnt = blockSize >> 2;
+  67:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****     while (blkCnt > 0) {
+  68:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vld1q(pA);
+  69:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         b = vld1q(pB);
+  70:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  71:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         c = vabdq(a, b);
+  72:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  73:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vabsq(a);
+  74:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         b = vabsq(b);
+  75:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vaddq(a, b);
+  76:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  77:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         /* 
+  78:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          * May divide by zero when a and b have both the same lane at zero.
+  79:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          */
+  80:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vrecip_medprec_f32(a);
+  81:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  82:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         /*
+  83:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          * Force result of a division by 0 to 0. It the behavior of the
+  84:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          * sklearn canberra function.
+  85:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          */
+  86:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vdupq_m_n_f32(a, 0.0f, vcmpeqq(a, 0.0f));
+  87:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         c = vmulq(c, a);
+  88:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         accumV = vaddq(accumV, c);
+  89:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  90:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         pA += 4;
+  91:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         pB += 4;
+  92:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         blkCnt--;
+  93:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****     }
+  94:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  95:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****     blkCnt = blockSize & 3;
+  96:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****     if (blkCnt > 0U) {
+  97:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         mve_pred16_t    p0 = vctp32q(blkCnt);
+  98:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+  99:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vldrwq_z_f32(pA, p0);
+ 100:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         b = vldrwq_z_f32(pB, p0);
+ 101:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 102:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         c = vabdq(a, b);
+ 103:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 104:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vabsq(a);
+ 105:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         b = vabsq(b);
+ 106:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vaddq(a, b);
+ 107:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 108:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         /* 
+ 109:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          * May divide by zero when a and b have both the same lane at zero.
+ 110:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          */
+ 111:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vrecip_medprec_f32(a);
+ 112:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 113:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         /*
+ 114:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          * Force result of a division by 0 to 0. It the behavior of the
+ 115:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          * sklearn canberra function.
+ 116:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          */
+ 117:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vdupq_m_n_f32(a, 0.0f, vcmpeqq(a, 0.0f));
+ 118:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         c = vmulq(c, a);
+ 119:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         accumV = vaddq_m(accumV, accumV, c, p0);
+ 120:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****     }
+ 121:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 122:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****     accum = vecAddAcrossF32Mve(accumV);
+ 123:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 124:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****     return (accum);
+ 125:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** }
+ 126:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 127:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** #else
+ 128:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** #if defined(ARM_MATH_NEON)
+ 129:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 130:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** #include "NEMath.h"
+ 131:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 132:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** float32_t arm_canberra_distance_f32(const float32_t *pA,const float32_t *pB, uint32_t blockSize)
+ 133:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** {
+ 134:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    float32_t accum=0.0f, tmpA, tmpB,diff,sum;
+ 135:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    uint32_t blkCnt;
+ 136:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    float32x4_t a,b,c,accumV;
+ 137:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    float32x2_t accumV2;
+ 138:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    uint32x4_t   isZeroV;
+ 139:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    float32x4_t zeroV = vdupq_n_f32(0.0f);
+ 140:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 141:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    accumV = vdupq_n_f32(0.0f);
+ 142:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 143:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    blkCnt = blockSize >> 2;
+ 144:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    while(blkCnt > 0)
+ 145:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    {
+ 146:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vld1q_f32(pA);
+ 147:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         b = vld1q_f32(pB);
+ 148:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 149:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         c = vabdq_f32(a,b);
+ 150:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 151:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vabsq_f32(a);
+ 152:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         b = vabsq_f32(b);
+ 153:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vaddq_f32(a,b);
+ 154:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         isZeroV = vceqq_f32(a,zeroV);
+ 155:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 156:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         /* 
+ 157:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          * May divide by zero when a and b have both the same lane at zero.
+ 158:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          */
+ 159:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vinvq_f32(a);
+ 160:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         
+ 161:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         /*
+ 162:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          * Force result of a division by 0 to 0. It the behavior of the
+ 163:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          * sklearn canberra function.
+ 164:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          */
+ 165:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         a = vreinterpretq_f32_s32(vbicq_s32(vreinterpretq_s32_f32(a),vreinterpretq_s32_u32(isZeroV)
+ 166:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         c = vmulq_f32(c,a);
+ 167:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         accumV = vaddq_f32(accumV,c);
+ 168:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 169:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         pA += 4;
+ 170:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         pB += 4;
+ 171:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****         blkCnt --;
+ 172:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    }
+ 173:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    accumV2 = vpadd_f32(vget_low_f32(accumV),vget_high_f32(accumV));
+ 174:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    accum = vget_lane_f32(accumV2, 0) + vget_lane_f32(accumV2, 1);
+ 175:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 176:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 177:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    blkCnt = blockSize & 3;
+ 178:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    while(blkCnt > 0)
+ 179:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    {
+ 180:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       tmpA = *pA++;
+ 181:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       tmpB = *pB++;
+ 182:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 183:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       diff = fabsf(tmpA - tmpB);
+ 184:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       sum = fabsf(tmpA) + fabsf(tmpB);
+ 185:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       if ((tmpA != 0.0f) || (tmpB != 0.0f))
+ 186:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       {
+ 187:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          accum += (diff / sum);
+ 188:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       }
+ 189:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       blkCnt --;
+ 190:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    }
+ 191:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    return(accum);
+ 192:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** }
+ 193:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 194:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** #else
+ 195:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** float32_t arm_canberra_distance_f32(const float32_t *pA,const float32_t *pB, uint32_t blockSize)
+ 196:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** {
+  28              	 .loc 1 196 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 8BB0     	 sub sp,sp,#44
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 48
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 F860     	 str r0,[r7,#12]
+  44 0008 B960     	 str r1,[r7,#8]
+  45 000a 7A60     	 str r2,[r7,#4]
+ 197:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    float32_t accum=0.0f, tmpA, tmpB,diff,sum;
+  46              	 .loc 1 197 0
+  47 000c 4FF00003 	 mov r3,#0
+  48 0010 7B62     	 str r3,[r7,#36]
+ 198:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 199:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    while(blockSize > 0)
+  49              	 .loc 1 199 0
+  50 0012 3CE0     	 b .L2
+  51              	.L5:
+ 200:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    {
+ 201:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       tmpA = *pA++;
+  52              	 .loc 1 201 0
+  53 0014 FB68     	 ldr r3,[r7,#12]
+  54 0016 1A1D     	 adds r2,r3,#4
+  55 0018 FA60     	 str r2,[r7,#12]
+  56 001a 1B68     	 ldr r3,[r3]
+  57 001c 3B62     	 str r3,[r7,#32]
+ 202:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       tmpB = *pB++;
+  58              	 .loc 1 202 0
+  59 001e BB68     	 ldr r3,[r7,#8]
+  60 0020 1A1D     	 adds r2,r3,#4
+  61 0022 BA60     	 str r2,[r7,#8]
+  62 0024 1B68     	 ldr r3,[r3]
+  63 0026 FB61     	 str r3,[r7,#28]
+ 203:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** 
+ 204:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       diff = fabsf(tmpA - tmpB);
+  64              	 .loc 1 204 0
+  65 0028 97ED087A 	 flds s14,[r7,#32]
+  66 002c D7ED077A 	 flds s15,[r7,#28]
+  67 0030 77EE677A 	 fsubs s15,s14,s15
+  68 0034 F0EEE77A 	 fabss s15,s15
+  69 0038 C7ED067A 	 fsts s15,[r7,#24]
+ 205:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       sum = fabsf(tmpA) + fabsf(tmpB);
+  70              	 .loc 1 205 0
+  71 003c D7ED087A 	 flds s15,[r7,#32]
+  72 0040 B0EEE77A 	 fabss s14,s15
+  73 0044 D7ED077A 	 flds s15,[r7,#28]
+  74 0048 F0EEE77A 	 fabss s15,s15
+  75 004c 77EE277A 	 fadds s15,s14,s15
+  76 0050 C7ED057A 	 fsts s15,[r7,#20]
+ 206:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       if ((tmpA != 0.0f) || (tmpB != 0.0f))
+  77              	 .loc 1 206 0
+  78 0054 D7ED087A 	 flds s15,[r7,#32]
+  79 0058 F5EE407A 	 fcmpzs s15
+  80 005c F1EE10FA 	 fmstat
+  81 0060 06D1     	 bne .L3
+  82              	 .loc 1 206 0 is_stmt 0 discriminator 1
+  83 0062 D7ED077A 	 flds s15,[r7,#28]
+  84 0066 F5EE407A 	 fcmpzs s15
+  85 006a F1EE10FA 	 fmstat
+  86 006e 0BD0     	 beq .L4
+  87              	.L3:
+ 207:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       {
+ 208:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****          accum += (diff / sum);
+  88              	 .loc 1 208 0 is_stmt 1
+  89 0070 97ED067A 	 flds s14,[r7,#24]
+  90 0074 D7ED057A 	 flds s15,[r7,#20]
+  91 0078 C7EE277A 	 fdivs s15,s14,s15
+  92 007c 97ED097A 	 flds s14,[r7,#36]
+  93 0080 77EE277A 	 fadds s15,s14,s15
+  94 0084 C7ED097A 	 fsts s15,[r7,#36]
+  95              	.L4:
+ 209:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       }
+ 210:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****       blockSize --;
+  96              	 .loc 1 210 0
+  97 0088 7B68     	 ldr r3,[r7,#4]
+  98 008a 013B     	 subs r3,r3,#1
+  99 008c 7B60     	 str r3,[r7,#4]
+ 100              	.L2:
+ 199:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    {
+ 101              	 .loc 1 199 0
+ 102 008e 7B68     	 ldr r3,[r7,#4]
+ 103 0090 002B     	 cmp r3,#0
+ 104 0092 BFD1     	 bne .L5
+ 211:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    }
+ 212:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c ****    return(accum);
+ 105              	 .loc 1 212 0
+ 106 0094 7B6A     	 ldr r3,[r7,#36]
+ 213:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_canberra_distance_f32.c **** }
+ 107              	 .loc 1 213 0
+ 108 0096 1846     	 mov r0,r3
+ 109 0098 2C37     	 adds r7,r7,#44
+ 110              	.LCFI3:
+ 111              	 .cfi_def_cfa_offset 4
+ 112 009a BD46     	 mov sp,r7
+ 113              	.LCFI4:
+ 114              	 .cfi_def_cfa_register 13
+ 115              	 
+ 116 009c 5DF8047B 	 ldr r7,[sp],#4
+ 117              	.LCFI5:
+ 118              	 .cfi_restore 7
+ 119              	 .cfi_def_cfa_offset 0
+ 120 00a0 7047     	 bx lr
+ 121              	 .cfi_endproc
+ 122              	.LFE149:
+ 124 00a2 00BF     	 .text
+ 125              	.Letext0:
+ 126              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 127              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 128              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 129              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_canberra_distance_f32.c
+    {standard input}:20     .text.arm_canberra_distance_f32:00000000 $t
+    {standard input}:25     .text.arm_canberra_distance_f32:00000000 arm_canberra_distance_f32
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

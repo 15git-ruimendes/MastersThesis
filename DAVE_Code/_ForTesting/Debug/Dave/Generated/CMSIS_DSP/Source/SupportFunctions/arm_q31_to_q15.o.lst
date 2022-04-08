@@ -1,0 +1,278 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_q31_to_q15.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_q31_to_q15,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_q31_to_q15
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_q31_to_q15:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * Title:        arm_q31_to_q15.c
+   4:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * Description:  Converts the elements of the Q31 vector to Q15 vector
+   5:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * $Date:        18. March 2019
+   7:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * $Revision:    V1.6.0
+   8:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  *
+   9:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * Target Processor: Cortex-M cores
+  10:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * -------------------------------------------------------------------- */
+  11:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** /*
+  12:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  *
+  16:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * not use this file except in compliance with the License.
+  18:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * You may obtain a copy of the License at
+  19:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  *
+  22:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * See the License for the specific language governing permissions and
+  26:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  * limitations under the License.
+  27:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  */
+  28:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+  29:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  30:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+  31:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** /**
+  32:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   @ingroup groupSupport
+  33:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  */
+  34:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+  35:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** /**
+  36:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   @addtogroup q31_to_x
+  37:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   @{
+  38:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  */
+  39:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+  40:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** /**
+  41:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   @brief         Converts the elements of the Q31 vector to Q15 vector.
+  42:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   @param[in]     pSrc       points to the Q31 input vector
+  43:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   @param[out]    pDst       points to the Q15 output vector
+  44:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   @param[in]     blockSize  number of samples in each vector
+  45:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   @return        none
+  46:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+  47:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   @par           Details
+  48:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****                    The equation used for the conversion process is:
+  49:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   <pre>
+  50:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****       pDst[n] = (q15_t) pSrc[n] >> 16;   0 <= n < blockSize.
+  51:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   </pre>
+  52:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****  */
+  53:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #if defined(ARM_MATH_MVEI)
+  54:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** void arm_q31_to_q15(
+  55:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   const q31_t * pSrc,
+  56:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         q15_t * pDst,
+  57:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         uint32_t blockSize)
+  58:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** {
+  59:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     uint32_t  blkCnt;           /* loop counters */
+  60:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     q31x4x2_t tmp;
+  61:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     q15x8_t vecDst;
+  62:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     q31_t const *pSrcVec;
+  63:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+  64:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+  65:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     pSrcVec = (q31_t const *) pSrc;
+  66:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     blkCnt = blockSize >> 3;
+  67:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     while (blkCnt > 0U)
+  68:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     {
+  69:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         /* C = (q15_t) A >> 16 */
+  70:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         /* convert from q31 to q15 and then store the results in the destination buffer */
+  71:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         tmp = vld2q(pSrcVec);   
+  72:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         pSrcVec += 8;
+  73:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         vecDst = vshrnbq_n_s32(vecDst, tmp.val[0], 16);
+  74:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         vecDst = vshrntq_n_s32(vecDst, tmp.val[1], 16);
+  75:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         vst1q(pDst, vecDst);    
+  76:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         pDst += 8;
+  77:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         /*
+  78:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****          * Decrement the blockSize loop counter
+  79:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****          */
+  80:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         blkCnt--;
+  81:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     }
+  82:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+  83:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     /*
+  84:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****      * tail
+  85:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****      */
+  86:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     blkCnt = blockSize & 7;
+  87:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     while (blkCnt > 0U)
+  88:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     {
+  89:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****       /* C = (q15_t) (A >> 16) */
+  90:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   
+  91:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****       /* Convert from q31 to q15 and store result in destination buffer */
+  92:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****       *pDst++ = (q15_t) (*pSrcVec++ >> 16);
+  93:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   
+  94:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****       /* Decrement loop counter */
+  95:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****       blkCnt--;
+  96:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     }
+  97:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** }
+  98:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+  99:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #else
+ 100:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** void arm_q31_to_q15(
+ 101:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   const q31_t * pSrc,
+ 102:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         q15_t * pDst,
+ 103:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         uint32_t blockSize)
+ 104:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** {
+  28              	 .loc 1 104 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 87B0     	 sub sp,sp,#28
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 32
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 F860     	 str r0,[r7,#12]
+  44 0008 B960     	 str r1,[r7,#8]
+  45 000a 7A60     	 str r2,[r7,#4]
+ 105:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         uint32_t blkCnt;                               /* Loop counter */
+ 106:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   const q31_t *pIn = pSrc;                             /* Source pointer */
+  46              	 .loc 1 106 0
+  47 000c FB68     	 ldr r3,[r7,#12]
+  48 000e 3B61     	 str r3,[r7,#16]
+ 107:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 108:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #if defined (ARM_MATH_LOOPUNROLL) && defined (ARM_MATH_DSP)
+ 109:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         q31_t in1, in2, in3, in4;
+ 110:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****         q31_t out1, out2;
+ 111:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #endif
+ 112:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 113:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #if defined (ARM_MATH_LOOPUNROLL)
+ 114:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 115:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   /* Loop unrolling: Compute 4 outputs at a time */
+ 116:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   blkCnt = blockSize >> 2U;
+ 117:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 118:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   while (blkCnt > 0U)
+ 119:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   {
+ 120:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     /* C = (q15_t) (A >> 16) */
+ 121:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 122:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     /* Convert from q31 to q15 and store result in destination buffer */
+ 123:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #if defined (ARM_MATH_DSP)
+ 124:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 125:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     in1 = *pIn++;
+ 126:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     in2 = *pIn++;
+ 127:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     in3 = *pIn++;
+ 128:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     in4 = *pIn++;
+ 129:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 130:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     /* pack two higher 16-bit values from two 32-bit values */
+ 131:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #ifndef ARM_MATH_BIG_ENDIAN
+ 132:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     out1 = __PKHTB(in2, in1, 16);
+ 133:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     out2 = __PKHTB(in4, in3, 16);
+ 134:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #else
+ 135:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     out1 = __PKHTB(in1, in2, 16);
+ 136:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     out2 = __PKHTB(in3, in4, 16);
+ 137:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #endif /* #ifdef ARM_MATH_BIG_ENDIAN */
+ 138:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 139:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     write_q15x2_ia (&pDst, out1);
+ 140:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     write_q15x2_ia (&pDst, out2);
+ 141:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 142:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #else
+ 143:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 144:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     *pDst++ = (q15_t) (*pIn++ >> 16);
+ 145:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     *pDst++ = (q15_t) (*pIn++ >> 16);
+ 146:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     *pDst++ = (q15_t) (*pIn++ >> 16);
+ 147:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     *pDst++ = (q15_t) (*pIn++ >> 16);
+ 148:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 149:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 150:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 151:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     /* Decrement loop counter */
+ 152:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     blkCnt--;
+ 153:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   }
+ 154:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 155:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   /* Loop unrolling: Compute remaining outputs */
+ 156:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   blkCnt = blockSize % 0x4U;
+ 157:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 158:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #else
+ 159:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 160:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   /* Initialize blkCnt with number of samples */
+ 161:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   blkCnt = blockSize;
+  49              	 .loc 1 161 0
+  50 0010 7B68     	 ldr r3,[r7,#4]
+  51 0012 7B61     	 str r3,[r7,#20]
+ 162:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 163:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** #endif /* #if defined (ARM_MATH_LOOPUNROLL) */
+ 164:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 165:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   while (blkCnt > 0U)
+  52              	 .loc 1 165 0
+  53 0014 0CE0     	 b .L2
+  54              	.L3:
+ 166:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   {
+ 167:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     /* C = (q15_t) (A >> 16) */
+ 168:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 169:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     /* Convert from q31 to q15 and store result in destination buffer */
+ 170:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     *pDst++ = (q15_t) (*pIn++ >> 16);
+  55              	 .loc 1 170 0
+  56 0016 BB68     	 ldr r3,[r7,#8]
+  57 0018 9A1C     	 adds r2,r3,#2
+  58 001a BA60     	 str r2,[r7,#8]
+  59 001c 3A69     	 ldr r2,[r7,#16]
+  60 001e 111D     	 adds r1,r2,#4
+  61 0020 3961     	 str r1,[r7,#16]
+  62 0022 1268     	 ldr r2,[r2]
+  63 0024 1214     	 asrs r2,r2,#16
+  64 0026 92B2     	 uxth r2,r2
+  65 0028 1A80     	 strh r2,[r3]
+ 171:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 172:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     /* Decrement loop counter */
+ 173:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****     blkCnt--;
+  66              	 .loc 1 173 0
+  67 002a 7B69     	 ldr r3,[r7,#20]
+  68 002c 013B     	 subs r3,r3,#1
+  69 002e 7B61     	 str r3,[r7,#20]
+  70              	.L2:
+ 165:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   {
+  71              	 .loc 1 165 0
+  72 0030 7B69     	 ldr r3,[r7,#20]
+  73 0032 002B     	 cmp r3,#0
+  74 0034 EFD1     	 bne .L3
+ 174:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c ****   }
+ 175:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** 
+ 176:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_q31_to_q15.c **** }
+  75              	 .loc 1 176 0
+  76 0036 1C37     	 adds r7,r7,#28
+  77              	.LCFI3:
+  78              	 .cfi_def_cfa_offset 4
+  79 0038 BD46     	 mov sp,r7
+  80              	.LCFI4:
+  81              	 .cfi_def_cfa_register 13
+  82              	 
+  83 003a 5DF8047B 	 ldr r7,[sp],#4
+  84              	.LCFI5:
+  85              	 .cfi_restore 7
+  86              	 .cfi_def_cfa_offset 0
+  87 003e 7047     	 bx lr
+  88              	 .cfi_endproc
+  89              	.LFE149:
+  91              	 .text
+  92              	.Letext0:
+  93              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+  94              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+  95              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+  96              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_q31_to_q15.c
+    {standard input}:20     .text.arm_q31_to_q15:00000000 $t
+    {standard input}:25     .text.arm_q31_to_q15:00000000 arm_q31_to_q15
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

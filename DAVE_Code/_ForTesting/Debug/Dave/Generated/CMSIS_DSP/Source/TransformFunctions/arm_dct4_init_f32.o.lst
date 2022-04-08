@@ -1,0 +1,322 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_dct4_init_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_dct4_init_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_dct4_init_f32
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_dct4_init_f32:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * Title:        arm_dct4_init_f32.c
+   4:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * Description:  Initialization function of DCT-4 & IDCT4 F32
+   5:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * $Date:        18. March 2019
+   7:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * $Revision:    V1.6.0
+   8:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  *
+   9:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * Target Processor: Cortex-M cores
+  10:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * -------------------------------------------------------------------- */
+  11:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** /*
+  12:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  *
+  16:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * not use this file except in compliance with the License.
+  18:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * You may obtain a copy of the License at
+  19:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  *
+  22:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * See the License for the specific language governing permissions and
+  26:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  * limitations under the License.
+  27:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  */
+  28:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  29:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  30:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** #include "CMSIS_DSP/Include/arm_common_tables.h"
+  31:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  32:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** /**
+  33:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   @ingroup groupTransforms
+  34:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  */
+  35:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  36:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  /**
+  37:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   @addtogroup DCT4_IDCT4
+  38:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   @{
+  39:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  */
+  40:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  41:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** /**
+  42:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   @brief         Initialization function for the floating-point DCT4/IDCT4.
+  43:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   @param[in,out] S          points to an instance of floating-point DCT4/IDCT4 structure
+  44:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   @param[in]     S_RFFT     points to an instance of floating-point RFFT/RIFFT structure
+  45:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   @param[in]     S_CFFT     points to an instance of floating-point CFFT/CIFFT structure
+  46:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   @param[in]     N			length of the DCT4
+  47:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   @param[in]     Nby2       half of the length of the DCT4
+  48:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   @param[in]     normalize  normalizing factor.
+  49:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   @return        execution status
+  50:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****                    - \ref ARM_MATH_SUCCESS        : Operation successful
+  51:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****                    - \ref ARM_MATH_ARGUMENT_ERROR : <code>N</code> is not a supported transform len
+  52:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  53:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   @par           Normalizing factor
+  54:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****                    The normalizing factor is <code>sqrt(2/N)</code>, which depends on the size of t
+  55:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****                    Floating-point normalizing factors are mentioned in the table below for differen
+  56:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  57:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****                    \image html dct4NormalizingF32Table.gif
+  58:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****  */
+  59:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  60:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** arm_status arm_dct4_init_f32(
+  61:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   arm_dct4_instance_f32 * S,
+  62:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   arm_rfft_instance_f32 * S_RFFT,
+  63:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   arm_cfft_radix4_instance_f32 * S_CFFT,
+  64:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   uint16_t N,
+  65:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   uint16_t Nby2,
+  66:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   float32_t normalize)
+  67:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** {
+  28              	 .loc 1 67 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32 0000 90B5     	 push {r4,r7,lr}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 12
+  35              	 .cfi_offset 4,-12
+  36              	 .cfi_offset 7,-8
+  37              	 .cfi_offset 14,-4
+  38 0002 89B0     	 sub sp,sp,#36
+  39              	.LCFI1:
+  40              	 .cfi_def_cfa_offset 48
+  41 0004 02AF     	 add r7,sp,#8
+  42              	.LCFI2:
+  43              	 .cfi_def_cfa 7,40
+  44 0006 F860     	 str r0,[r7,#12]
+  45 0008 B960     	 str r1,[r7,#8]
+  46 000a 7A60     	 str r2,[r7,#4]
+  47 000c 7B80     	 strh r3,[r7,#2]
+  68:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   /* Initialize the default arm status */
+  69:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   arm_status status = ARM_MATH_SUCCESS;
+  48              	 .loc 1 69 0
+  49 000e 0023     	 movs r3,#0
+  50 0010 FB75     	 strb r3,[r7,#23]
+  70:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  71:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  72:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   /* Initialize the DCT4 length */
+  73:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   S->N = N;
+  51              	 .loc 1 73 0
+  52 0012 FB68     	 ldr r3,[r7,#12]
+  53 0014 7A88     	 ldrh r2,[r7,#2]
+  54 0016 1A80     	 strh r2,[r3]
+  74:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  75:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   /* Initialize the half of DCT4 length */
+  76:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   S->Nby2 = Nby2;
+  55              	 .loc 1 76 0
+  56 0018 FB68     	 ldr r3,[r7,#12]
+  57 001a 3A8D     	 ldrh r2,[r7,#40]
+  58 001c 5A80     	 strh r2,[r3,#2]
+  77:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  78:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   /* Initialize the DCT4 Normalizing factor */
+  79:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   S->normalize = normalize;
+  59              	 .loc 1 79 0
+  60 001e FB68     	 ldr r3,[r7,#12]
+  61 0020 FA6A     	 ldr r2,[r7,#44]
+  62 0022 5A60     	 str r2,[r3,#4]
+  80:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  81:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   /* Initialize Real FFT Instance */
+  82:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   S->pRfft = S_RFFT;
+  63              	 .loc 1 82 0
+  64 0024 FB68     	 ldr r3,[r7,#12]
+  65 0026 BA68     	 ldr r2,[r7,#8]
+  66 0028 1A61     	 str r2,[r3,#16]
+  83:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  84:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   /* Initialize Complex FFT Instance */
+  85:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   S->pCfft = S_CFFT;
+  67              	 .loc 1 85 0
+  68 002a FB68     	 ldr r3,[r7,#12]
+  69 002c 7A68     	 ldr r2,[r7,#4]
+  70 002e 5A61     	 str r2,[r3,#20]
+  86:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  87:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   switch (N)
+  71              	 .loc 1 87 0
+  72 0030 7B88     	 ldrh r3,[r7,#2]
+  73 0032 B3F5007F 	 cmp r3,#512
+  74 0036 19D0     	 beq .L3
+  75 0038 B3F5007F 	 cmp r3,#512
+  76 003c 02DC     	 bgt .L4
+  77 003e 802B     	 cmp r3,#128
+  78 0040 1BD0     	 beq .L5
+  79 0042 21E0     	 b .L2
+  80              	.L4:
+  81 0044 B3F5006F 	 cmp r3,#2048
+  82 0048 09D0     	 beq .L6
+  83 004a B3F5005F 	 cmp r3,#8192
+  84 004e 1BD1     	 bne .L2
+  88:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   {
+  89:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_F32_
+  90:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     /* Initialize the table modifier values */
+  91:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   case 8192U:
+  92:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     S->pTwiddle = Weights_8192;
+  85              	 .loc 1 92 0
+  86 0050 FB68     	 ldr r3,[r7,#12]
+  87 0052 194A     	 ldr r2,.L10
+  88 0054 9A60     	 str r2,[r3,#8]
+  93:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     S->pCosFactor = cos_factors_8192;
+  89              	 .loc 1 93 0
+  90 0056 FB68     	 ldr r3,[r7,#12]
+  91 0058 184A     	 ldr r2,.L10+4
+  92 005a DA60     	 str r2,[r3,#12]
+  94:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     break;
+  93              	 .loc 1 94 0
+  94 005c 16E0     	 b .L8
+  95              	.L6:
+  95:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   #endif
+  96:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+  97:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_F32_
+  98:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   case 2048U:
+  99:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     S->pTwiddle = Weights_2048;
+  96              	 .loc 1 99 0
+  97 005e FB68     	 ldr r3,[r7,#12]
+  98 0060 174A     	 ldr r2,.L10+8
+  99 0062 9A60     	 str r2,[r3,#8]
+ 100:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     S->pCosFactor = cos_factors_2048;
+ 100              	 .loc 1 100 0
+ 101 0064 FB68     	 ldr r3,[r7,#12]
+ 102 0066 174A     	 ldr r2,.L10+12
+ 103 0068 DA60     	 str r2,[r3,#12]
+ 101:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     break;
+ 104              	 .loc 1 101 0
+ 105 006a 0FE0     	 b .L8
+ 106              	.L3:
+ 102:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   #endif
+ 103:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+ 104:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_F32_
+ 105:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   case 512U:
+ 106:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     S->pTwiddle = Weights_512;
+ 107              	 .loc 1 106 0
+ 108 006c FB68     	 ldr r3,[r7,#12]
+ 109 006e 164A     	 ldr r2,.L10+16
+ 110 0070 9A60     	 str r2,[r3,#8]
+ 107:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     S->pCosFactor = cos_factors_512;
+ 111              	 .loc 1 107 0
+ 112 0072 FB68     	 ldr r3,[r7,#12]
+ 113 0074 154A     	 ldr r2,.L10+20
+ 114 0076 DA60     	 str r2,[r3,#12]
+ 108:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     break;
+ 115              	 .loc 1 108 0
+ 116 0078 08E0     	 b .L8
+ 117              	.L5:
+ 109:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   #endif
+ 110:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+ 111:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_F32_
+ 112:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   case 128U:
+ 113:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     S->pTwiddle = Weights_128;
+ 118              	 .loc 1 113 0
+ 119 007a FB68     	 ldr r3,[r7,#12]
+ 120 007c 144A     	 ldr r2,.L10+24
+ 121 007e 9A60     	 str r2,[r3,#8]
+ 114:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     S->pCosFactor = cos_factors_128;
+ 122              	 .loc 1 114 0
+ 123 0080 FB68     	 ldr r3,[r7,#12]
+ 124 0082 144A     	 ldr r2,.L10+28
+ 125 0084 DA60     	 str r2,[r3,#12]
+ 115:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     break;
+ 126              	 .loc 1 115 0
+ 127 0086 01E0     	 b .L8
+ 128              	.L2:
+ 116:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   #endif
+ 117:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   default:
+ 118:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****     status = ARM_MATH_ARGUMENT_ERROR;
+ 129              	 .loc 1 118 0
+ 130 0088 FF23     	 movs r3,#255
+ 131 008a FB75     	 strb r3,[r7,#23]
+ 132              	.L8:
+ 119:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   }
+ 120:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+ 121:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   /* Initialize the RFFT/RIFFT Function */
+ 122:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   arm_rfft_init_f32(S->pRfft, S->pCfft, S->N, 0U, 1U);
+ 133              	 .loc 1 122 0
+ 134 008c FB68     	 ldr r3,[r7,#12]
+ 135 008e 1969     	 ldr r1,[r3,#16]
+ 136 0090 FB68     	 ldr r3,[r7,#12]
+ 137 0092 5A69     	 ldr r2,[r3,#20]
+ 138 0094 FB68     	 ldr r3,[r7,#12]
+ 139 0096 1B88     	 ldrh r3,[r3]
+ 140 0098 1C46     	 mov r4,r3
+ 141 009a 0123     	 movs r3,#1
+ 142 009c 0093     	 str r3,[sp]
+ 143 009e 0846     	 mov r0,r1
+ 144 00a0 1146     	 mov r1,r2
+ 145 00a2 2246     	 mov r2,r4
+ 146 00a4 0023     	 movs r3,#0
+ 147 00a6 FFF7FEFF 	 bl arm_rfft_init_f32
+ 123:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** 
+ 124:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   /* return the status of DCT4 Init function */
+ 125:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c ****   return (status);
+ 148              	 .loc 1 125 0
+ 149 00aa FB7D     	 ldrb r3,[r7,#23]
+ 150 00ac 5BB2     	 sxtb r3,r3
+ 126:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_dct4_init_f32.c **** }
+ 151              	 .loc 1 126 0
+ 152 00ae 1846     	 mov r0,r3
+ 153 00b0 1C37     	 adds r7,r7,#28
+ 154              	.LCFI3:
+ 155              	 .cfi_def_cfa_offset 12
+ 156 00b2 BD46     	 mov sp,r7
+ 157              	.LCFI4:
+ 158              	 .cfi_def_cfa_register 13
+ 159              	 
+ 160 00b4 90BD     	 pop {r4,r7,pc}
+ 161              	.L11:
+ 162 00b6 00BF     	 .align 2
+ 163              	.L10:
+ 164 00b8 00000000 	 .word Weights_8192
+ 165 00bc 00000000 	 .word cos_factors_8192
+ 166 00c0 00000000 	 .word Weights_2048
+ 167 00c4 00000000 	 .word cos_factors_2048
+ 168 00c8 00000000 	 .word Weights_512
+ 169 00cc 00000000 	 .word cos_factors_512
+ 170 00d0 00000000 	 .word Weights_128
+ 171 00d4 00000000 	 .word cos_factors_128
+ 172              	 .cfi_endproc
+ 173              	.LFE149:
+ 175              	 .text
+ 176              	.Letext0:
+ 177              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 178              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 179              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 180              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+ 181              	 .file 6 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_common_tables.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_dct4_init_f32.c
+    {standard input}:20     .text.arm_dct4_init_f32:00000000 $t
+    {standard input}:25     .text.arm_dct4_init_f32:00000000 arm_dct4_init_f32
+    {standard input}:164    .text.arm_dct4_init_f32:000000b8 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+arm_rfft_init_f32
+Weights_8192
+cos_factors_8192
+Weights_2048
+cos_factors_2048
+Weights_512
+cos_factors_512
+Weights_128
+cos_factors_128

@@ -1,0 +1,285 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "probe_com_os.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.ProbeCom_OS_Init,"ax",%progbits
+  20              	 .align 2
+  21              	 .global ProbeCom_OS_Init
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	ProbeCom_OS_Init:
+  26              	.LFB0:
+  27              	 .file 1 "../Dave/Generated/UCPROBE/probe_com_os.c"
+   1:../Dave/Generated/UCPROBE/probe_com_os.c **** /*
+   2:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+   3:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                       uC/Probe Communication
+   4:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+   5:../Dave/Generated/UCPROBE/probe_com_os.c **** *                         (c) Copyright 2007-2008; Micrium, Inc.; Weston, FL
+   6:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+   7:../Dave/Generated/UCPROBE/probe_com_os.c **** *               All rights reserved.  Protected by international copyright laws.
+   8:../Dave/Generated/UCPROBE/probe_com_os.c **** *               Knowledge of the source code may NOT be used to develop a similar product.
+   9:../Dave/Generated/UCPROBE/probe_com_os.c **** *               Please help us continue to provide the Embedded community with the finest
+  10:../Dave/Generated/UCPROBE/probe_com_os.c **** *               software available.  Your honesty is greatly appreciated.
+  11:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  12:../Dave/Generated/UCPROBE/probe_com_os.c **** */
+  13:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  14:../Dave/Generated/UCPROBE/probe_com_os.c **** /*
+  15:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  16:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+  17:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                       COMMUNICATION: GENERIC
+  18:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                             NO-OS PORT
+  19:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+  20:../Dave/Generated/UCPROBE/probe_com_os.c **** * Filename      : probe_com_os.c
+  21:../Dave/Generated/UCPROBE/probe_com_os.c **** * Version       : V2.30
+  22:../Dave/Generated/UCPROBE/probe_com_os.c **** * Programmer(s) : BAN
+  23:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  24:../Dave/Generated/UCPROBE/probe_com_os.c **** * Note(s)       : (1) This file is the no-OS layer for the uC/Probe Generic Communication Module.
+  25:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  26:../Dave/Generated/UCPROBE/probe_com_os.c **** */
+  27:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  28:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  29:../Dave/Generated/UCPROBE/probe_com_os.c **** /*
+  30:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  31:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                            INCLUDE FILES
+  32:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  33:../Dave/Generated/UCPROBE/probe_com_os.c **** */
+  34:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  35:../Dave/Generated/UCPROBE/probe_com_os.c **** #include  "probe_com.h"
+  36:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  37:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  38:../Dave/Generated/UCPROBE/probe_com_os.c **** /*
+  39:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  40:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                            LOCAL DEFINES
+  41:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  42:../Dave/Generated/UCPROBE/probe_com_os.c **** */
+  43:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  44:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  45:../Dave/Generated/UCPROBE/probe_com_os.c **** /*
+  46:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  47:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                           LOCAL CONSTANTS
+  48:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  49:../Dave/Generated/UCPROBE/probe_com_os.c **** */
+  50:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  51:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  52:../Dave/Generated/UCPROBE/probe_com_os.c **** /*
+  53:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  54:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                          LOCAL DATA TYPES
+  55:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  56:../Dave/Generated/UCPROBE/probe_com_os.c **** */
+  57:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  58:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  59:../Dave/Generated/UCPROBE/probe_com_os.c **** /*
+  60:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  61:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                            LOCAL TABLES
+  62:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  63:../Dave/Generated/UCPROBE/probe_com_os.c **** */
+  64:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  65:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  66:../Dave/Generated/UCPROBE/probe_com_os.c **** /*
+  67:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  68:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                       LOCAL GLOBAL VARIABLES
+  69:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  70:../Dave/Generated/UCPROBE/probe_com_os.c **** */
+  71:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  72:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  73:../Dave/Generated/UCPROBE/probe_com_os.c **** /*
+  74:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  75:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                      LOCAL FUNCTION PROTOTYPES
+  76:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  77:../Dave/Generated/UCPROBE/probe_com_os.c **** */
+  78:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  79:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  80:../Dave/Generated/UCPROBE/probe_com_os.c **** /*
+  81:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  82:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                     LOCAL CONFIGURATION ERRORS
+  83:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  84:../Dave/Generated/UCPROBE/probe_com_os.c **** */
+  85:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  86:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+  87:../Dave/Generated/UCPROBE/probe_com_os.c **** /*
+  88:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+  89:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                         ProbeCom_OS_Init()
+  90:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+  91:../Dave/Generated/UCPROBE/probe_com_os.c **** * Description : Create a semaphore for terminal output completion notification.
+  92:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+  93:../Dave/Generated/UCPROBE/probe_com_os.c **** * Argument(s) : none.
+  94:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+  95:../Dave/Generated/UCPROBE/probe_com_os.c **** * Return(s)   : DEF_OK,   if OS initialization successful.
+  96:../Dave/Generated/UCPROBE/probe_com_os.c **** *               DEF_FAIL, otherwise.
+  97:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+  98:../Dave/Generated/UCPROBE/probe_com_os.c **** * Caller(s)   : ProbeCom_Init().
+  99:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+ 100:../Dave/Generated/UCPROBE/probe_com_os.c **** * Note(s)     : none.
+ 101:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+ 102:../Dave/Generated/UCPROBE/probe_com_os.c **** */
+ 103:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+ 104:../Dave/Generated/UCPROBE/probe_com_os.c **** #if (PROBE_COM_CFG_TERMINAL_REQ_EN == DEF_ENABLED)
+ 105:../Dave/Generated/UCPROBE/probe_com_os.c **** CPU_BOOLEAN  ProbeCom_OS_Init (void)
+ 106:../Dave/Generated/UCPROBE/probe_com_os.c **** {
+  28              	 .loc 1 106 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 00AF     	 add r7,sp,#0
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_register 7
+ 107:../Dave/Generated/UCPROBE/probe_com_os.c ****     return (DEF_OK);
+  40              	 .loc 1 107 0
+  41 0004 0123     	 movs r3,#1
+ 108:../Dave/Generated/UCPROBE/probe_com_os.c **** }
+  42              	 .loc 1 108 0
+  43 0006 1846     	 mov r0,r3
+  44 0008 BD46     	 mov sp,r7
+  45              	.LCFI2:
+  46              	 .cfi_def_cfa_register 13
+  47              	 
+  48 000a 5DF8047B 	 ldr r7,[sp],#4
+  49              	.LCFI3:
+  50              	 .cfi_restore 7
+  51              	 .cfi_def_cfa_offset 0
+  52 000e 7047     	 bx lr
+  53              	 .cfi_endproc
+  54              	.LFE0:
+  56              	 .section .text.ProbeCom_OS_TerminalOutWait,"ax",%progbits
+  57              	 .align 2
+  58              	 .global ProbeCom_OS_TerminalOutWait
+  59              	 .thumb
+  60              	 .thumb_func
+  62              	ProbeCom_OS_TerminalOutWait:
+  63              	.LFB1:
+ 109:../Dave/Generated/UCPROBE/probe_com_os.c **** #endif
+ 110:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+ 111:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+ 112:../Dave/Generated/UCPROBE/probe_com_os.c **** /*
+ 113:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+ 114:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                    ProbeCom_OS_TerminalOutWait()
+ 115:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+ 116:../Dave/Generated/UCPROBE/probe_com_os.c **** * Description : Wait for terminal output to complete.
+ 117:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+ 118:../Dave/Generated/UCPROBE/probe_com_os.c **** * Argument(s) : none.
+ 119:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+ 120:../Dave/Generated/UCPROBE/probe_com_os.c **** * Return(s)   : none.
+ 121:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+ 122:../Dave/Generated/UCPROBE/probe_com_os.c **** * Caller(s)   : ProbeCom_TerminalOut().
+ 123:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+ 124:../Dave/Generated/UCPROBE/probe_com_os.c **** * Note(s)     : none.
+ 125:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+ 126:../Dave/Generated/UCPROBE/probe_com_os.c **** */
+ 127:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+ 128:../Dave/Generated/UCPROBE/probe_com_os.c **** #if (PROBE_COM_CFG_TERMINAL_REQ_EN == DEF_ENABLED)
+ 129:../Dave/Generated/UCPROBE/probe_com_os.c **** void  ProbeCom_OS_TerminalOutWait (void)
+ 130:../Dave/Generated/UCPROBE/probe_com_os.c **** {
+  64              	 .loc 1 130 0
+  65              	 .cfi_startproc
+  66              	 
+  67              	 
+  68              	 
+  69 0000 80B4     	 push {r7}
+  70              	.LCFI4:
+  71              	 .cfi_def_cfa_offset 4
+  72              	 .cfi_offset 7,-4
+  73 0002 00AF     	 add r7,sp,#0
+  74              	.LCFI5:
+  75              	 .cfi_def_cfa_register 7
+ 131:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+ 132:../Dave/Generated/UCPROBE/probe_com_os.c **** }
+  76              	 .loc 1 132 0
+  77 0004 BD46     	 mov sp,r7
+  78              	.LCFI6:
+  79              	 .cfi_def_cfa_register 13
+  80              	 
+  81 0006 5DF8047B 	 ldr r7,[sp],#4
+  82              	.LCFI7:
+  83              	 .cfi_restore 7
+  84              	 .cfi_def_cfa_offset 0
+  85 000a 7047     	 bx lr
+  86              	 .cfi_endproc
+  87              	.LFE1:
+  89              	 .section .text.ProbeCom_OS_TerminalOutSignal,"ax",%progbits
+  90              	 .align 2
+  91              	 .global ProbeCom_OS_TerminalOutSignal
+  92              	 .thumb
+  93              	 .thumb_func
+  95              	ProbeCom_OS_TerminalOutSignal:
+  96              	.LFB2:
+ 133:../Dave/Generated/UCPROBE/probe_com_os.c **** #endif
+ 134:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+ 135:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+ 136:../Dave/Generated/UCPROBE/probe_com_os.c **** /*
+ 137:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+ 138:../Dave/Generated/UCPROBE/probe_com_os.c **** *                                   ProbeCom_OS_TerminalOutSignal()
+ 139:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+ 140:../Dave/Generated/UCPROBE/probe_com_os.c **** * Description : Signal terminal output completion.
+ 141:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+ 142:../Dave/Generated/UCPROBE/probe_com_os.c **** * Argument(s) : none.
+ 143:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+ 144:../Dave/Generated/UCPROBE/probe_com_os.c **** * Return(s)   : none.
+ 145:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+ 146:../Dave/Generated/UCPROBE/probe_com_os.c **** * Caller(s)   : ProbeCom_CmdTerminalOut().
+ 147:../Dave/Generated/UCPROBE/probe_com_os.c **** *
+ 148:../Dave/Generated/UCPROBE/probe_com_os.c **** * Note(s)     : none.
+ 149:../Dave/Generated/UCPROBE/probe_com_os.c **** ***************************************************************************************************
+ 150:../Dave/Generated/UCPROBE/probe_com_os.c **** */
+ 151:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+ 152:../Dave/Generated/UCPROBE/probe_com_os.c **** #if (PROBE_COM_CFG_TERMINAL_REQ_EN == DEF_ENABLED)
+ 153:../Dave/Generated/UCPROBE/probe_com_os.c **** void  ProbeCom_OS_TerminalOutSignal (void)
+ 154:../Dave/Generated/UCPROBE/probe_com_os.c **** {
+  97              	 .loc 1 154 0
+  98              	 .cfi_startproc
+  99              	 
+ 100              	 
+ 101              	 
+ 102 0000 80B4     	 push {r7}
+ 103              	.LCFI8:
+ 104              	 .cfi_def_cfa_offset 4
+ 105              	 .cfi_offset 7,-4
+ 106 0002 00AF     	 add r7,sp,#0
+ 107              	.LCFI9:
+ 108              	 .cfi_def_cfa_register 7
+ 155:../Dave/Generated/UCPROBE/probe_com_os.c **** 
+ 156:../Dave/Generated/UCPROBE/probe_com_os.c **** }
+ 109              	 .loc 1 156 0
+ 110 0004 BD46     	 mov sp,r7
+ 111              	.LCFI10:
+ 112              	 .cfi_def_cfa_register 13
+ 113              	 
+ 114 0006 5DF8047B 	 ldr r7,[sp],#4
+ 115              	.LCFI11:
+ 116              	 .cfi_restore 7
+ 117              	 .cfi_def_cfa_offset 0
+ 118 000a 7047     	 bx lr
+ 119              	 .cfi_endproc
+ 120              	.LFE2:
+ 122              	 .text
+ 123              	.Letext0:
+ 124              	 .file 2 "../Dave/Generated/UCPROBE/cpu.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 probe_com_os.c
+    {standard input}:20     .text.ProbeCom_OS_Init:00000000 $t
+    {standard input}:25     .text.ProbeCom_OS_Init:00000000 ProbeCom_OS_Init
+    {standard input}:57     .text.ProbeCom_OS_TerminalOutWait:00000000 $t
+    {standard input}:62     .text.ProbeCom_OS_TerminalOutWait:00000000 ProbeCom_OS_TerminalOutWait
+    {standard input}:90     .text.ProbeCom_OS_TerminalOutSignal:00000000 $t
+    {standard input}:95     .text.ProbeCom_OS_TerminalOutSignal:00000000 ProbeCom_OS_TerminalOutSignal
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,330 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_dot_prod_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_dot_prod_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_dot_prod_f32
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_dot_prod_f32:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Title:        arm_dot_prod_f32.c
+   4:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Description:  Floating-point dot product
+   5:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * $Date:        18. March 2019
+   7:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * $Revision:    V1.6.0
+   8:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+   9:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Target Processor: Cortex-M cores
+  10:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * -------------------------------------------------------------------- */
+  11:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** /*
+  12:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+  16:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * not use this file except in compliance with the License.
+  18:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * You may obtain a copy of the License at
+  19:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  *
+  22:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * See the License for the specific language governing permissions and
+  26:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  * limitations under the License.
+  27:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  */
+  28:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  29:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  30:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  31:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** /**
+  32:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   @ingroup groupMath
+  33:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  */
+  34:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  35:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** /**
+  36:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   @defgroup BasicDotProd Vector Dot Product
+  37:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  38:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   Computes the dot product of two vectors.
+  39:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   The vectors are multiplied element-by-element and then summed.
+  40:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  41:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   <pre>
+  42:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****       sum = pSrcA[0]*pSrcB[0] + pSrcA[1]*pSrcB[1] + ... + pSrcA[blockSize-1]*pSrcB[blockSize-1]
+  43:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   </pre>
+  44:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  45:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   There are separate functions for floating-point, Q7, Q15, and Q31 data types.
+  46:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  */
+  47:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  48:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** /**
+  49:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   @addtogroup BasicDotProd
+  50:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   @{
+  51:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  */
+  52:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  53:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** /**
+  54:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   @brief         Dot product of floating-point vectors.
+  55:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   @param[in]     pSrcA      points to the first input vector.
+  56:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   @param[in]     pSrcB      points to the second input vector.
+  57:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   @param[in]     blockSize  number of samples in each vector.
+  58:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   @param[out]    result     output result returned here.
+  59:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   @return        none
+  60:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****  */
+  61:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  62:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
+  63:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  64:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #include "CMSIS_DSP/Include/arm_helium_utils.h"
+  65:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  66:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  67:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** void arm_dot_prod_f32(
+  68:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     const float32_t * pSrcA,
+  69:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     const float32_t * pSrcB,
+  70:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     uint32_t    blockSize,
+  71:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     float32_t * result)
+  72:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** {
+  73:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     f32x4_t vecA, vecB;
+  74:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     f32x4_t vecSum;
+  75:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     uint32_t blkCnt; 
+  76:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     float32_t sum = 0.0f;  
+  77:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     vecSum = vdupq_n_f32(0.0f);
+  78:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  79:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* Compute 4 outputs at a time */
+  80:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     blkCnt = blockSize >> 2U;
+  81:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     while (blkCnt > 0U)
+  82:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     {
+  83:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         /*
+  84:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****          * C = A[0]* B[0] + A[1]* B[1] + A[2]* B[2] + .....+ A[blockSize-1]* B[blockSize-1]
+  85:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****          * Calculate dot product and then store the result in a temporary buffer.
+  86:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****          * and advance vector source and destination pointers
+  87:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****          */
+  88:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         vecA = vld1q(pSrcA);
+  89:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         pSrcA += 4;
+  90:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         
+  91:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         vecB = vld1q(pSrcB);
+  92:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         pSrcB += 4;
+  93:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+  94:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         vecSum = vfmaq(vecSum, vecA, vecB);
+  95:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         /*
+  96:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****          * Decrement the blockSize loop counter
+  97:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****          */
+  98:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         blkCnt --;
+  99:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     }
+ 100:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 101:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 102:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     blkCnt = blockSize & 3;
+ 103:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     if (blkCnt > 0U)
+ 104:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     {
+ 105:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         /* C = A[0]* B[0] + A[1]* B[1] + A[2]* B[2] + .....+ A[blockSize-1]* B[blockSize-1] */
+ 106:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 107:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         mve_pred16_t p0 = vctp32q(blkCnt);
+ 108:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         vecA = vld1q(pSrcA);
+ 109:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         vecB = vld1q(pSrcB);
+ 110:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         vecSum = vfmaq_m(vecSum, vecA, vecB, p0);
+ 111:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     }
+ 112:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 113:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum = vecAddAcrossF32Mve(vecSum);
+ 114:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 115:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* Store result in destination buffer */
+ 116:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     *result = sum;
+ 117:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 118:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** }
+ 119:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 120:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #else
+ 121:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 122:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** void arm_dot_prod_f32(
+ 123:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   const float32_t * pSrcA,
+ 124:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   const float32_t * pSrcB,
+ 125:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         uint32_t blockSize,
+ 126:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         float32_t * result)
+ 127:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** {
+  28              	 .loc 1 127 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 87B0     	 sub sp,sp,#28
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 32
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 F860     	 str r0,[r7,#12]
+  44 0008 B960     	 str r1,[r7,#8]
+  45 000a 7A60     	 str r2,[r7,#4]
+  46 000c 3B60     	 str r3,[r7]
+ 128:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         uint32_t blkCnt;                               /* Loop counter */
+ 129:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         float32_t sum = 0.0f;                          /* Temporary return variable */
+  47              	 .loc 1 129 0
+  48 000e 4FF00003 	 mov r3,#0
+  49 0012 3B61     	 str r3,[r7,#16]
+ 130:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 131:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #if defined(ARM_MATH_NEON) && !defined(ARM_MATH_AUTOVECTORIZE)
+ 132:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     f32x4_t vec1;
+ 133:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     f32x4_t vec2;
+ 134:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     f32x4_t accum = vdupq_n_f32(0);   
+ 135:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     f32x2_t tmp = vdup_n_f32(0);    
+ 136:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 137:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* Compute 4 outputs at a time */
+ 138:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     blkCnt = blockSize >> 2U;
+ 139:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 140:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     vec1 = vld1q_f32(pSrcA);
+ 141:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     vec2 = vld1q_f32(pSrcB);
+ 142:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 143:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     while (blkCnt > 0U)
+ 144:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     {
+ 145:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         /* C = A[0]*B[0] + A[1]*B[1] + A[2]*B[2] + ... + A[blockSize-1]*B[blockSize-1] */
+ 146:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         /* Calculate dot product and then store the result in a temporary buffer. */
+ 147:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         
+ 148:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 	      accum = vmlaq_f32(accum, vec1, vec2);
+ 149:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 	
+ 150:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         /* Increment pointers */
+ 151:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         pSrcA += 4;
+ 152:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         pSrcB += 4; 
+ 153:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 154:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         vec1 = vld1q_f32(pSrcA);
+ 155:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         vec2 = vld1q_f32(pSrcB);
+ 156:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         
+ 157:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         /* Decrement the loop counter */
+ 158:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****         blkCnt--;
+ 159:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     }
+ 160:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     
+ 161:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #if __aarch64__
+ 162:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum = vpadds_f32(vpadd_f32(vget_low_f32(accum), vget_high_f32(accum)));
+ 163:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #else
+ 164:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     tmp = vpadd_f32(vget_low_f32(accum), vget_high_f32(accum));
+ 165:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum = vget_lane_f32(tmp, 0) + vget_lane_f32(tmp, 1);
+ 166:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 167:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #endif    
+ 168:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 169:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* Tail */
+ 170:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     blkCnt = blockSize & 0x3;
+ 171:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 172:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #else
+ 173:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #if defined (ARM_MATH_LOOPUNROLL) && !defined(ARM_MATH_AUTOVECTORIZE)
+ 174:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 175:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   /* Loop unrolling: Compute 4 outputs at a time */
+ 176:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   blkCnt = blockSize >> 2U;
+ 177:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 178:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   /* First part of the processing with loop unrolling. Compute 4 outputs at a time.
+ 179:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****    ** a second loop below computes the remaining 1 to 3 samples. */
+ 180:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   while (blkCnt > 0U)
+ 181:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   {
+ 182:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* C = A[0]* B[0] + A[1]* B[1] + A[2]* B[2] + .....+ A[blockSize-1]* B[blockSize-1] */
+ 183:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 184:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* Calculate dot product and store result in a temporary buffer. */
+ 185:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum += (*pSrcA++) * (*pSrcB++);
+ 186:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 187:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum += (*pSrcA++) * (*pSrcB++);
+ 188:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 189:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum += (*pSrcA++) * (*pSrcB++);
+ 190:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 191:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum += (*pSrcA++) * (*pSrcB++);
+ 192:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 193:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* Decrement loop counter */
+ 194:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     blkCnt--;
+ 195:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   }
+ 196:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 197:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   /* Loop unrolling: Compute remaining outputs */
+ 198:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   blkCnt = blockSize % 0x4U;
+ 199:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 200:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #else
+ 201:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 202:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   /* Initialize blkCnt with number of samples */
+ 203:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   blkCnt = blockSize;
+  50              	 .loc 1 203 0
+  51 0014 7B68     	 ldr r3,[r7,#4]
+  52 0016 7B61     	 str r3,[r7,#20]
+ 204:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 205:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #endif /* #if defined (ARM_MATH_LOOPUNROLL) */
+ 206:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** #endif /* #if defined(ARM_MATH_NEON) */
+ 207:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 208:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   while (blkCnt > 0U)
+  53              	 .loc 1 208 0
+  54 0018 14E0     	 b .L2
+  55              	.L3:
+ 209:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   {
+ 210:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* C = A[0]* B[0] + A[1]* B[1] + A[2]* B[2] + .....+ A[blockSize-1]* B[blockSize-1] */
+ 211:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 212:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* Calculate dot product and store result in a temporary buffer. */
+ 213:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     sum += (*pSrcA++) * (*pSrcB++);
+  56              	 .loc 1 213 0
+  57 001a FB68     	 ldr r3,[r7,#12]
+  58 001c 1A1D     	 adds r2,r3,#4
+  59 001e FA60     	 str r2,[r7,#12]
+  60 0020 93ED007A 	 flds s14,[r3]
+  61 0024 BB68     	 ldr r3,[r7,#8]
+  62 0026 1A1D     	 adds r2,r3,#4
+  63 0028 BA60     	 str r2,[r7,#8]
+  64 002a D3ED007A 	 flds s15,[r3]
+  65 002e 67EE277A 	 fmuls s15,s14,s15
+  66 0032 97ED047A 	 flds s14,[r7,#16]
+  67 0036 77EE277A 	 fadds s15,s14,s15
+  68 003a C7ED047A 	 fsts s15,[r7,#16]
+ 214:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 215:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     /* Decrement loop counter */
+ 216:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****     blkCnt--;
+  69              	 .loc 1 216 0
+  70 003e 7B69     	 ldr r3,[r7,#20]
+  71 0040 013B     	 subs r3,r3,#1
+  72 0042 7B61     	 str r3,[r7,#20]
+  73              	.L2:
+ 208:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   {
+  74              	 .loc 1 208 0
+  75 0044 7B69     	 ldr r3,[r7,#20]
+  76 0046 002B     	 cmp r3,#0
+  77 0048 E7D1     	 bne .L3
+ 217:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   }
+ 218:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** 
+ 219:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   /* Store result in destination buffer */
+ 220:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c ****   *result = sum;
+  78              	 .loc 1 220 0
+  79 004a 3B68     	 ldr r3,[r7]
+  80 004c 3A69     	 ldr r2,[r7,#16]
+  81 004e 1A60     	 str r2,[r3]
+ 221:../Dave/Generated/CMSIS_DSP/Source/BasicMathFunctions/arm_dot_prod_f32.c **** }
+  82              	 .loc 1 221 0
+  83 0050 1C37     	 adds r7,r7,#28
+  84              	.LCFI3:
+  85              	 .cfi_def_cfa_offset 4
+  86 0052 BD46     	 mov sp,r7
+  87              	.LCFI4:
+  88              	 .cfi_def_cfa_register 13
+  89              	 
+  90 0054 5DF8047B 	 ldr r7,[sp],#4
+  91              	.LCFI5:
+  92              	 .cfi_restore 7
+  93              	 .cfi_def_cfa_offset 0
+  94 0058 7047     	 bx lr
+  95              	 .cfi_endproc
+  96              	.LFE149:
+  98 005a 00BF     	 .text
+  99              	.Letext0:
+ 100              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 101              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 102              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 103              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_dot_prod_f32.c
+    {standard input}:20     .text.arm_dot_prod_f32:00000000 $t
+    {standard input}:25     .text.arm_dot_prod_f32:00000000 arm_dot_prod_f32
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

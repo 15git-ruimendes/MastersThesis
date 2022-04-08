@@ -1,0 +1,49 @@
+
+//************ Motor Parameters ************//
+Rs =0.03552
+Ls =0.000335
+Rr =0.02092
+Lr =0.000335
+Lm =0.0151
+P =4
+J = 1.25
+
+PowerFactor = 0.86
+
+IsNominal = 200
+
+NNominal = 1300
+IdNominal = 62.5
+//IdNominal = 30.5
+//************ PI Tuning ************//
+
+delt = 1-Lm^2/(Ls*Lr)
+wc =500*2*pi	//Bandwidth Frequency Current Controllers
+
+//Current Controler Parameters
+Ki = -delt*Ls*wc
+Kp = (Rs + Rr*(Lm/Lr)^2)*wc
+TauR = Lr/Rr
+
+TimeConst = Kp/Ki
+
+
+//Speed Controler Parameters
+Kt = 3/4*P*Lm/Lr*Ls*16
+Kps = J*(wc/5)/Kt
+Kis = J*(wc/5)^2/(5*Kt)
+
+//************ Controler Parameters ************//
+
+fsw =1000
+fsam = 20000
+we=1200*2*pi/60
+
+Vdc = 1100
+
+duty = 1/(fsw*1e-7)
+
+Is_max=75e3/(sqrt(3)*300*0.87)
+IqMax = sqrt(Is_max^2 - IdNominal^2)
+
+sigma = 1-Lm^2*Lr/Ls

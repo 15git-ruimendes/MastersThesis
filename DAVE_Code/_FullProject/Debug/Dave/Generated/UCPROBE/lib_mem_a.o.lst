@@ -1,0 +1,31 @@
+   1              	# 1 "../Dave/Generated/UCPROBE/lib_mem_a.S"
+   1              	/**************************************************************************************************
+   0              	
+   0              	
+   0              	
+   2              	                                                 uC/LIB
+   3              	                                         CUSTOM LIBRARY MODULES
+   4              	
+   5              	                           (c) Copyright 2004-2011; Micrium, Inc.; Weston, FL
+   6              	
+   7              	                All rights reserved.  Protected by international copyright laws.
+   8              	
+   9              	                uC/LIB is provided in source form to registered licensees ONLY.  It is
+  10              	                illegal to distribute this source code to any third party unless you receive
+  11              	                written permission by an authorized Micrium representative.  Knowledge of
+  12              	                the source code may NOT be used to develop a similar product.
+  13              	
+  14              	                Please help us continue to provide the Embedded community with the finest
+  15              	                software available.  Your honesty is greatly appreciated.
+  16              	
+  17              	                You can contact us at www.micrium.com.
+  18              	***************************************************************************************************
+  19              	
+  20              	#define  DEF_DISABLED                                      0u
+  21              	#define  DEF_ENABLED                                       1u
+  22              	
+  23              	#include  "lib_cfg.h"
+   1              	/*
+NO DEFINED SYMBOLS
+
+NO UNDEFINED SYMBOLS

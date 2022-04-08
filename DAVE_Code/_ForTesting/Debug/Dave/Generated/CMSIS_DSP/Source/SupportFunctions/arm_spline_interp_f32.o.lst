@@ -1,0 +1,640 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_spline_interp_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_spline_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_spline_f32
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_spline_f32:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * Title:        arm_spline_interp_f32.c
+   4:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * Description:  Floating-point cubic spline interpolation
+   5:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * $Date:        13 November 2019
+   7:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * $Revision:    V1.6.0
+   8:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  *
+   9:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * Target Processor: Cortex-M cores
+  10:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * -------------------------------------------------------------------- */
+  11:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** /*
+  12:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  *
+  16:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * not use this file except in compliance with the License.
+  18:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * You may obtain a copy of the License at
+  19:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  *
+  22:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * See the License for the specific language governing permissions and
+  26:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * limitations under the License.
+  27:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  */
+  28:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  29:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  30:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  31:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** /**
+  32:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   @ingroup groupSupport
+  33:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  */
+  34:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  35:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** /**
+  36:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   @defgroup SplineInterpolate Cubic Spline Interpolation
+  37:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  
+  38:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   Spline interpolation is a method of interpolation where the interpolant
+  39:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   is a piecewise-defined polynomial called "spline". 
+  40:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  
+  41:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   @par Introduction
+  42:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  43:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   Given a function f defined on the interval [a,b], a set of n nodes x(i) 
+  44:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   where a=x(1)<x(2)<...<x(n)=b and a set of n values y(i) = f(x(i)), 
+  45:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   a cubic spline interpolant S(x) is defined as: 
+  46:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  47:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   <pre>
+  48:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****           S1(x)       x(1) < x < x(2)
+  49:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   S(x) =   ...         
+  50:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****           Sn-1(x)   x(n-1) < x < x(n)
+  51:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   </pre>
+  52:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  53:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   where
+  54:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  55:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   <pre> 
+  56:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   Si(x) = a_i+b_i(x-xi)+c_i(x-xi)^2+d_i(x-xi)^3    i=1, ..., n-1
+  57:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   </pre>
+  58:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  
+  59:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   @par Algorithm
+  60:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  61:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   Having defined h(i) = x(i+1) - x(i)
+  62:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  63:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   <pre>
+  64:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   h(i-1)c(i-1)+2[h(i-1)+h(i)]c(i)+h(i)c(i+1) = 3/h(i)*[a(i+1)-a(i)]-3/h(i-1)*[a(i)-a(i-1)]    i=2, 
+  65:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   </pre>
+  66:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  67:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   It is possible to write the previous conditions in matrix form (Ax=B).
+  68:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   In order to solve the system two boundary conidtions are needed.
+  69:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   - Natural spline: S1''(x1)=2*c(1)=0 ; Sn''(xn)=2*c(n)=0
+  70:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   In matrix form:
+  71:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  72:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   <pre>
+  73:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   |  1        0         0  ...    0         0           0     ||  c(1)  | |                        
+  74:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   | h(0) 2[h(0)+h(1)] h(1) ...    0         0           0     ||  c(2)  | |      3/h(2)*[a(3)-a(2)]
+  75:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   | ...      ...       ... ...   ...       ...         ...    ||  ...   |=|                       .
+  76:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   |  0        0         0  ... h(n-2) 2[h(n-2)+h(n-1)] h(n-1) || c(n-1) | | 3/h(n-1)*[a(n)-a(n-1)]-
+  77:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   |  0        0         0  ...    0         0           1     ||  c(n)  | |                        
+  78:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   </pre>
+  79:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  80:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   - Parabolic runout spline: S1''(x1)=2*c(1)=S2''(x2)=2*c(2) ; Sn-1''(xn-1)=2*c(n-1)=Sn''(xn)=2*c(n
+  81:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   In matrix form:
+  82:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  83:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   <pre>
+  84:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   |  1       -1         0  ...    0         0           0     ||  c(1)  | |                        
+  85:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   | h(0) 2[h(0)+h(1)] h(1) ...    0         0           0     ||  c(2)  | |      3/h(2)*[a(3)-a(2)]
+  86:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   | ...      ...       ... ...   ...       ...         ...    ||  ...   |=|                       .
+  87:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   |  0        0         0  ... h(n-2) 2[h(n-2)+h(n-1)] h(n-1) || c(n-1) | | 3/h(n-1)*[a(n)-a(n-1)]-
+  88:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   |  0        0         0  ...    0        -1           1     ||  c(n)  | |                        
+  89:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   </pre>
+  90:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  91:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   A is a tridiagonal matrix (a band matrix of bandwidth 3) of size N=n+1. The factorization
+  92:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   algorithms (A=LU) can be simplified considerably because a large number of zeros appear
+  93:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   in regular patterns. The Crout method has been used:
+  94:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   1) Solve LZ=B
+  95:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+  96:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   <pre>
+  97:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   u(1,2) = A(1,2)/A(1,1)
+  98:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   z(1)   = B(1)/l(11)
+  99:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  
+ 100:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   FOR i=2, ..., N-1
+ 101:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     l(i,i)   = A(i,i)-A(i,i-1)u(i-1,i)
+ 102:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     u(i,i+1) = a(i,i+1)/l(i,i)
+ 103:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     z(i)     = [B(i)-A(i,i-1)z(i-1)]/l(i,i)
+ 104:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   
+ 105:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   l(N,N) = A(N,N)-A(N,N-1)u(N-1,N)
+ 106:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   z(N)   = [B(N)-A(N,N-1)z(N-1)]/l(N,N)
+ 107:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   </pre>
+ 108:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 109:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   2) Solve UX=Z
+ 110:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 111:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   <pre>
+ 112:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   c(N)=z(N)
+ 113:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   
+ 114:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   FOR i=N-1, ..., 1
+ 115:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     c(i)=z(i)-u(i,i+1)c(i+1) 
+ 116:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   </pre>
+ 117:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 118:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   c(i) for i=1, ..., n-1 are needed to compute the n-1 polynomials. 
+ 119:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   b(i) and d(i) are computed as:
+ 120:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   - b(i) = [y(i+1)-y(i)]/h(i)-h(i)*[c(i+1)+2*c(i)]/3 
+ 121:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   - d(i) = [c(i+1)-c(i)]/[3*h(i)] 
+ 122:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   Moreover, a(i)=y(i).
+ 123:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 124:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  @par Behaviour outside the given intervals
+ 125:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 126:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   It is possible to compute the interpolated vector for x values outside the 
+ 127:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   input range (xq<x(1); xq>x(n)). The coefficients used to compute the y values for
+ 128:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   xq<x(1) are going to be the ones used for the first interval, while for xq>x(n) the 
+ 129:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   coefficients used for the last interval.
+ 130:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  
+ 131:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  */
+ 132:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 133:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** /**
+ 134:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   @addtogroup SplineInterpolate
+ 135:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   @{
+ 136:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  */
+ 137:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 138:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** /**
+ 139:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * @brief Processing function for the floating-point cubic spline interpolation.
+ 140:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * @param[in]  S          points to an instance of the floating-point spline structure.
+ 141:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * @param[in]  xq         points to the x values ot the interpolated data points.
+ 142:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * @param[out] pDst       points to the block of output data.
+ 143:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  * @param[in]  blockSize  number of samples of output data.
+ 144:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  */
+ 145:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 146:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** void arm_spline_f32(
+ 147:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         arm_spline_instance_f32 * S, 
+ 148:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   const float32_t * xq,
+ 149:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         float32_t * pDst,
+ 150:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         uint32_t blockSize)
+ 151:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** {
+  28              	 .loc 1 151 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 91B0     	 sub sp,sp,#68
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 72
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 F860     	 str r0,[r7,#12]
+  44 0008 B960     	 str r1,[r7,#8]
+  45 000a 7A60     	 str r2,[r7,#4]
+  46 000c 3B60     	 str r3,[r7]
+ 152:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     const float32_t * x = S->x;
+  47              	 .loc 1 152 0
+  48 000e FB68     	 ldr r3,[r7,#12]
+  49 0010 5B68     	 ldr r3,[r3,#4]
+  50 0012 FB62     	 str r3,[r7,#44]
+ 153:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     const float32_t * y = S->y;
+  51              	 .loc 1 153 0
+  52 0014 FB68     	 ldr r3,[r7,#12]
+  53 0016 9B68     	 ldr r3,[r3,#8]
+  54 0018 BB62     	 str r3,[r7,#40]
+ 154:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     int32_t n = S->n_x;
+  55              	 .loc 1 154 0
+  56 001a FB68     	 ldr r3,[r7,#12]
+  57 001c DB68     	 ldr r3,[r3,#12]
+  58 001e 7B62     	 str r3,[r7,#36]
+ 155:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 156:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     /* Coefficients (a==y for i<=n-1) */
+ 157:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     float32_t * b = (S->coeffs);
+  59              	 .loc 1 157 0
+  60 0020 FB68     	 ldr r3,[r7,#12]
+  61 0022 1B69     	 ldr r3,[r3,#16]
+  62 0024 3B62     	 str r3,[r7,#32]
+ 158:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     float32_t * c = (S->coeffs)+(n-1);
+  63              	 .loc 1 158 0
+  64 0026 FB68     	 ldr r3,[r7,#12]
+  65 0028 1A69     	 ldr r2,[r3,#16]
+  66 002a 7B6A     	 ldr r3,[r7,#36]
+  67 002c 03F18043 	 add r3,r3,#1073741824
+  68 0030 013B     	 subs r3,r3,#1
+  69 0032 9B00     	 lsls r3,r3,#2
+  70 0034 1344     	 add r3,r3,r2
+  71 0036 FB61     	 str r3,[r7,#28]
+ 159:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     float32_t * d = (S->coeffs)+(2*(n-1));    
+  72              	 .loc 1 159 0
+  73 0038 FB68     	 ldr r3,[r7,#12]
+  74 003a 1B69     	 ldr r3,[r3,#16]
+  75 003c 7A6A     	 ldr r2,[r7,#36]
+  76 003e 013A     	 subs r2,r2,#1
+  77 0040 D200     	 lsls r2,r2,#3
+  78 0042 1344     	 add r3,r3,r2
+  79 0044 BB61     	 str r3,[r7,#24]
+ 160:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 161:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     const float32_t * pXq = xq;
+  80              	 .loc 1 161 0
+  81 0046 BB68     	 ldr r3,[r7,#8]
+  82 0048 FB63     	 str r3,[r7,#60]
+ 162:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     int32_t blkCnt = (int32_t)blockSize;
+  83              	 .loc 1 162 0
+  84 004a 3B68     	 ldr r3,[r7]
+  85 004c BB63     	 str r3,[r7,#56]
+ 163:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     int32_t blkCnt2;
+ 164:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     int32_t i;
+ 165:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     float32_t x_sc;
+ 166:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 167:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** #ifdef ARM_MATH_NEON
+ 168:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     float32x4_t xiv;
+ 169:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     float32x4_t aiv;
+ 170:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     float32x4_t biv;
+ 171:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     float32x4_t civ;
+ 172:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     float32x4_t div;
+ 173:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 174:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     float32x4_t xqv;
+ 175:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 176:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     float32x4_t temp;
+ 177:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     float32x4_t diff;
+ 178:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     float32x4_t yv;
+ 179:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** #endif
+ 180:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 181:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     /* Create output for x(i)<x<x(i+1) */
+ 182:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     for (i=0; i<n-1; i++)
+  86              	 .loc 1 182 0
+  87 004e 0023     	 movs r3,#0
+  88 0050 3B63     	 str r3,[r7,#48]
+  89 0052 8AE0     	 b .L2
+  90              	.L7:
+ 183:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     {
+ 184:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** #ifdef ARM_MATH_NEON
+ 185:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         xiv = vdupq_n_f32(x[i]);
+ 186:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 187:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         aiv = vdupq_n_f32(y[i]);
+ 188:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         biv = vdupq_n_f32(b[i]);
+ 189:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         civ = vdupq_n_f32(c[i]);
+ 190:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         div = vdupq_n_f32(d[i]);
+ 191:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 192:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         while( *(pXq+4) <= x[i+1] && blkCnt > 4 )
+ 193:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         {
+ 194:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             /* Load [xq(k) xq(k+1) xq(k+2) xq(k+3)] */
+ 195:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             xqv = vld1q_f32(pXq);
+ 196:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             pXq+=4;
+ 197:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         
+ 198:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             /* Compute [xq(k)-x(i) xq(k+1)-x(i) xq(k+2)-x(i) xq(k+3)-x(i)] */
+ 199:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             diff = vsubq_f32(xqv, xiv);
+ 200:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             temp = diff;
+ 201:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         
+ 202:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             /* y(i) = a(i) + ... */
+ 203:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             yv = aiv;
+ 204:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             /* ... + b(i)*(x-x(i)) + ... */
+ 205:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             yv = vmlaq_f32(yv, biv, temp);
+ 206:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             /* ... + c(i)*(x-x(i))^2 + ... */
+ 207:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             temp = vmulq_f32(temp, diff);
+ 208:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             yv = vmlaq_f32(yv, civ, temp);
+ 209:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             /* ... + d(i)*(x-x(i))^3 */
+ 210:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             temp = vmulq_f32(temp, diff);
+ 211:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             yv = vmlaq_f32(yv, div, temp);
+ 212:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         
+ 213:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             /* Store [y(k) y(k+1) y(k+2) y(k+3)] */
+ 214:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             vst1q_f32(pDst, yv);
+ 215:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             pDst+=4;
+ 216:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         
+ 217:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             blkCnt-=4;
+ 218:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         }
+ 219:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** #endif
+ 220:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         while( *pXq <= x[i+1] && blkCnt > 0 )
+  91              	 .loc 1 220 0
+  92 0054 73E0     	 b .L3
+  93              	.L6:
+ 221:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         {
+ 222:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             x_sc = *pXq++;
+  94              	 .loc 1 222 0
+  95 0056 FB6B     	 ldr r3,[r7,#60]
+  96 0058 1A1D     	 adds r2,r3,#4
+  97 005a FA63     	 str r2,[r7,#60]
+  98 005c 1B68     	 ldr r3,[r3]
+  99 005e 7B61     	 str r3,[r7,#20]
+ 223:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 224:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             *pDst = y[i]+b[i]*(x_sc-x[i])+c[i]*(x_sc-x[i])*(x_sc-x[i])+d[i]*(x_sc-x[i])*(x_sc-x[i])
+ 100              	 .loc 1 224 0
+ 101 0060 3B6B     	 ldr r3,[r7,#48]
+ 102 0062 9B00     	 lsls r3,r3,#2
+ 103 0064 BA6A     	 ldr r2,[r7,#40]
+ 104 0066 1344     	 add r3,r3,r2
+ 105 0068 93ED007A 	 flds s14,[r3]
+ 106 006c 3B6B     	 ldr r3,[r7,#48]
+ 107 006e 9B00     	 lsls r3,r3,#2
+ 108 0070 3A6A     	 ldr r2,[r7,#32]
+ 109 0072 1344     	 add r3,r3,r2
+ 110 0074 D3ED006A 	 flds s13,[r3]
+ 111 0078 3B6B     	 ldr r3,[r7,#48]
+ 112 007a 9B00     	 lsls r3,r3,#2
+ 113 007c FA6A     	 ldr r2,[r7,#44]
+ 114 007e 1344     	 add r3,r3,r2
+ 115 0080 D3ED007A 	 flds s15,[r3]
+ 116 0084 97ED056A 	 flds s12,[r7,#20]
+ 117 0088 76EE677A 	 fsubs s15,s12,s15
+ 118 008c 66EEA77A 	 fmuls s15,s13,s15
+ 119 0090 37EE277A 	 fadds s14,s14,s15
+ 120 0094 3B6B     	 ldr r3,[r7,#48]
+ 121 0096 9B00     	 lsls r3,r3,#2
+ 122 0098 FA69     	 ldr r2,[r7,#28]
+ 123 009a 1344     	 add r3,r3,r2
+ 124 009c D3ED006A 	 flds s13,[r3]
+ 125 00a0 3B6B     	 ldr r3,[r7,#48]
+ 126 00a2 9B00     	 lsls r3,r3,#2
+ 127 00a4 FA6A     	 ldr r2,[r7,#44]
+ 128 00a6 1344     	 add r3,r3,r2
+ 129 00a8 D3ED007A 	 flds s15,[r3]
+ 130 00ac 97ED056A 	 flds s12,[r7,#20]
+ 131 00b0 76EE677A 	 fsubs s15,s12,s15
+ 132 00b4 66EEA76A 	 fmuls s13,s13,s15
+ 133 00b8 3B6B     	 ldr r3,[r7,#48]
+ 134 00ba 9B00     	 lsls r3,r3,#2
+ 135 00bc FA6A     	 ldr r2,[r7,#44]
+ 136 00be 1344     	 add r3,r3,r2
+ 137 00c0 D3ED007A 	 flds s15,[r3]
+ 138 00c4 97ED056A 	 flds s12,[r7,#20]
+ 139 00c8 76EE677A 	 fsubs s15,s12,s15
+ 140 00cc 66EEA77A 	 fmuls s15,s13,s15
+ 141 00d0 37EE277A 	 fadds s14,s14,s15
+ 142 00d4 3B6B     	 ldr r3,[r7,#48]
+ 143 00d6 9B00     	 lsls r3,r3,#2
+ 144 00d8 BA69     	 ldr r2,[r7,#24]
+ 145 00da 1344     	 add r3,r3,r2
+ 146 00dc D3ED006A 	 flds s13,[r3]
+ 147 00e0 3B6B     	 ldr r3,[r7,#48]
+ 148 00e2 9B00     	 lsls r3,r3,#2
+ 149 00e4 FA6A     	 ldr r2,[r7,#44]
+ 150 00e6 1344     	 add r3,r3,r2
+ 151 00e8 D3ED007A 	 flds s15,[r3]
+ 152 00ec 97ED056A 	 flds s12,[r7,#20]
+ 153 00f0 76EE677A 	 fsubs s15,s12,s15
+ 154 00f4 66EEA76A 	 fmuls s13,s13,s15
+ 155 00f8 3B6B     	 ldr r3,[r7,#48]
+ 156 00fa 9B00     	 lsls r3,r3,#2
+ 157 00fc FA6A     	 ldr r2,[r7,#44]
+ 158 00fe 1344     	 add r3,r3,r2
+ 159 0100 D3ED007A 	 flds s15,[r3]
+ 160 0104 97ED056A 	 flds s12,[r7,#20]
+ 161 0108 76EE677A 	 fsubs s15,s12,s15
+ 162 010c 66EEA76A 	 fmuls s13,s13,s15
+ 163 0110 3B6B     	 ldr r3,[r7,#48]
+ 164 0112 9B00     	 lsls r3,r3,#2
+ 165 0114 FA6A     	 ldr r2,[r7,#44]
+ 166 0116 1344     	 add r3,r3,r2
+ 167 0118 D3ED007A 	 flds s15,[r3]
+ 168 011c 97ED056A 	 flds s12,[r7,#20]
+ 169 0120 76EE677A 	 fsubs s15,s12,s15
+ 170 0124 66EEA77A 	 fmuls s15,s13,s15
+ 171 0128 77EE277A 	 fadds s15,s14,s15
+ 172 012c 7B68     	 ldr r3,[r7,#4]
+ 173 012e C3ED007A 	 fsts s15,[r3]
+ 225:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 226:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             pDst++;
+ 174              	 .loc 1 226 0
+ 175 0132 7B68     	 ldr r3,[r7,#4]
+ 176 0134 0433     	 adds r3,r3,#4
+ 177 0136 7B60     	 str r3,[r7,#4]
+ 227:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****             blkCnt--;
+ 178              	 .loc 1 227 0
+ 179 0138 BB6B     	 ldr r3,[r7,#56]
+ 180 013a 013B     	 subs r3,r3,#1
+ 181 013c BB63     	 str r3,[r7,#56]
+ 182              	.L3:
+ 220:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         {
+ 183              	 .loc 1 220 0
+ 184 013e FB6B     	 ldr r3,[r7,#60]
+ 185 0140 93ED007A 	 flds s14,[r3]
+ 186 0144 3B6B     	 ldr r3,[r7,#48]
+ 187 0146 0133     	 adds r3,r3,#1
+ 188 0148 9B00     	 lsls r3,r3,#2
+ 189 014a FA6A     	 ldr r2,[r7,#44]
+ 190 014c 1344     	 add r3,r3,r2
+ 191 014e D3ED007A 	 flds s15,[r3]
+ 192 0152 B4EEE77A 	 fcmpes s14,s15
+ 193 0156 F1EE10FA 	 fmstat
+ 194 015a 03D8     	 bhi .L4
+ 220:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         {
+ 195              	 .loc 1 220 0 is_stmt 0 discriminator 1
+ 196 015c BB6B     	 ldr r3,[r7,#56]
+ 197 015e 002B     	 cmp r3,#0
+ 198 0160 3FF779AF 	 bgt .L6
+ 199              	.L4:
+ 182:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     {
+ 200              	 .loc 1 182 0 is_stmt 1 discriminator 2
+ 201 0164 3B6B     	 ldr r3,[r7,#48]
+ 202 0166 0133     	 adds r3,r3,#1
+ 203 0168 3B63     	 str r3,[r7,#48]
+ 204              	.L2:
+ 182:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     {
+ 205              	 .loc 1 182 0 is_stmt 0 discriminator 1
+ 206 016a 7B6A     	 ldr r3,[r7,#36]
+ 207 016c 5A1E     	 subs r2,r3,#1
+ 208 016e 3B6B     	 ldr r3,[r7,#48]
+ 209 0170 9A42     	 cmp r2,r3
+ 210 0172 3FF76FAF 	 bgt .L7
+ 228:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         }
+ 229:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     }
+ 230:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 231:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     /* Create output for remaining samples (x>=x(n)) */
+ 232:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** #ifdef ARM_MATH_NEON
+ 233:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     /* Compute 4 outputs at a time */
+ 234:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     blkCnt2 = blkCnt >> 2;
+ 235:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 236:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     while(blkCnt2 > 0) 
+ 237:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     { 
+ 238:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         /* Load [xq(k) xq(k+1) xq(k+2) xq(k+3)] */ 
+ 239:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         xqv = vld1q_f32(pXq);
+ 240:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         pXq+=4;
+ 241:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****                                                          
+ 242:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         /* Compute [xq(k)-x(i) xq(k+1)-x(i) xq(k+2)-x(i) xq(k+3)-x(i)] */
+ 243:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         diff = vsubq_f32(xqv, xiv);
+ 244:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         temp = diff; 
+ 245:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 246:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         /* y(i) = a(i) + ... */ 
+ 247:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         yv = aiv; 
+ 248:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         /* ... + b(i)*(x-x(i)) + ... */ 
+ 249:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         yv = vmlaq_f32(yv, biv, temp);
+ 250:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         /* ... + c(i)*(x-x(i))^2 + ... */
+ 251:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         temp = vmulq_f32(temp, diff);
+ 252:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         yv = vmlaq_f32(yv, civ, temp);
+ 253:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         /* ... + d(i)*(x-x(i))^3 */
+ 254:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         temp = vmulq_f32(temp, diff);
+ 255:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         yv = vmlaq_f32(yv, div, temp);
+ 256:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 257:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         /* Store [y(k) y(k+1) y(k+2) y(k+3)] */
+ 258:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         vst1q_f32(pDst, yv);
+ 259:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         pDst+=4;
+ 260:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 261:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         blkCnt2--;
+ 262:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     } 
+ 263:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 264:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     /* Tail */
+ 265:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     blkCnt2 = blkCnt & 3;                                      
+ 266:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** #else                                                        
+ 267:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     blkCnt2 = blkCnt;                                          
+ 211              	 .loc 1 267 0 is_stmt 1
+ 212 0176 BB6B     	 ldr r3,[r7,#56]
+ 213 0178 7B63     	 str r3,[r7,#52]
+ 268:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** #endif
+ 269:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** 
+ 270:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     while(blkCnt2 > 0)                                       
+ 214              	 .loc 1 270 0
+ 215 017a 91E0     	 b .L8
+ 216              	.L9:
+ 271:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     { 
+ 272:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         x_sc = *pXq++; 
+ 217              	 .loc 1 272 0
+ 218 017c FB6B     	 ldr r3,[r7,#60]
+ 219 017e 1A1D     	 adds r2,r3,#4
+ 220 0180 FA63     	 str r2,[r7,#60]
+ 221 0182 1B68     	 ldr r3,[r3]
+ 222 0184 7B61     	 str r3,[r7,#20]
+ 273:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****   
+ 274:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         *pDst = y[i-1]+b[i-1]*(x_sc-x[i-1])+c[i-1]*(x_sc-x[i-1])*(x_sc-x[i-1])+d[i-1]*(x_sc-x[i-1])
+ 223              	 .loc 1 274 0
+ 224 0186 3B6B     	 ldr r3,[r7,#48]
+ 225 0188 03F18043 	 add r3,r3,#1073741824
+ 226 018c 013B     	 subs r3,r3,#1
+ 227 018e 9B00     	 lsls r3,r3,#2
+ 228 0190 BA6A     	 ldr r2,[r7,#40]
+ 229 0192 1344     	 add r3,r3,r2
+ 230 0194 93ED007A 	 flds s14,[r3]
+ 231 0198 3B6B     	 ldr r3,[r7,#48]
+ 232 019a 03F18043 	 add r3,r3,#1073741824
+ 233 019e 013B     	 subs r3,r3,#1
+ 234 01a0 9B00     	 lsls r3,r3,#2
+ 235 01a2 3A6A     	 ldr r2,[r7,#32]
+ 236 01a4 1344     	 add r3,r3,r2
+ 237 01a6 D3ED006A 	 flds s13,[r3]
+ 238 01aa 3B6B     	 ldr r3,[r7,#48]
+ 239 01ac 03F18043 	 add r3,r3,#1073741824
+ 240 01b0 013B     	 subs r3,r3,#1
+ 241 01b2 9B00     	 lsls r3,r3,#2
+ 242 01b4 FA6A     	 ldr r2,[r7,#44]
+ 243 01b6 1344     	 add r3,r3,r2
+ 244 01b8 D3ED007A 	 flds s15,[r3]
+ 245 01bc 97ED056A 	 flds s12,[r7,#20]
+ 246 01c0 76EE677A 	 fsubs s15,s12,s15
+ 247 01c4 66EEA77A 	 fmuls s15,s13,s15
+ 248 01c8 37EE277A 	 fadds s14,s14,s15
+ 249 01cc 3B6B     	 ldr r3,[r7,#48]
+ 250 01ce 03F18043 	 add r3,r3,#1073741824
+ 251 01d2 013B     	 subs r3,r3,#1
+ 252 01d4 9B00     	 lsls r3,r3,#2
+ 253 01d6 FA69     	 ldr r2,[r7,#28]
+ 254 01d8 1344     	 add r3,r3,r2
+ 255 01da D3ED006A 	 flds s13,[r3]
+ 256 01de 3B6B     	 ldr r3,[r7,#48]
+ 257 01e0 03F18043 	 add r3,r3,#1073741824
+ 258 01e4 013B     	 subs r3,r3,#1
+ 259 01e6 9B00     	 lsls r3,r3,#2
+ 260 01e8 FA6A     	 ldr r2,[r7,#44]
+ 261 01ea 1344     	 add r3,r3,r2
+ 262 01ec D3ED007A 	 flds s15,[r3]
+ 263 01f0 97ED056A 	 flds s12,[r7,#20]
+ 264 01f4 76EE677A 	 fsubs s15,s12,s15
+ 265 01f8 66EEA76A 	 fmuls s13,s13,s15
+ 266 01fc 3B6B     	 ldr r3,[r7,#48]
+ 267 01fe 03F18043 	 add r3,r3,#1073741824
+ 268 0202 013B     	 subs r3,r3,#1
+ 269 0204 9B00     	 lsls r3,r3,#2
+ 270 0206 FA6A     	 ldr r2,[r7,#44]
+ 271 0208 1344     	 add r3,r3,r2
+ 272 020a D3ED007A 	 flds s15,[r3]
+ 273 020e 97ED056A 	 flds s12,[r7,#20]
+ 274 0212 76EE677A 	 fsubs s15,s12,s15
+ 275 0216 66EEA77A 	 fmuls s15,s13,s15
+ 276 021a 37EE277A 	 fadds s14,s14,s15
+ 277 021e 3B6B     	 ldr r3,[r7,#48]
+ 278 0220 03F18043 	 add r3,r3,#1073741824
+ 279 0224 013B     	 subs r3,r3,#1
+ 280 0226 9B00     	 lsls r3,r3,#2
+ 281 0228 BA69     	 ldr r2,[r7,#24]
+ 282 022a 1344     	 add r3,r3,r2
+ 283 022c D3ED006A 	 flds s13,[r3]
+ 284 0230 3B6B     	 ldr r3,[r7,#48]
+ 285 0232 03F18043 	 add r3,r3,#1073741824
+ 286 0236 013B     	 subs r3,r3,#1
+ 287 0238 9B00     	 lsls r3,r3,#2
+ 288 023a FA6A     	 ldr r2,[r7,#44]
+ 289 023c 1344     	 add r3,r3,r2
+ 290 023e D3ED007A 	 flds s15,[r3]
+ 291 0242 97ED056A 	 flds s12,[r7,#20]
+ 292 0246 76EE677A 	 fsubs s15,s12,s15
+ 293 024a 66EEA76A 	 fmuls s13,s13,s15
+ 294 024e 3B6B     	 ldr r3,[r7,#48]
+ 295 0250 03F18043 	 add r3,r3,#1073741824
+ 296 0254 013B     	 subs r3,r3,#1
+ 297 0256 9B00     	 lsls r3,r3,#2
+ 298 0258 FA6A     	 ldr r2,[r7,#44]
+ 299 025a 1344     	 add r3,r3,r2
+ 300 025c D3ED007A 	 flds s15,[r3]
+ 301 0260 97ED056A 	 flds s12,[r7,#20]
+ 302 0264 76EE677A 	 fsubs s15,s12,s15
+ 303 0268 66EEA76A 	 fmuls s13,s13,s15
+ 304 026c 3B6B     	 ldr r3,[r7,#48]
+ 305 026e 03F18043 	 add r3,r3,#1073741824
+ 306 0272 013B     	 subs r3,r3,#1
+ 307 0274 9B00     	 lsls r3,r3,#2
+ 308 0276 FA6A     	 ldr r2,[r7,#44]
+ 309 0278 1344     	 add r3,r3,r2
+ 310 027a D3ED007A 	 flds s15,[r3]
+ 311 027e 97ED056A 	 flds s12,[r7,#20]
+ 312 0282 76EE677A 	 fsubs s15,s12,s15
+ 313 0286 66EEA77A 	 fmuls s15,s13,s15
+ 314 028a 77EE277A 	 fadds s15,s14,s15
+ 315 028e 7B68     	 ldr r3,[r7,#4]
+ 316 0290 C3ED007A 	 fsts s15,[r3]
+ 275:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****  
+ 276:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         pDst++; 
+ 317              	 .loc 1 276 0
+ 318 0294 7B68     	 ldr r3,[r7,#4]
+ 319 0296 0433     	 adds r3,r3,#4
+ 320 0298 7B60     	 str r3,[r7,#4]
+ 277:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****         blkCnt2--;   
+ 321              	 .loc 1 277 0
+ 322 029a 7B6B     	 ldr r3,[r7,#52]
+ 323 029c 013B     	 subs r3,r3,#1
+ 324 029e 7B63     	 str r3,[r7,#52]
+ 325              	.L8:
+ 270:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     { 
+ 326              	 .loc 1 270 0
+ 327 02a0 7B6B     	 ldr r3,[r7,#52]
+ 328 02a2 002B     	 cmp r3,#0
+ 329 02a4 3FF76AAF 	 bgt .L9
+ 278:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c ****     }   
+ 279:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_spline_interp_f32.c **** }
+ 330              	 .loc 1 279 0
+ 331 02a8 4437     	 adds r7,r7,#68
+ 332              	.LCFI3:
+ 333              	 .cfi_def_cfa_offset 4
+ 334 02aa BD46     	 mov sp,r7
+ 335              	.LCFI4:
+ 336              	 .cfi_def_cfa_register 13
+ 337              	 
+ 338 02ac 5DF8047B 	 ldr r7,[sp],#4
+ 339              	.LCFI5:
+ 340              	 .cfi_restore 7
+ 341              	 .cfi_def_cfa_offset 0
+ 342 02b0 7047     	 bx lr
+ 343              	 .cfi_endproc
+ 344              	.LFE149:
+ 346 02b2 00BF     	 .text
+ 347              	.Letext0:
+ 348              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 349              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 350              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 351              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_spline_interp_f32.c
+    {standard input}:20     .text.arm_spline_f32:00000000 $t
+    {standard input}:25     .text.arm_spline_f32:00000000 arm_spline_f32
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

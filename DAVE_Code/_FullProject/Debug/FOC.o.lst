@@ -1,0 +1,1319 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "FOC.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.SpeedSensor,"ax",%progbits
+  20              	 .align 2
+  21              	 .global SpeedSensor
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	SpeedSensor:
+  26              	.LFB0:
+  27              	 .file 1 "../FOC.c"
+   1:../FOC.c      **** #include "FOC.h"
+   2:../FOC.c      **** 
+   3:../FOC.c      **** float SpeedSensor(float inA,float inB)
+   4:../FOC.c      **** {
+  28              	 .loc 1 4 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 83B0     	 sub sp,sp,#12
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 16
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 7860     	 str r0,[r7,#4]
+  44 0008 3960     	 str r1,[r7]
+   5:../FOC.c      **** 	static int counter = 0;
+   6:../FOC.c      **** 	static float RPM = 0;
+   7:../FOC.c      **** 	static float prevIa = 0;
+   8:../FOC.c      **** 	static float prevIb = 0;
+   9:../FOC.c      **** 	if(((prevIa>0 && inA < 0) || (prevIa < 0 && inA > 0))  && counter == 0)
+  45              	 .loc 1 9 0
+  46 000a 364B     	 ldr r3,.L19
+  47 000c D3ED007A 	 flds s15,[r3]
+  48 0010 F5EEC07A 	 fcmpezs s15
+  49 0014 F1EE10FA 	 fmstat
+  50 0018 06DD     	 ble .L2
+  51              	 .loc 1 9 0 is_stmt 0 discriminator 1
+  52 001a D7ED017A 	 flds s15,[r7,#4]
+  53 001e F5EEC07A 	 fcmpezs s15
+  54 0022 F1EE10FA 	 fmstat
+  55 0026 0ED4     	 bmi .L4
+  56              	.L2:
+  57              	 .loc 1 9 0 discriminator 4
+  58 0028 2E4B     	 ldr r3,.L19
+  59 002a D3ED007A 	 flds s15,[r3]
+  60 002e F5EEC07A 	 fcmpezs s15
+  61 0032 F1EE10FA 	 fmstat
+  62 0036 0DD5     	 bpl .L5
+  63              	 .loc 1 9 0 discriminator 5
+  64 0038 D7ED017A 	 flds s15,[r7,#4]
+  65 003c F5EEC07A 	 fcmpezs s15
+  66 0040 F1EE10FA 	 fmstat
+  67 0044 06DD     	 ble .L5
+  68              	.L4:
+  69              	 .loc 1 9 0 discriminator 6
+  70 0046 284B     	 ldr r3,.L19+4
+  71 0048 1B68     	 ldr r3,[r3]
+  72 004a 002B     	 cmp r3,#0
+  73 004c 02D1     	 bne .L5
+  10:../FOC.c      **** 	{
+  11:../FOC.c      **** 		counter = 0;
+  74              	 .loc 1 11 0 is_stmt 1
+  75 004e 264B     	 ldr r3,.L19+4
+  76 0050 0022     	 movs r2,#0
+  77 0052 1A60     	 str r2,[r3]
+  78              	.L5:
+  12:../FOC.c      **** 	}
+  13:../FOC.c      **** 	if(((prevIb>0 && inB < 0) || (prevIb < 0 && inB > 0)) && counter != 0){
+  79              	 .loc 1 13 0
+  80 0054 254B     	 ldr r3,.L19+8
+  81 0056 D3ED007A 	 flds s15,[r3]
+  82 005a F5EEC07A 	 fcmpezs s15
+  83 005e F1EE10FA 	 fmstat
+  84 0062 06DD     	 ble .L8
+  85              	 .loc 1 13 0 is_stmt 0 discriminator 1
+  86 0064 D7ED007A 	 flds s15,[r7]
+  87 0068 F5EEC07A 	 fcmpezs s15
+  88 006c F1EE10FA 	 fmstat
+  89 0070 0ED4     	 bmi .L10
+  90              	.L8:
+  91              	 .loc 1 13 0 discriminator 4
+  92 0072 1E4B     	 ldr r3,.L19+8
+  93 0074 D3ED007A 	 flds s15,[r3]
+  94 0078 F5EEC07A 	 fcmpezs s15
+  95 007c F1EE10FA 	 fmstat
+  96 0080 1DD5     	 bpl .L11
+  97              	 .loc 1 13 0 discriminator 5
+  98 0082 D7ED007A 	 flds s15,[r7]
+  99 0086 F5EEC07A 	 fcmpezs s15
+ 100 008a F1EE10FA 	 fmstat
+ 101 008e 16DD     	 ble .L11
+ 102              	.L10:
+ 103              	 .loc 1 13 0 discriminator 6
+ 104 0090 154B     	 ldr r3,.L19+4
+ 105 0092 1B68     	 ldr r3,[r3]
+ 106 0094 002B     	 cmp r3,#0
+ 107 0096 12D0     	 beq .L11
+  14:../FOC.c      **** 		RPM = 1/(4*counter)*60*TICKS_PER_SECOND;
+ 108              	 .loc 1 14 0 is_stmt 1
+ 109 0098 134B     	 ldr r3,.L19+4
+ 110 009a 1B68     	 ldr r3,[r3]
+ 111 009c 9B00     	 lsls r3,r3,#2
+ 112 009e 0122     	 movs r2,#1
+ 113 00a0 92FBF3F3 	 sdiv r3,r2,r3
+ 114 00a4 124A     	 ldr r2,.L19+12
+ 115 00a6 02FB03F3 	 mul r3,r2,r3
+ 116 00aa 07EE903A 	 fmsr s15,r3
+ 117 00ae F8EEE77A 	 fsitos s15,s15
+ 118 00b2 104B     	 ldr r3,.L19+16
+ 119 00b4 C3ED007A 	 fsts s15,[r3]
+  15:../FOC.c      **** 		counter = 0;
+ 120              	 .loc 1 15 0
+ 121 00b8 0B4B     	 ldr r3,.L19+4
+ 122 00ba 0022     	 movs r2,#0
+ 123 00bc 1A60     	 str r2,[r3]
+ 124              	.L11:
+  16:../FOC.c      **** 	}
+  17:../FOC.c      **** 	counter++;
+ 125              	 .loc 1 17 0
+ 126 00be 0A4B     	 ldr r3,.L19+4
+ 127 00c0 1B68     	 ldr r3,[r3]
+ 128 00c2 0133     	 adds r3,r3,#1
+ 129 00c4 084A     	 ldr r2,.L19+4
+ 130 00c6 1360     	 str r3,[r2]
+  18:../FOC.c      **** 	prevIb = inB;
+ 131              	 .loc 1 18 0
+ 132 00c8 084A     	 ldr r2,.L19+8
+ 133 00ca 3B68     	 ldr r3,[r7]
+ 134 00cc 1360     	 str r3,[r2]
+  19:../FOC.c      **** 	prevIa = inA;
+ 135              	 .loc 1 19 0
+ 136 00ce 054A     	 ldr r2,.L19
+ 137 00d0 7B68     	 ldr r3,[r7,#4]
+ 138 00d2 1360     	 str r3,[r2]
+  20:../FOC.c      **** 	return RPM;
+ 139              	 .loc 1 20 0
+ 140 00d4 074B     	 ldr r3,.L19+16
+ 141 00d6 1B68     	 ldr r3,[r3]
+  21:../FOC.c      **** }
+ 142              	 .loc 1 21 0
+ 143 00d8 1846     	 mov r0,r3
+ 144 00da 0C37     	 adds r7,r7,#12
+ 145              	.LCFI3:
+ 146              	 .cfi_def_cfa_offset 4
+ 147 00dc BD46     	 mov sp,r7
+ 148              	.LCFI4:
+ 149              	 .cfi_def_cfa_register 13
+ 150              	 
+ 151 00de 5DF8047B 	 ldr r7,[sp],#4
+ 152              	.LCFI5:
+ 153              	 .cfi_restore 7
+ 154              	 .cfi_def_cfa_offset 0
+ 155 00e2 7047     	 bx lr
+ 156              	.L20:
+ 157              	 .align 2
+ 158              	.L19:
+ 159 00e4 00000000 	 .word prevIa.5209
+ 160 00e8 00000000 	 .word counter.5207
+ 161 00ec 00000000 	 .word prevIb.5210
+ 162 00f0 80FC0A00 	 .word 720000
+ 163 00f4 00000000 	 .word RPM.5208
+ 164              	 .cfi_endproc
+ 165              	.LFE0:
+ 167              	 .global __aeabi_f2d
+ 168              	 .global __aeabi_dmul
+ 169              	 .global __aeabi_dadd
+ 170              	 .global __aeabi_d2f
+ 171              	 .section .text.CurrentController,"ax",%progbits
+ 172              	 .align 2
+ 173              	 .global CurrentController
+ 174              	 .thumb
+ 175              	 .thumb_func
+ 177              	CurrentController:
+ 178              	.LFB1:
+  22:../FOC.c      **** 
+  23:../FOC.c      **** void CurrentController(FOC* Controller)
+  24:../FOC.c      **** {
+ 179              	 .loc 1 24 0
+ 180              	 .cfi_startproc
+ 181              	 
+ 182              	 
+ 183 0000 2DE9B043 	 push {r4,r5,r7,r8,r9,lr}
+ 184              	.LCFI6:
+ 185              	 .cfi_def_cfa_offset 24
+ 186              	 .cfi_offset 4,-24
+ 187              	 .cfi_offset 5,-20
+ 188              	 .cfi_offset 7,-16
+ 189              	 .cfi_offset 8,-12
+ 190              	 .cfi_offset 9,-8
+ 191              	 .cfi_offset 14,-4
+ 192 0004 84B0     	 sub sp,sp,#16
+ 193              	.LCFI7:
+ 194              	 .cfi_def_cfa_offset 40
+ 195 0006 00AF     	 add r7,sp,#0
+ 196              	.LCFI8:
+ 197              	 .cfi_def_cfa_register 7
+ 198 0008 7860     	 str r0,[r7,#4]
+  25:../FOC.c      **** 	static float AccmErrD = 0,AccmErrQ = 0,AuxD = 0,AuxQ = 0;
+  26:../FOC.c      **** 
+  27:../FOC.c      **** 	float ErrD = Controller->Id_Ref - Controller->Id;
+ 199              	 .loc 1 27 0
+ 200 000a 7B68     	 ldr r3,[r7,#4]
+ 201 000c 93ED0B7A 	 flds s14,[r3,#44]
+ 202 0010 7B68     	 ldr r3,[r7,#4]
+ 203 0012 D3ED097A 	 flds s15,[r3,#36]
+ 204 0016 77EE677A 	 fsubs s15,s14,s15
+ 205 001a C7ED037A 	 fsts s15,[r7,#12]
+  28:../FOC.c      **** 	float ErrQ = Controller->Iq_Ref - Controller->Iq;
+ 206              	 .loc 1 28 0
+ 207 001e 7B68     	 ldr r3,[r7,#4]
+ 208 0020 93ED0C7A 	 flds s14,[r3,#48]
+ 209 0024 7B68     	 ldr r3,[r7,#4]
+ 210 0026 D3ED0A7A 	 flds s15,[r3,#40]
+ 211 002a 77EE677A 	 fsubs s15,s14,s15
+ 212 002e C7ED027A 	 fsts s15,[r7,#8]
+  29:../FOC.c      **** 
+  30:../FOC.c      **** 	AuxD += 0.5 * Controller->T_PI * (ErrD + AccmErrD);
+ 213              	 .loc 1 30 0
+ 214 0032 524B     	 ldr r3,.L22
+ 215 0034 1B68     	 ldr r3,[r3]
+ 216 0036 1846     	 mov r0,r3
+ 217 0038 FFF7FEFF 	 bl __aeabi_f2d
+ 218 003c 0446     	 mov r4,r0
+ 219 003e 0D46     	 mov r5,r1
+ 220 0040 7B68     	 ldr r3,[r7,#4]
+ 221 0042 9B68     	 ldr r3,[r3,#8]
+ 222 0044 1846     	 mov r0,r3
+ 223 0046 FFF7FEFF 	 bl __aeabi_f2d
+ 224 004a 0246     	 mov r2,r0
+ 225 004c 0B46     	 mov r3,r1
+ 226 004e 1046     	 mov r0,r2
+ 227 0050 1946     	 mov r1,r3
+ 228 0052 4FF00002 	 mov r2,#0
+ 229 0056 4A4B     	 ldr r3,.L22+4
+ 230 0058 FFF7FEFF 	 bl __aeabi_dmul
+ 231 005c 0246     	 mov r2,r0
+ 232 005e 0B46     	 mov r3,r1
+ 233 0060 9046     	 mov r8,r2
+ 234 0062 9946     	 mov r9,r3
+ 235 0064 474B     	 ldr r3,.L22+8
+ 236 0066 93ED007A 	 flds s14,[r3]
+ 237 006a D7ED037A 	 flds s15,[r7,#12]
+ 238 006e 77EE277A 	 fadds s15,s14,s15
+ 239 0072 17EE900A 	 fmrs r0,s15
+ 240 0076 FFF7FEFF 	 bl __aeabi_f2d
+ 241 007a 0246     	 mov r2,r0
+ 242 007c 0B46     	 mov r3,r1
+ 243 007e 4046     	 mov r0,r8
+ 244 0080 4946     	 mov r1,r9
+ 245 0082 FFF7FEFF 	 bl __aeabi_dmul
+ 246 0086 0246     	 mov r2,r0
+ 247 0088 0B46     	 mov r3,r1
+ 248 008a 2046     	 mov r0,r4
+ 249 008c 2946     	 mov r1,r5
+ 250 008e FFF7FEFF 	 bl __aeabi_dadd
+ 251 0092 0246     	 mov r2,r0
+ 252 0094 0B46     	 mov r3,r1
+ 253 0096 1046     	 mov r0,r2
+ 254 0098 1946     	 mov r1,r3
+ 255 009a FFF7FEFF 	 bl __aeabi_d2f
+ 256 009e 0246     	 mov r2,r0
+ 257 00a0 364B     	 ldr r3,.L22
+ 258 00a2 1A60     	 str r2,[r3]
+  31:../FOC.c      **** 	AuxQ += 0.5 * Controller->T_PI * (ErrQ + AccmErrQ);
+ 259              	 .loc 1 31 0
+ 260 00a4 384B     	 ldr r3,.L22+12
+ 261 00a6 1B68     	 ldr r3,[r3]
+ 262 00a8 1846     	 mov r0,r3
+ 263 00aa FFF7FEFF 	 bl __aeabi_f2d
+ 264 00ae 0446     	 mov r4,r0
+ 265 00b0 0D46     	 mov r5,r1
+ 266 00b2 7B68     	 ldr r3,[r7,#4]
+ 267 00b4 9B68     	 ldr r3,[r3,#8]
+ 268 00b6 1846     	 mov r0,r3
+ 269 00b8 FFF7FEFF 	 bl __aeabi_f2d
+ 270 00bc 0246     	 mov r2,r0
+ 271 00be 0B46     	 mov r3,r1
+ 272 00c0 1046     	 mov r0,r2
+ 273 00c2 1946     	 mov r1,r3
+ 274 00c4 4FF00002 	 mov r2,#0
+ 275 00c8 2D4B     	 ldr r3,.L22+4
+ 276 00ca FFF7FEFF 	 bl __aeabi_dmul
+ 277 00ce 0246     	 mov r2,r0
+ 278 00d0 0B46     	 mov r3,r1
+ 279 00d2 9046     	 mov r8,r2
+ 280 00d4 9946     	 mov r9,r3
+ 281 00d6 2D4B     	 ldr r3,.L22+16
+ 282 00d8 93ED007A 	 flds s14,[r3]
+ 283 00dc D7ED027A 	 flds s15,[r7,#8]
+ 284 00e0 77EE277A 	 fadds s15,s14,s15
+ 285 00e4 17EE900A 	 fmrs r0,s15
+ 286 00e8 FFF7FEFF 	 bl __aeabi_f2d
+ 287 00ec 0246     	 mov r2,r0
+ 288 00ee 0B46     	 mov r3,r1
+ 289 00f0 4046     	 mov r0,r8
+ 290 00f2 4946     	 mov r1,r9
+ 291 00f4 FFF7FEFF 	 bl __aeabi_dmul
+ 292 00f8 0246     	 mov r2,r0
+ 293 00fa 0B46     	 mov r3,r1
+ 294 00fc 2046     	 mov r0,r4
+ 295 00fe 2946     	 mov r1,r5
+ 296 0100 FFF7FEFF 	 bl __aeabi_dadd
+ 297 0104 0246     	 mov r2,r0
+ 298 0106 0B46     	 mov r3,r1
+ 299 0108 1046     	 mov r0,r2
+ 300 010a 1946     	 mov r1,r3
+ 301 010c FFF7FEFF 	 bl __aeabi_d2f
+ 302 0110 0246     	 mov r2,r0
+ 303 0112 1D4B     	 ldr r3,.L22+12
+ 304 0114 1A60     	 str r2,[r3]
+  32:../FOC.c      **** 
+  33:../FOC.c      **** 	Controller->Vd_Ref = AuxD * Controller->Ki + ErrD * Controller->Kp;
+ 305              	 .loc 1 33 0
+ 306 0116 7B68     	 ldr r3,[r7,#4]
+ 307 0118 93ED017A 	 flds s14,[r3,#4]
+ 308 011c 174B     	 ldr r3,.L22
+ 309 011e D3ED007A 	 flds s15,[r3]
+ 310 0122 27EE277A 	 fmuls s14,s14,s15
+ 311 0126 7B68     	 ldr r3,[r7,#4]
+ 312 0128 D3ED006A 	 flds s13,[r3]
+ 313 012c D7ED037A 	 flds s15,[r7,#12]
+ 314 0130 66EEA77A 	 fmuls s15,s13,s15
+ 315 0134 77EE277A 	 fadds s15,s14,s15
+ 316 0138 7B68     	 ldr r3,[r7,#4]
+ 317 013a C3ED0D7A 	 fsts s15,[r3,#52]
+  34:../FOC.c      **** 	Controller->Vq_Ref = AuxQ * Controller->Ki + ErrQ * Controller->Kp;
+ 318              	 .loc 1 34 0
+ 319 013e 7B68     	 ldr r3,[r7,#4]
+ 320 0140 93ED017A 	 flds s14,[r3,#4]
+ 321 0144 104B     	 ldr r3,.L22+12
+ 322 0146 D3ED007A 	 flds s15,[r3]
+ 323 014a 27EE277A 	 fmuls s14,s14,s15
+ 324 014e 7B68     	 ldr r3,[r7,#4]
+ 325 0150 D3ED006A 	 flds s13,[r3]
+ 326 0154 D7ED027A 	 flds s15,[r7,#8]
+ 327 0158 66EEA77A 	 fmuls s15,s13,s15
+ 328 015c 77EE277A 	 fadds s15,s14,s15
+ 329 0160 7B68     	 ldr r3,[r7,#4]
+ 330 0162 C3ED0E7A 	 fsts s15,[r3,#56]
+  35:../FOC.c      **** 
+  36:../FOC.c      **** 	AccmErrD = ErrD;
+ 331              	 .loc 1 36 0
+ 332 0166 074A     	 ldr r2,.L22+8
+ 333 0168 FB68     	 ldr r3,[r7,#12]
+ 334 016a 1360     	 str r3,[r2]
+  37:../FOC.c      **** 	AccmErrQ = ErrQ;
+ 335              	 .loc 1 37 0
+ 336 016c 074A     	 ldr r2,.L22+16
+ 337 016e BB68     	 ldr r3,[r7,#8]
+ 338 0170 1360     	 str r3,[r2]
+  38:../FOC.c      **** }
+ 339              	 .loc 1 38 0
+ 340 0172 1037     	 adds r7,r7,#16
+ 341              	.LCFI9:
+ 342              	 .cfi_def_cfa_offset 24
+ 343 0174 BD46     	 mov sp,r7
+ 344              	.LCFI10:
+ 345              	 .cfi_def_cfa_register 13
+ 346              	 
+ 347 0176 BDE8B083 	 pop {r4,r5,r7,r8,r9,pc}
+ 348              	.L23:
+ 349 017a 00BF     	 .align 2
+ 350              	.L22:
+ 351 017c 00000000 	 .word AuxD.5216
+ 352 0180 0000E03F 	 .word 1071644672
+ 353 0184 00000000 	 .word AccmErrD.5214
+ 354 0188 00000000 	 .word AuxQ.5217
+ 355 018c 00000000 	 .word AccmErrQ.5215
+ 356              	 .cfi_endproc
+ 357              	.LFE1:
+ 359              	 .global __aeabi_i2d
+ 360              	 .global __aeabi_ddiv
+ 361              	 .global __aeabi_dcmpge
+ 362              	 .section .text.ThetaCalulation,"ax",%progbits
+ 363              	 .align 2
+ 364              	 .global ThetaCalulation
+ 365              	 .thumb
+ 366              	 .thumb_func
+ 368              	ThetaCalulation:
+ 369              	.LFB2:
+  39:../FOC.c      **** 
+  40:../FOC.c      **** void ThetaCalulation(float RPM,FOC* Controller)
+  41:../FOC.c      **** {
+ 370              	 .loc 1 41 0
+ 371              	 .cfi_startproc
+ 372              	 
+ 373              	 
+ 374 0000 2DE9B04F 	 push {r4,r5,r7,r8,r9,r10,fp,lr}
+ 375              	.LCFI11:
+ 376              	 .cfi_def_cfa_offset 32
+ 377              	 .cfi_offset 4,-32
+ 378              	 .cfi_offset 5,-28
+ 379              	 .cfi_offset 7,-24
+ 380              	 .cfi_offset 8,-20
+ 381              	 .cfi_offset 9,-16
+ 382              	 .cfi_offset 10,-12
+ 383              	 .cfi_offset 11,-8
+ 384              	 .cfi_offset 14,-4
+ 385 0004 82B0     	 sub sp,sp,#8
+ 386              	.LCFI12:
+ 387              	 .cfi_def_cfa_offset 40
+ 388 0006 00AF     	 add r7,sp,#0
+ 389              	.LCFI13:
+ 390              	 .cfi_def_cfa_register 7
+ 391 0008 7860     	 str r0,[r7,#4]
+ 392 000a 3960     	 str r1,[r7]
+  42:../FOC.c      **** 	if(Controller->Id > 0)
+ 393              	 .loc 1 42 0
+ 394 000c 3B68     	 ldr r3,[r7]
+ 395 000e D3ED097A 	 flds s15,[r3,#36]
+ 396 0012 F5EEC07A 	 fcmpezs s15
+ 397 0016 F1EE10FA 	 fmstat
+ 398 001a 7DDD     	 ble .L32
+  43:../FOC.c      **** 		Controller->Theta += Controller->T_Theta * (abs(RPM) * 2 * PI / 60 * P / 2 + (Controller->Iq / Co
+ 399              	 .loc 1 43 0
+ 400 001c 3B68     	 ldr r3,[r7]
+ 401 001e 1B69     	 ldr r3,[r3,#16]
+ 402 0020 1846     	 mov r0,r3
+ 403 0022 FFF7FEFF 	 bl __aeabi_f2d
+ 404 0026 0446     	 mov r4,r0
+ 405 0028 0D46     	 mov r5,r1
+ 406 002a 3B68     	 ldr r3,[r7]
+ 407 002c DB68     	 ldr r3,[r3,#12]
+ 408 002e 1846     	 mov r0,r3
+ 409 0030 FFF7FEFF 	 bl __aeabi_f2d
+ 410 0034 8046     	 mov r8,r0
+ 411 0036 8946     	 mov r9,r1
+ 412 0038 D7ED017A 	 flds s15,[r7,#4]
+ 413 003c FDEEE77A 	 ftosizs s15,s15
+ 414 0040 17EE903A 	 fmrs r3,s15
+ 415 0044 002B     	 cmp r3,#0
+ 416 0046 B8BF     	 it lt
+ 417 0048 5B42     	 rsblt r3,r3,#0
+ 418 004a 5B00     	 lsls r3,r3,#1
+ 419 004c 1846     	 mov r0,r3
+ 420 004e FFF7FEFF 	 bl __aeabi_i2d
+ 421 0052 0246     	 mov r2,r0
+ 422 0054 0B46     	 mov r3,r1
+ 423 0056 1046     	 mov r0,r2
+ 424 0058 1946     	 mov r1,r3
+ 425 005a 4AA3     	 adr r3,.L33+36
+ 426 005c D3E90023 	 ldrd r2,[r3]
+ 427 0060 FFF7FEFF 	 bl __aeabi_dmul
+ 428 0064 0246     	 mov r2,r0
+ 429 0066 0B46     	 mov r3,r1
+ 430 0068 1046     	 mov r0,r2
+ 431 006a 1946     	 mov r1,r3
+ 432 006c 4FF00002 	 mov r2,#0
+ 433 0070 414B     	 ldr r3,.L33+24
+ 434 0072 FFF7FEFF 	 bl __aeabi_ddiv
+ 435 0076 0246     	 mov r2,r0
+ 436 0078 0B46     	 mov r3,r1
+ 437 007a 1046     	 mov r0,r2
+ 438 007c 1946     	 mov r1,r3
+ 439 007e 4FF00002 	 mov r2,#0
+ 440 0082 3E4B     	 ldr r3,.L33+28
+ 441 0084 FFF7FEFF 	 bl __aeabi_dmul
+ 442 0088 0246     	 mov r2,r0
+ 443 008a 0B46     	 mov r3,r1
+ 444 008c 1046     	 mov r0,r2
+ 445 008e 1946     	 mov r1,r3
+ 446 0090 4FF00002 	 mov r2,#0
+ 447 0094 4FF08043 	 mov r3,#1073741824
+ 448 0098 FFF7FEFF 	 bl __aeabi_ddiv
+ 449 009c 0246     	 mov r2,r0
+ 450 009e 0B46     	 mov r3,r1
+ 451 00a0 9246     	 mov r10,r2
+ 452 00a2 9B46     	 mov fp,r3
+ 453 00a4 3B68     	 ldr r3,[r7]
+ 454 00a6 93ED0A7A 	 flds s14,[r3,#40]
+ 455 00aa 3B68     	 ldr r3,[r7]
+ 456 00ac D3ED097A 	 flds s15,[r3,#36]
+ 457 00b0 C7EE277A 	 fdivs s15,s14,s15
+ 458 00b4 17EE900A 	 fmrs r0,s15
+ 459 00b8 FFF7FEFF 	 bl __aeabi_f2d
+ 460 00bc 0246     	 mov r2,r0
+ 461 00be 0B46     	 mov r3,r1
+ 462 00c0 1046     	 mov r0,r2
+ 463 00c2 1946     	 mov r1,r3
+ 464 00c4 26A3     	 adr r3,.L33
+ 465 00c6 D3E90023 	 ldrd r2,[r3]
+ 466 00ca FFF7FEFF 	 bl __aeabi_dmul
+ 467 00ce 0246     	 mov r2,r0
+ 468 00d0 0B46     	 mov r3,r1
+ 469 00d2 1046     	 mov r0,r2
+ 470 00d4 1946     	 mov r1,r3
+ 471 00d6 24A3     	 adr r3,.L33+8
+ 472 00d8 D3E90023 	 ldrd r2,[r3]
+ 473 00dc FFF7FEFF 	 bl __aeabi_ddiv
+ 474 00e0 0246     	 mov r2,r0
+ 475 00e2 0B46     	 mov r3,r1
+ 476 00e4 5046     	 mov r0,r10
+ 477 00e6 5946     	 mov r1,fp
+ 478 00e8 FFF7FEFF 	 bl __aeabi_dadd
+ 479 00ec 0246     	 mov r2,r0
+ 480 00ee 0B46     	 mov r3,r1
+ 481 00f0 4046     	 mov r0,r8
+ 482 00f2 4946     	 mov r1,r9
+ 483 00f4 FFF7FEFF 	 bl __aeabi_dmul
+ 484 00f8 0246     	 mov r2,r0
+ 485 00fa 0B46     	 mov r3,r1
+ 486 00fc 2046     	 mov r0,r4
+ 487 00fe 2946     	 mov r1,r5
+ 488 0100 FFF7FEFF 	 bl __aeabi_dadd
+ 489 0104 0246     	 mov r2,r0
+ 490 0106 0B46     	 mov r3,r1
+ 491 0108 1046     	 mov r0,r2
+ 492 010a 1946     	 mov r1,r3
+ 493 010c FFF7FEFF 	 bl __aeabi_d2f
+ 494 0110 0246     	 mov r2,r0
+ 495 0112 3B68     	 ldr r3,[r7]
+ 496 0114 1A61     	 str r2,[r3,#16]
+ 497 0116 03E0     	 b .L27
+ 498              	.L32:
+  44:../FOC.c      **** 	else
+  45:../FOC.c      **** 		Controller->Theta = 0;
+ 499              	 .loc 1 45 0
+ 500 0118 3B68     	 ldr r3,[r7]
+ 501 011a 4FF00002 	 mov r2,#0
+ 502 011e 1A61     	 str r2,[r3,#16]
+ 503              	.L27:
+  46:../FOC.c      **** 	if (abs(Controller->Theta) >= 2 * PI)
+ 504              	 .loc 1 46 0
+ 505 0120 3B68     	 ldr r3,[r7]
+ 506 0122 D3ED047A 	 flds s15,[r3,#16]
+ 507 0126 FDEEE77A 	 ftosizs s15,s15
+ 508 012a 17EE903A 	 fmrs r3,s15
+ 509 012e 002B     	 cmp r3,#0
+ 510 0130 B8BF     	 it lt
+ 511 0132 5B42     	 rsblt r3,r3,#0
+ 512 0134 1846     	 mov r0,r3
+ 513 0136 FFF7FEFF 	 bl __aeabi_i2d
+ 514 013a 0246     	 mov r2,r0
+ 515 013c 0B46     	 mov r3,r1
+ 516 013e 1046     	 mov r0,r2
+ 517 0140 1946     	 mov r1,r3
+ 518 0142 0BA3     	 adr r3,.L33+16
+ 519 0144 D3E90023 	 ldrd r2,[r3]
+ 520 0148 FFF7FEFF 	 bl __aeabi_dcmpge
+ 521 014c 0346     	 mov r3,r0
+ 522 014e 002B     	 cmp r3,#0
+ 523 0150 02D0     	 beq .L24
+  47:../FOC.c      **** 	  {
+  48:../FOC.c      **** 		Controller->Theta = -2 * PI;
+ 524              	 .loc 1 48 0
+ 525 0152 3B68     	 ldr r3,[r7]
+ 526 0154 0A4A     	 ldr r2,.L33+32
+ 527 0156 1A61     	 str r2,[r3,#16]
+ 528              	.L24:
+  49:../FOC.c      **** 	  }
+  50:../FOC.c      **** }
+ 529              	 .loc 1 50 0
+ 530 0158 0837     	 adds r7,r7,#8
+ 531              	.LCFI14:
+ 532              	 .cfi_def_cfa_offset 32
+ 533 015a BD46     	 mov sp,r7
+ 534              	.LCFI15:
+ 535              	 .cfi_def_cfa_register 13
+ 536              	 
+ 537 015c BDE8B08F 	 pop {r4,r5,r7,r8,r9,r10,fp,pc}
+ 538              	.L34:
+ 539              	 .align 3
+ 540              	.L33:
+ 541 0160 B24B546F 	 .word 1867795378
+ 542 0164 0D6C953F 	 .word 1066757133
+ 543 0168 CEC7B5A1 	 .word -1581922354
+ 544 016c 629C8F3F 	 .word 1066376290
+ 545 0170 EA2E4454 	 .word 1413754602
+ 546 0174 FB211940 	 .word 1075388923
+ 547 0178 00004E40 	 .word 1078853632
+ 548 017c 00001040 	 .word 1074790400
+ 549 0180 DB0FC9C0 	 .word -1060565029
+ 550 0184 EA2E4454 	 .word 1413754602
+ 551 0188 FB210940 	 .word 1074340347
+ 552              	 .cfi_endproc
+ 553              	.LFE2:
+ 555              	 .global __aeabi_dsub
+ 556 018c AFF30080 	 .section .text.ClarkeTransform,"ax",%progbits
+ 557              	 .align 2
+ 558              	 .global ClarkeTransform
+ 559              	 .thumb
+ 560              	 .thumb_func
+ 562              	ClarkeTransform:
+ 563              	.LFB3:
+  51:../FOC.c      **** 
+  52:../FOC.c      **** void ClarkeTransform(int opt,float Ia,float Ib,float Ic,float Va,float Vb,float Vc,FOC* Controller)
+  53:../FOC.c      **** {
+ 564              	 .loc 1 53 0
+ 565              	 .cfi_startproc
+ 566              	 
+ 567              	 
+ 568 0000 B0B5     	 push {r4,r5,r7,lr}
+ 569              	.LCFI16:
+ 570              	 .cfi_def_cfa_offset 16
+ 571              	 .cfi_offset 4,-16
+ 572              	 .cfi_offset 5,-12
+ 573              	 .cfi_offset 7,-8
+ 574              	 .cfi_offset 14,-4
+ 575 0002 84B0     	 sub sp,sp,#16
+ 576              	.LCFI17:
+ 577              	 .cfi_def_cfa_offset 32
+ 578 0004 00AF     	 add r7,sp,#0
+ 579              	.LCFI18:
+ 580              	 .cfi_def_cfa_register 7
+ 581 0006 F860     	 str r0,[r7,#12]
+ 582 0008 B960     	 str r1,[r7,#8]
+ 583 000a 7A60     	 str r2,[r7,#4]
+ 584 000c 3B60     	 str r3,[r7]
+  54:../FOC.c      **** 	if (opt == 0)
+ 585              	 .loc 1 54 0
+ 586 000e FB68     	 ldr r3,[r7,#12]
+ 587 0010 002B     	 cmp r3,#0
+ 588 0012 4DD1     	 bne .L36
+  55:../FOC.c      **** 	{
+  56:../FOC.c      **** 		Controller->Ial = ((Ia - 0.5f * Ib - 0.5f * Ic)) * 0.66666666666666666666666667f;
+ 589              	 .loc 1 56 0
+ 590 0014 D7ED017A 	 flds s15,[r7,#4]
+ 591 0018 B6EE007A 	 fconsts s14,#96
+ 592 001c 67EE877A 	 fmuls s15,s15,s14
+ 593 0020 97ED027A 	 flds s14,[r7,#8]
+ 594 0024 37EE677A 	 fsubs s14,s14,s15
+ 595 0028 D7ED007A 	 flds s15,[r7]
+ 596 002c F6EE006A 	 fconsts s13,#96
+ 597 0030 67EEA67A 	 fmuls s15,s15,s13
+ 598 0034 77EE677A 	 fsubs s15,s14,s15
+ 599 0038 9FED3F7A 	 flds s14,.L38+32
+ 600 003c 67EE877A 	 fmuls s15,s15,s14
+ 601 0040 FB6A     	 ldr r3,[r7,#44]
+ 602 0042 C3ED057A 	 fsts s15,[r3,#20]
+  57:../FOC.c      **** 		Controller->Ibet = ((sqrt(3) * 0.5f * Ib - sqrt(3) * 0.5f * Ic)) * 0.66666666666666666666666667f;
+ 603              	 .loc 1 57 0
+ 604 0046 7868     	 ldr r0,[r7,#4]
+ 605 0048 FFF7FEFF 	 bl __aeabi_f2d
+ 606 004c 0246     	 mov r2,r0
+ 607 004e 0B46     	 mov r3,r1
+ 608 0050 1046     	 mov r0,r2
+ 609 0052 1946     	 mov r1,r3
+ 610 0054 30A3     	 adr r3,.L38
+ 611 0056 D3E90023 	 ldrd r2,[r3]
+ 612 005a FFF7FEFF 	 bl __aeabi_dmul
+ 613 005e 0246     	 mov r2,r0
+ 614 0060 0B46     	 mov r3,r1
+ 615 0062 1446     	 mov r4,r2
+ 616 0064 1D46     	 mov r5,r3
+ 617 0066 3868     	 ldr r0,[r7]
+ 618 0068 FFF7FEFF 	 bl __aeabi_f2d
+ 619 006c 0246     	 mov r2,r0
+ 620 006e 0B46     	 mov r3,r1
+ 621 0070 1046     	 mov r0,r2
+ 622 0072 1946     	 mov r1,r3
+ 623 0074 28A3     	 adr r3,.L38
+ 624 0076 D3E90023 	 ldrd r2,[r3]
+ 625 007a FFF7FEFF 	 bl __aeabi_dmul
+ 626 007e 0246     	 mov r2,r0
+ 627 0080 0B46     	 mov r3,r1
+ 628 0082 2046     	 mov r0,r4
+ 629 0084 2946     	 mov r1,r5
+ 630 0086 FFF7FEFF 	 bl __aeabi_dsub
+ 631 008a 0246     	 mov r2,r0
+ 632 008c 0B46     	 mov r3,r1
+ 633 008e 1046     	 mov r0,r2
+ 634 0090 1946     	 mov r1,r3
+ 635 0092 23A3     	 adr r3,.L38+8
+ 636 0094 D3E90023 	 ldrd r2,[r3]
+ 637 0098 FFF7FEFF 	 bl __aeabi_dmul
+ 638 009c 0246     	 mov r2,r0
+ 639 009e 0B46     	 mov r3,r1
+ 640 00a0 1046     	 mov r0,r2
+ 641 00a2 1946     	 mov r1,r3
+ 642 00a4 FFF7FEFF 	 bl __aeabi_d2f
+ 643 00a8 0246     	 mov r2,r0
+ 644 00aa FB6A     	 ldr r3,[r7,#44]
+ 645 00ac 9A61     	 str r2,[r3,#24]
+ 646 00ae 30E0     	 b .L35
+ 647              	.L36:
+  58:../FOC.c      **** 	}
+  59:../FOC.c      **** 	else if (opt == 1)
+ 648              	 .loc 1 59 0
+ 649 00b0 FB68     	 ldr r3,[r7,#12]
+ 650 00b2 012B     	 cmp r3,#1
+ 651 00b4 2DD1     	 bne .L35
+  60:../FOC.c      **** 	{ // Power Invariant
+  61:../FOC.c      **** 	    Controller->Val = sqrt(3/2) * Va;
+ 652              	 .loc 1 61 0
+ 653 00b6 FB6A     	 ldr r3,[r7,#44]
+ 654 00b8 3A6A     	 ldr r2,[r7,#32]
+ 655 00ba DA61     	 str r2,[r3,#28]
+  62:../FOC.c      **** 	    Controller->Vbet = sqrt(2) / 2 * Va + sqrt(2) * Vb;
+ 656              	 .loc 1 62 0
+ 657 00bc 386A     	 ldr r0,[r7,#32]
+ 658 00be FFF7FEFF 	 bl __aeabi_f2d
+ 659 00c2 0246     	 mov r2,r0
+ 660 00c4 0B46     	 mov r3,r1
+ 661 00c6 1046     	 mov r0,r2
+ 662 00c8 1946     	 mov r1,r3
+ 663 00ca 17A3     	 adr r3,.L38+16
+ 664 00cc D3E90023 	 ldrd r2,[r3]
+ 665 00d0 FFF7FEFF 	 bl __aeabi_dmul
+ 666 00d4 0246     	 mov r2,r0
+ 667 00d6 0B46     	 mov r3,r1
+ 668 00d8 1446     	 mov r4,r2
+ 669 00da 1D46     	 mov r5,r3
+ 670 00dc 786A     	 ldr r0,[r7,#36]
+ 671 00de FFF7FEFF 	 bl __aeabi_f2d
+ 672 00e2 0246     	 mov r2,r0
+ 673 00e4 0B46     	 mov r3,r1
+ 674 00e6 1046     	 mov r0,r2
+ 675 00e8 1946     	 mov r1,r3
+ 676 00ea 11A3     	 adr r3,.L38+24
+ 677 00ec D3E90023 	 ldrd r2,[r3]
+ 678 00f0 FFF7FEFF 	 bl __aeabi_dmul
+ 679 00f4 0246     	 mov r2,r0
+ 680 00f6 0B46     	 mov r3,r1
+ 681 00f8 2046     	 mov r0,r4
+ 682 00fa 2946     	 mov r1,r5
+ 683 00fc FFF7FEFF 	 bl __aeabi_dadd
+ 684 0100 0246     	 mov r2,r0
+ 685 0102 0B46     	 mov r3,r1
+ 686 0104 1046     	 mov r0,r2
+ 687 0106 1946     	 mov r1,r3
+ 688 0108 FFF7FEFF 	 bl __aeabi_d2f
+ 689 010c 0246     	 mov r2,r0
+ 690 010e FB6A     	 ldr r3,[r7,#44]
+ 691 0110 1A62     	 str r2,[r3,#32]
+ 692              	.L35:
+  63:../FOC.c      **** 	}
+  64:../FOC.c      **** }
+ 693              	 .loc 1 64 0
+ 694 0112 1037     	 adds r7,r7,#16
+ 695              	.LCFI19:
+ 696              	 .cfi_def_cfa_offset 16
+ 697 0114 BD46     	 mov sp,r7
+ 698              	.LCFI20:
+ 699              	 .cfi_def_cfa_register 13
+ 700              	 
+ 701 0116 B0BD     	 pop {r4,r5,r7,pc}
+ 702              	.L39:
+ 703              	 .align 3
+ 704              	.L38:
+ 705 0118 AA4C58E8 	 .word -396866390
+ 706 011c 7AB6EB3F 	 .word 1072412282
+ 707 0120 00000060 	 .word 1610612736
+ 708 0124 5555E53F 	 .word 1071994197
+ 709 0128 CD3B7F66 	 .word 1719614413
+ 710 012c 9EA0E63F 	 .word 1072079006
+ 711 0130 CD3B7F66 	 .word 1719614413
+ 712 0134 9EA0F63F 	 .word 1073127582
+ 713 0138 ABAA2A3F 	 .word 1059760811
+ 714              	 .cfi_endproc
+ 715              	.LFE3:
+ 717 013c AFF30080 	 .section .text.ParkTransform,"ax",%progbits
+ 718              	 .align 2
+ 719              	 .global ParkTransform
+ 720              	 .thumb
+ 721              	 .thumb_func
+ 723              	ParkTransform:
+ 724              	.LFB4:
+  65:../FOC.c      **** 
+  66:../FOC.c      **** void ParkTransform(FOC* Controller)
+  67:../FOC.c      **** {
+ 725              	 .loc 1 67 0
+ 726              	 .cfi_startproc
+ 727              	 
+ 728              	 
+ 729 0000 2DE9B043 	 push {r4,r5,r7,r8,r9,lr}
+ 730              	.LCFI21:
+ 731              	 .cfi_def_cfa_offset 24
+ 732              	 .cfi_offset 4,-24
+ 733              	 .cfi_offset 5,-20
+ 734              	 .cfi_offset 7,-16
+ 735              	 .cfi_offset 8,-12
+ 736              	 .cfi_offset 9,-8
+ 737              	 .cfi_offset 14,-4
+ 738 0004 82B0     	 sub sp,sp,#8
+ 739              	.LCFI22:
+ 740              	 .cfi_def_cfa_offset 32
+ 741 0006 00AF     	 add r7,sp,#0
+ 742              	.LCFI23:
+ 743              	 .cfi_def_cfa_register 7
+ 744 0008 7860     	 str r0,[r7,#4]
+  68:../FOC.c      **** 	// Only used after Clarke(0) is performed
+  69:../FOC.c      **** 	Controller->Id = Controller->Ial * cos(Controller->Theta) + Controller->Ibet * sin(Controller->The
+ 745              	 .loc 1 69 0
+ 746 000a 7B68     	 ldr r3,[r7,#4]
+ 747 000c 5B69     	 ldr r3,[r3,#20]
+ 748 000e 1846     	 mov r0,r3
+ 749 0010 FFF7FEFF 	 bl __aeabi_f2d
+ 750 0014 0446     	 mov r4,r0
+ 751 0016 0D46     	 mov r5,r1
+ 752 0018 7B68     	 ldr r3,[r7,#4]
+ 753 001a 1B69     	 ldr r3,[r3,#16]
+ 754 001c 1846     	 mov r0,r3
+ 755 001e FFF7FEFF 	 bl __aeabi_f2d
+ 756 0022 0246     	 mov r2,r0
+ 757 0024 0B46     	 mov r3,r1
+ 758 0026 1046     	 mov r0,r2
+ 759 0028 1946     	 mov r1,r3
+ 760 002a FFF7FEFF 	 bl cos
+ 761 002e 0246     	 mov r2,r0
+ 762 0030 0B46     	 mov r3,r1
+ 763 0032 2046     	 mov r0,r4
+ 764 0034 2946     	 mov r1,r5
+ 765 0036 FFF7FEFF 	 bl __aeabi_dmul
+ 766 003a 0246     	 mov r2,r0
+ 767 003c 0B46     	 mov r3,r1
+ 768 003e 1446     	 mov r4,r2
+ 769 0040 1D46     	 mov r5,r3
+ 770 0042 7B68     	 ldr r3,[r7,#4]
+ 771 0044 9B69     	 ldr r3,[r3,#24]
+ 772 0046 1846     	 mov r0,r3
+ 773 0048 FFF7FEFF 	 bl __aeabi_f2d
+ 774 004c 8046     	 mov r8,r0
+ 775 004e 8946     	 mov r9,r1
+ 776 0050 7B68     	 ldr r3,[r7,#4]
+ 777 0052 1B69     	 ldr r3,[r3,#16]
+ 778 0054 1846     	 mov r0,r3
+ 779 0056 FFF7FEFF 	 bl __aeabi_f2d
+ 780 005a 0246     	 mov r2,r0
+ 781 005c 0B46     	 mov r3,r1
+ 782 005e 1046     	 mov r0,r2
+ 783 0060 1946     	 mov r1,r3
+ 784 0062 FFF7FEFF 	 bl sin
+ 785 0066 0246     	 mov r2,r0
+ 786 0068 0B46     	 mov r3,r1
+ 787 006a 4046     	 mov r0,r8
+ 788 006c 4946     	 mov r1,r9
+ 789 006e FFF7FEFF 	 bl __aeabi_dmul
+ 790 0072 0246     	 mov r2,r0
+ 791 0074 0B46     	 mov r3,r1
+ 792 0076 2046     	 mov r0,r4
+ 793 0078 2946     	 mov r1,r5
+ 794 007a FFF7FEFF 	 bl __aeabi_dadd
+ 795 007e 0246     	 mov r2,r0
+ 796 0080 0B46     	 mov r3,r1
+ 797 0082 1046     	 mov r0,r2
+ 798 0084 1946     	 mov r1,r3
+ 799 0086 FFF7FEFF 	 bl __aeabi_d2f
+ 800 008a 0246     	 mov r2,r0
+ 801 008c 7B68     	 ldr r3,[r7,#4]
+ 802 008e 5A62     	 str r2,[r3,#36]
+  70:../FOC.c      **** 	Controller->Iq = -Controller->Ial * sin(Controller->Theta) + Controller->Ibet * cos(Controller->Th
+ 803              	 .loc 1 70 0
+ 804 0090 7B68     	 ldr r3,[r7,#4]
+ 805 0092 D3ED057A 	 flds s15,[r3,#20]
+ 806 0096 F1EE677A 	 fnegs s15,s15
+ 807 009a 17EE903A 	 fmrs r3,s15
+ 808 009e 1846     	 mov r0,r3
+ 809 00a0 FFF7FEFF 	 bl __aeabi_f2d
+ 810 00a4 0446     	 mov r4,r0
+ 811 00a6 0D46     	 mov r5,r1
+ 812 00a8 7B68     	 ldr r3,[r7,#4]
+ 813 00aa 1B69     	 ldr r3,[r3,#16]
+ 814 00ac 1846     	 mov r0,r3
+ 815 00ae FFF7FEFF 	 bl __aeabi_f2d
+ 816 00b2 0246     	 mov r2,r0
+ 817 00b4 0B46     	 mov r3,r1
+ 818 00b6 1046     	 mov r0,r2
+ 819 00b8 1946     	 mov r1,r3
+ 820 00ba FFF7FEFF 	 bl sin
+ 821 00be 0246     	 mov r2,r0
+ 822 00c0 0B46     	 mov r3,r1
+ 823 00c2 2046     	 mov r0,r4
+ 824 00c4 2946     	 mov r1,r5
+ 825 00c6 FFF7FEFF 	 bl __aeabi_dmul
+ 826 00ca 0246     	 mov r2,r0
+ 827 00cc 0B46     	 mov r3,r1
+ 828 00ce 1446     	 mov r4,r2
+ 829 00d0 1D46     	 mov r5,r3
+ 830 00d2 7B68     	 ldr r3,[r7,#4]
+ 831 00d4 9B69     	 ldr r3,[r3,#24]
+ 832 00d6 1846     	 mov r0,r3
+ 833 00d8 FFF7FEFF 	 bl __aeabi_f2d
+ 834 00dc 8046     	 mov r8,r0
+ 835 00de 8946     	 mov r9,r1
+ 836 00e0 7B68     	 ldr r3,[r7,#4]
+ 837 00e2 1B69     	 ldr r3,[r3,#16]
+ 838 00e4 1846     	 mov r0,r3
+ 839 00e6 FFF7FEFF 	 bl __aeabi_f2d
+ 840 00ea 0246     	 mov r2,r0
+ 841 00ec 0B46     	 mov r3,r1
+ 842 00ee 1046     	 mov r0,r2
+ 843 00f0 1946     	 mov r1,r3
+ 844 00f2 FFF7FEFF 	 bl cos
+ 845 00f6 0246     	 mov r2,r0
+ 846 00f8 0B46     	 mov r3,r1
+ 847 00fa 4046     	 mov r0,r8
+ 848 00fc 4946     	 mov r1,r9
+ 849 00fe FFF7FEFF 	 bl __aeabi_dmul
+ 850 0102 0246     	 mov r2,r0
+ 851 0104 0B46     	 mov r3,r1
+ 852 0106 2046     	 mov r0,r4
+ 853 0108 2946     	 mov r1,r5
+ 854 010a FFF7FEFF 	 bl __aeabi_dadd
+ 855 010e 0246     	 mov r2,r0
+ 856 0110 0B46     	 mov r3,r1
+ 857 0112 1046     	 mov r0,r2
+ 858 0114 1946     	 mov r1,r3
+ 859 0116 FFF7FEFF 	 bl __aeabi_d2f
+ 860 011a 0246     	 mov r2,r0
+ 861 011c 7B68     	 ldr r3,[r7,#4]
+ 862 011e 9A62     	 str r2,[r3,#40]
+  71:../FOC.c      **** }
+ 863              	 .loc 1 71 0
+ 864 0120 0837     	 adds r7,r7,#8
+ 865              	.LCFI24:
+ 866              	 .cfi_def_cfa_offset 24
+ 867 0122 BD46     	 mov sp,r7
+ 868              	.LCFI25:
+ 869              	 .cfi_def_cfa_register 13
+ 870              	 
+ 871 0124 BDE8B083 	 pop {r4,r5,r7,r8,r9,pc}
+ 872              	 .cfi_endproc
+ 873              	.LFE4:
+ 875              	 .section .text.InvParkTransform,"ax",%progbits
+ 876              	 .align 2
+ 877              	 .global InvParkTransform
+ 878              	 .thumb
+ 879              	 .thumb_func
+ 881              	InvParkTransform:
+ 882              	.LFB5:
+  72:../FOC.c      **** 
+  73:../FOC.c      **** void InvParkTransform(FOC* Controller,float* Val,float* Vbet)
+  74:../FOC.c      **** {
+ 883              	 .loc 1 74 0
+ 884              	 .cfi_startproc
+ 885              	 
+ 886              	 
+ 887 0000 2DE9B043 	 push {r4,r5,r7,r8,r9,lr}
+ 888              	.LCFI26:
+ 889              	 .cfi_def_cfa_offset 24
+ 890              	 .cfi_offset 4,-24
+ 891              	 .cfi_offset 5,-20
+ 892              	 .cfi_offset 7,-16
+ 893              	 .cfi_offset 8,-12
+ 894              	 .cfi_offset 9,-8
+ 895              	 .cfi_offset 14,-4
+ 896 0004 86B0     	 sub sp,sp,#24
+ 897              	.LCFI27:
+ 898              	 .cfi_def_cfa_offset 48
+ 899 0006 00AF     	 add r7,sp,#0
+ 900              	.LCFI28:
+ 901              	 .cfi_def_cfa_register 7
+ 902 0008 F860     	 str r0,[r7,#12]
+ 903 000a B960     	 str r1,[r7,#8]
+ 904 000c 7A60     	 str r2,[r7,#4]
+  75:../FOC.c      **** 	 // Limit voltage references between 1 and -1
+  76:../FOC.c      **** 	 float aux1, aux2;
+  77:../FOC.c      **** 	 aux1 = Controller->Vd_Ref  * cos(Controller->Theta) - Controller->Vq_Ref  * sin(Controller->Theta
+ 905              	 .loc 1 77 0
+ 906 000e FB68     	 ldr r3,[r7,#12]
+ 907 0010 5B6B     	 ldr r3,[r3,#52]
+ 908 0012 1846     	 mov r0,r3
+ 909 0014 FFF7FEFF 	 bl __aeabi_f2d
+ 910 0018 0446     	 mov r4,r0
+ 911 001a 0D46     	 mov r5,r1
+ 912 001c FB68     	 ldr r3,[r7,#12]
+ 913 001e 1B69     	 ldr r3,[r3,#16]
+ 914 0020 1846     	 mov r0,r3
+ 915 0022 FFF7FEFF 	 bl __aeabi_f2d
+ 916 0026 0246     	 mov r2,r0
+ 917 0028 0B46     	 mov r3,r1
+ 918 002a 1046     	 mov r0,r2
+ 919 002c 1946     	 mov r1,r3
+ 920 002e FFF7FEFF 	 bl cos
+ 921 0032 0246     	 mov r2,r0
+ 922 0034 0B46     	 mov r3,r1
+ 923 0036 2046     	 mov r0,r4
+ 924 0038 2946     	 mov r1,r5
+ 925 003a FFF7FEFF 	 bl __aeabi_dmul
+ 926 003e 0246     	 mov r2,r0
+ 927 0040 0B46     	 mov r3,r1
+ 928 0042 1446     	 mov r4,r2
+ 929 0044 1D46     	 mov r5,r3
+ 930 0046 FB68     	 ldr r3,[r7,#12]
+ 931 0048 9B6B     	 ldr r3,[r3,#56]
+ 932 004a 1846     	 mov r0,r3
+ 933 004c FFF7FEFF 	 bl __aeabi_f2d
+ 934 0050 8046     	 mov r8,r0
+ 935 0052 8946     	 mov r9,r1
+ 936 0054 FB68     	 ldr r3,[r7,#12]
+ 937 0056 1B69     	 ldr r3,[r3,#16]
+ 938 0058 1846     	 mov r0,r3
+ 939 005a FFF7FEFF 	 bl __aeabi_f2d
+ 940 005e 0246     	 mov r2,r0
+ 941 0060 0B46     	 mov r3,r1
+ 942 0062 1046     	 mov r0,r2
+ 943 0064 1946     	 mov r1,r3
+ 944 0066 FFF7FEFF 	 bl sin
+ 945 006a 0246     	 mov r2,r0
+ 946 006c 0B46     	 mov r3,r1
+ 947 006e 4046     	 mov r0,r8
+ 948 0070 4946     	 mov r1,r9
+ 949 0072 FFF7FEFF 	 bl __aeabi_dmul
+ 950 0076 0246     	 mov r2,r0
+ 951 0078 0B46     	 mov r3,r1
+ 952 007a 2046     	 mov r0,r4
+ 953 007c 2946     	 mov r1,r5
+ 954 007e FFF7FEFF 	 bl __aeabi_dsub
+ 955 0082 0246     	 mov r2,r0
+ 956 0084 0B46     	 mov r3,r1
+ 957 0086 1046     	 mov r0,r2
+ 958 0088 1946     	 mov r1,r3
+ 959 008a FFF7FEFF 	 bl __aeabi_d2f
+ 960 008e 0346     	 mov r3,r0
+ 961 0090 7B61     	 str r3,[r7,#20]
+  78:../FOC.c      **** 	 aux2 = Controller->Vd_Ref  * sin(Controller->Theta) + Controller->Vq_Ref  * cos(Controller->Theta
+ 962              	 .loc 1 78 0
+ 963 0092 FB68     	 ldr r3,[r7,#12]
+ 964 0094 5B6B     	 ldr r3,[r3,#52]
+ 965 0096 1846     	 mov r0,r3
+ 966 0098 FFF7FEFF 	 bl __aeabi_f2d
+ 967 009c 0446     	 mov r4,r0
+ 968 009e 0D46     	 mov r5,r1
+ 969 00a0 FB68     	 ldr r3,[r7,#12]
+ 970 00a2 1B69     	 ldr r3,[r3,#16]
+ 971 00a4 1846     	 mov r0,r3
+ 972 00a6 FFF7FEFF 	 bl __aeabi_f2d
+ 973 00aa 0246     	 mov r2,r0
+ 974 00ac 0B46     	 mov r3,r1
+ 975 00ae 1046     	 mov r0,r2
+ 976 00b0 1946     	 mov r1,r3
+ 977 00b2 FFF7FEFF 	 bl sin
+ 978 00b6 0246     	 mov r2,r0
+ 979 00b8 0B46     	 mov r3,r1
+ 980 00ba 2046     	 mov r0,r4
+ 981 00bc 2946     	 mov r1,r5
+ 982 00be FFF7FEFF 	 bl __aeabi_dmul
+ 983 00c2 0246     	 mov r2,r0
+ 984 00c4 0B46     	 mov r3,r1
+ 985 00c6 1446     	 mov r4,r2
+ 986 00c8 1D46     	 mov r5,r3
+ 987 00ca FB68     	 ldr r3,[r7,#12]
+ 988 00cc 9B6B     	 ldr r3,[r3,#56]
+ 989 00ce 1846     	 mov r0,r3
+ 990 00d0 FFF7FEFF 	 bl __aeabi_f2d
+ 991 00d4 8046     	 mov r8,r0
+ 992 00d6 8946     	 mov r9,r1
+ 993 00d8 FB68     	 ldr r3,[r7,#12]
+ 994 00da 1B69     	 ldr r3,[r3,#16]
+ 995 00dc 1846     	 mov r0,r3
+ 996 00de FFF7FEFF 	 bl __aeabi_f2d
+ 997 00e2 0246     	 mov r2,r0
+ 998 00e4 0B46     	 mov r3,r1
+ 999 00e6 1046     	 mov r0,r2
+ 1000 00e8 1946     	 mov r1,r3
+ 1001 00ea FFF7FEFF 	 bl cos
+ 1002 00ee 0246     	 mov r2,r0
+ 1003 00f0 0B46     	 mov r3,r1
+ 1004 00f2 4046     	 mov r0,r8
+ 1005 00f4 4946     	 mov r1,r9
+ 1006 00f6 FFF7FEFF 	 bl __aeabi_dmul
+ 1007 00fa 0246     	 mov r2,r0
+ 1008 00fc 0B46     	 mov r3,r1
+ 1009 00fe 2046     	 mov r0,r4
+ 1010 0100 2946     	 mov r1,r5
+ 1011 0102 FFF7FEFF 	 bl __aeabi_dadd
+ 1012 0106 0246     	 mov r2,r0
+ 1013 0108 0B46     	 mov r3,r1
+ 1014 010a 1046     	 mov r0,r2
+ 1015 010c 1946     	 mov r1,r3
+ 1016 010e FFF7FEFF 	 bl __aeabi_d2f
+ 1017 0112 0346     	 mov r3,r0
+ 1018 0114 3B61     	 str r3,[r7,#16]
+  79:../FOC.c      **** 
+  80:../FOC.c      **** 	 /////////////////////////////////////////////
+  81:../FOC.c      **** 	 if (abs(aux1) > 1)
+ 1019              	 .loc 1 81 0
+ 1020 0116 D7ED057A 	 flds s15,[r7,#20]
+ 1021 011a FDEEE77A 	 ftosizs s15,s15
+ 1022 011e 17EE903A 	 fmrs r3,s15
+ 1023 0122 002B     	 cmp r3,#0
+ 1024 0124 B8BF     	 it lt
+ 1025 0126 5B42     	 rsblt r3,r3,#0
+ 1026 0128 012B     	 cmp r3,#1
+ 1027 012a 1DDD     	 ble .L42
+  82:../FOC.c      **** 	 {
+  83:../FOC.c      **** 		 *Val = (aux1 > 0) - (aux1 < 0);
+ 1028              	 .loc 1 83 0
+ 1029 012c D7ED057A 	 flds s15,[r7,#20]
+ 1030 0130 F5EEC07A 	 fcmpezs s15
+ 1031 0134 F1EE10FA 	 fmstat
+ 1032 0138 CCBF     	 ite gt
+ 1033 013a 0123     	 movgt r3,#1
+ 1034 013c 0023     	 movle r3,#0
+ 1035 013e DBB2     	 uxtb r3,r3
+ 1036 0140 1A46     	 mov r2,r3
+ 1037 0142 D7ED057A 	 flds s15,[r7,#20]
+ 1038 0146 F5EEC07A 	 fcmpezs s15
+ 1039 014a F1EE10FA 	 fmstat
+ 1040 014e 4CBF     	 ite mi
+ 1041 0150 0123     	 movmi r3,#1
+ 1042 0152 0023     	 movpl r3,#0
+ 1043 0154 DBB2     	 uxtb r3,r3
+ 1044 0156 D31A     	 subs r3,r2,r3
+ 1045 0158 07EE903A 	 fmsr s15,r3
+ 1046 015c F8EEE77A 	 fsitos s15,s15
+ 1047 0160 BB68     	 ldr r3,[r7,#8]
+ 1048 0162 C3ED007A 	 fsts s15,[r3]
+ 1049 0166 02E0     	 b .L43
+ 1050              	.L42:
+  84:../FOC.c      **** 	 }
+  85:../FOC.c      **** 	 else
+  86:../FOC.c      **** 	     *Val = aux1;
+ 1051              	 .loc 1 86 0
+ 1052 0168 BB68     	 ldr r3,[r7,#8]
+ 1053 016a 7A69     	 ldr r2,[r7,#20]
+ 1054 016c 1A60     	 str r2,[r3]
+ 1055              	.L43:
+  87:../FOC.c      **** 	 /////////////////////////////////////////////
+  88:../FOC.c      **** 	 if (abs(aux2) > 1)
+ 1056              	 .loc 1 88 0
+ 1057 016e D7ED047A 	 flds s15,[r7,#16]
+ 1058 0172 FDEEE77A 	 ftosizs s15,s15
+ 1059 0176 17EE903A 	 fmrs r3,s15
+ 1060 017a 002B     	 cmp r3,#0
+ 1061 017c B8BF     	 it lt
+ 1062 017e 5B42     	 rsblt r3,r3,#0
+ 1063 0180 012B     	 cmp r3,#1
+ 1064 0182 1DDD     	 ble .L44
+  89:../FOC.c      **** 	 {
+  90:../FOC.c      **** 	    *Vbet = (aux2 > 0) - (aux2 < 0);
+ 1065              	 .loc 1 90 0
+ 1066 0184 D7ED047A 	 flds s15,[r7,#16]
+ 1067 0188 F5EEC07A 	 fcmpezs s15
+ 1068 018c F1EE10FA 	 fmstat
+ 1069 0190 CCBF     	 ite gt
+ 1070 0192 0123     	 movgt r3,#1
+ 1071 0194 0023     	 movle r3,#0
+ 1072 0196 DBB2     	 uxtb r3,r3
+ 1073 0198 1A46     	 mov r2,r3
+ 1074 019a D7ED047A 	 flds s15,[r7,#16]
+ 1075 019e F5EEC07A 	 fcmpezs s15
+ 1076 01a2 F1EE10FA 	 fmstat
+ 1077 01a6 4CBF     	 ite mi
+ 1078 01a8 0123     	 movmi r3,#1
+ 1079 01aa 0023     	 movpl r3,#0
+ 1080 01ac DBB2     	 uxtb r3,r3
+ 1081 01ae D31A     	 subs r3,r2,r3
+ 1082 01b0 07EE903A 	 fmsr s15,r3
+ 1083 01b4 F8EEE77A 	 fsitos s15,s15
+ 1084 01b8 7B68     	 ldr r3,[r7,#4]
+ 1085 01ba C3ED007A 	 fsts s15,[r3]
+ 1086 01be 02E0     	 b .L45
+ 1087              	.L44:
+  91:../FOC.c      **** 	 }
+  92:../FOC.c      **** 	 else
+  93:../FOC.c      **** 	     *Vbet = aux2;
+ 1088              	 .loc 1 93 0
+ 1089 01c0 7B68     	 ldr r3,[r7,#4]
+ 1090 01c2 3A69     	 ldr r2,[r7,#16]
+ 1091 01c4 1A60     	 str r2,[r3]
+ 1092              	.L45:
+  94:../FOC.c      **** 
+  95:../FOC.c      **** 
+  96:../FOC.c      **** 	 Controller->V_Ref = sqrt(aux1*aux1 + aux2*aux2);
+ 1093              	 .loc 1 96 0
+ 1094 01c6 97ED057A 	 flds s14,[r7,#20]
+ 1095 01ca D7ED057A 	 flds s15,[r7,#20]
+ 1096 01ce 27EE277A 	 fmuls s14,s14,s15
+ 1097 01d2 D7ED046A 	 flds s13,[r7,#16]
+ 1098 01d6 D7ED047A 	 flds s15,[r7,#16]
+ 1099 01da 66EEA77A 	 fmuls s15,s13,s15
+ 1100 01de 77EE277A 	 fadds s15,s14,s15
+ 1101 01e2 17EE900A 	 fmrs r0,s15
+ 1102 01e6 FFF7FEFF 	 bl __aeabi_f2d
+ 1103 01ea 0246     	 mov r2,r0
+ 1104 01ec 0B46     	 mov r3,r1
+ 1105 01ee 1046     	 mov r0,r2
+ 1106 01f0 1946     	 mov r1,r3
+ 1107 01f2 FFF7FEFF 	 bl sqrt
+ 1108 01f6 0246     	 mov r2,r0
+ 1109 01f8 0B46     	 mov r3,r1
+ 1110 01fa 1046     	 mov r0,r2
+ 1111 01fc 1946     	 mov r1,r3
+ 1112 01fe FFF7FEFF 	 bl __aeabi_d2f
+ 1113 0202 0246     	 mov r2,r0
+ 1114 0204 FB68     	 ldr r3,[r7,#12]
+ 1115 0206 DA63     	 str r2,[r3,#60]
+  97:../FOC.c      **** 	 Controller->Theta_Ref = atan2(aux2,aux1);
+ 1116              	 .loc 1 97 0
+ 1117 0208 3869     	 ldr r0,[r7,#16]
+ 1118 020a FFF7FEFF 	 bl __aeabi_f2d
+ 1119 020e 0446     	 mov r4,r0
+ 1120 0210 0D46     	 mov r5,r1
+ 1121 0212 7869     	 ldr r0,[r7,#20]
+ 1122 0214 FFF7FEFF 	 bl __aeabi_f2d
+ 1123 0218 0246     	 mov r2,r0
+ 1124 021a 0B46     	 mov r3,r1
+ 1125 021c 2046     	 mov r0,r4
+ 1126 021e 2946     	 mov r1,r5
+ 1127 0220 FFF7FEFF 	 bl atan2
+ 1128 0224 0246     	 mov r2,r0
+ 1129 0226 0B46     	 mov r3,r1
+ 1130 0228 1046     	 mov r0,r2
+ 1131 022a 1946     	 mov r1,r3
+ 1132 022c FFF7FEFF 	 bl __aeabi_d2f
+ 1133 0230 0246     	 mov r2,r0
+ 1134 0232 FB68     	 ldr r3,[r7,#12]
+ 1135 0234 1A64     	 str r2,[r3,#64]
+  98:../FOC.c      **** }
+ 1136              	 .loc 1 98 0
+ 1137 0236 1837     	 adds r7,r7,#24
+ 1138              	.LCFI29:
+ 1139              	 .cfi_def_cfa_offset 24
+ 1140 0238 BD46     	 mov sp,r7
+ 1141              	.LCFI30:
+ 1142              	 .cfi_def_cfa_register 13
+ 1143              	 
+ 1144 023a BDE8B083 	 pop {r4,r5,r7,r8,r9,pc}
+ 1145              	 .cfi_endproc
+ 1146              	.LFE5:
+ 1148 023e 00BF     	 .section .bss.prevIa.5209,"aw",%nobits
+ 1149              	 .align 2
+ 1152              	prevIa.5209:
+ 1153 0000 00000000 	 .space 4
+ 1154              	 .section .bss.counter.5207,"aw",%nobits
+ 1155              	 .align 2
+ 1158              	counter.5207:
+ 1159 0000 00000000 	 .space 4
+ 1160              	 .section .bss.prevIb.5210,"aw",%nobits
+ 1161              	 .align 2
+ 1164              	prevIb.5210:
+ 1165 0000 00000000 	 .space 4
+ 1166              	 .section .bss.RPM.5208,"aw",%nobits
+ 1167              	 .align 2
+ 1170              	RPM.5208:
+ 1171 0000 00000000 	 .space 4
+ 1172              	 .section .bss.AuxD.5216,"aw",%nobits
+ 1173              	 .align 2
+ 1176              	AuxD.5216:
+ 1177 0000 00000000 	 .space 4
+ 1178              	 .section .bss.AccmErrD.5214,"aw",%nobits
+ 1179              	 .align 2
+ 1182              	AccmErrD.5214:
+ 1183 0000 00000000 	 .space 4
+ 1184              	 .section .bss.AuxQ.5217,"aw",%nobits
+ 1185              	 .align 2
+ 1188              	AuxQ.5217:
+ 1189 0000 00000000 	 .space 4
+ 1190              	 .section .bss.AccmErrQ.5215,"aw",%nobits
+ 1191              	 .align 2
+ 1194              	AccmErrQ.5215:
+ 1195 0000 00000000 	 .space 4
+ 1196              	 .text
+ 1197              	.Letext0:
+ 1198              	 .file 2 "../FOC.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 FOC.c
+    {standard input}:20     .text.SpeedSensor:00000000 $t
+    {standard input}:25     .text.SpeedSensor:00000000 SpeedSensor
+    {standard input}:159    .text.SpeedSensor:000000e4 $d
+    {standard input}:1152   .bss.prevIa.5209:00000000 prevIa.5209
+    {standard input}:1158   .bss.counter.5207:00000000 counter.5207
+    {standard input}:1164   .bss.prevIb.5210:00000000 prevIb.5210
+    {standard input}:1170   .bss.RPM.5208:00000000 RPM.5208
+    {standard input}:172    .text.CurrentController:00000000 $t
+    {standard input}:177    .text.CurrentController:00000000 CurrentController
+    {standard input}:351    .text.CurrentController:0000017c $d
+    {standard input}:1176   .bss.AuxD.5216:00000000 AuxD.5216
+    {standard input}:1182   .bss.AccmErrD.5214:00000000 AccmErrD.5214
+    {standard input}:1188   .bss.AuxQ.5217:00000000 AuxQ.5217
+    {standard input}:1194   .bss.AccmErrQ.5215:00000000 AccmErrQ.5215
+    {standard input}:363    .text.ThetaCalulation:00000000 $t
+    {standard input}:368    .text.ThetaCalulation:00000000 ThetaCalulation
+    {standard input}:541    .text.ThetaCalulation:00000160 $d
+    {standard input}:557    .text.ClarkeTransform:00000000 $t
+    {standard input}:562    .text.ClarkeTransform:00000000 ClarkeTransform
+    {standard input}:705    .text.ClarkeTransform:00000118 $d
+    {standard input}:718    .text.ParkTransform:00000000 $t
+    {standard input}:723    .text.ParkTransform:00000000 ParkTransform
+    {standard input}:876    .text.InvParkTransform:00000000 $t
+    {standard input}:881    .text.InvParkTransform:00000000 InvParkTransform
+    {standard input}:1149   .bss.prevIa.5209:00000000 $d
+    {standard input}:1155   .bss.counter.5207:00000000 $d
+    {standard input}:1161   .bss.prevIb.5210:00000000 $d
+    {standard input}:1167   .bss.RPM.5208:00000000 $d
+    {standard input}:1173   .bss.AuxD.5216:00000000 $d
+    {standard input}:1179   .bss.AccmErrD.5214:00000000 $d
+    {standard input}:1185   .bss.AuxQ.5217:00000000 $d
+    {standard input}:1191   .bss.AccmErrQ.5215:00000000 $d
+                     .debug_frame:00000010 $d
+    {standard input}:556    .text.ThetaCalulation:0000018c $t
+    {standard input}:717    .text.ClarkeTransform:0000013c $t
+
+UNDEFINED SYMBOLS
+__aeabi_f2d
+__aeabi_dmul
+__aeabi_dadd
+__aeabi_d2f
+__aeabi_i2d
+__aeabi_ddiv
+__aeabi_dcmpge
+__aeabi_dsub
+cos
+sin
+sqrt
+atan2

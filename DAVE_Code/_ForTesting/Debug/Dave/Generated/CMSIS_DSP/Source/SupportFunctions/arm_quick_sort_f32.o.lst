@@ -1,0 +1,529 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_quick_sort_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_quick_sort_partition_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .thumb
+  22              	 .thumb_func
+  24              	arm_quick_sort_partition_f32:
+  25              	.LFB149:
+  26              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * Title:        arm_quick_sort_f32.c
+   4:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * Description:  Floating point quick sort
+   5:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * $Date:        2019
+   7:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * $Revision:    V1.6.0
+   8:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  *
+   9:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * Target Processor: Cortex-M and Cortex-A cores
+  10:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * -------------------------------------------------------------------- */
+  11:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** /*
+  12:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  *
+  16:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * not use this file except in compliance with the License.
+  18:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * You may obtain a copy of the License at
+  19:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  *
+  22:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * See the License for the specific language governing permissions and
+  26:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  * limitations under the License.
+  27:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  */
+  28:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+  29:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  30:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** #include "CMSIS_DSP/PrivateInclude/arm_sorting.h"
+  31:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+  32:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** static uint32_t arm_quick_sort_partition_f32(float32_t *pSrc, int32_t first, int32_t last, uint8_t 
+  33:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** {
+  27              	 .loc 1 33 0
+  28              	 .cfi_startproc
+  29              	 
+  30              	 
+  31              	 
+  32 0000 80B4     	 push {r7}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 4
+  35              	 .cfi_offset 7,-4
+  36 0002 8BB0     	 sub sp,sp,#44
+  37              	.LCFI1:
+  38              	 .cfi_def_cfa_offset 48
+  39 0004 00AF     	 add r7,sp,#0
+  40              	.LCFI2:
+  41              	 .cfi_def_cfa_register 7
+  42 0006 F860     	 str r0,[r7,#12]
+  43 0008 B960     	 str r1,[r7,#8]
+  44 000a 7A60     	 str r2,[r7,#4]
+  45 000c FB70     	 strb r3,[r7,#3]
+  34:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     /* This function will be called */
+  35:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     int32_t i, j, pivot_index;
+  36:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     float32_t pivot;
+  37:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     float32_t temp;
+  38:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+  39:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     /* The first element is the pivot */
+  40:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     pivot_index = first; 
+  46              	 .loc 1 40 0
+  47 000e BB68     	 ldr r3,[r7,#8]
+  48 0010 FB61     	 str r3,[r7,#28]
+  41:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     pivot = pSrc[pivot_index];
+  49              	 .loc 1 41 0
+  50 0012 FB69     	 ldr r3,[r7,#28]
+  51 0014 9B00     	 lsls r3,r3,#2
+  52 0016 FA68     	 ldr r2,[r7,#12]
+  53 0018 1344     	 add r3,r3,r2
+  54 001a 1B68     	 ldr r3,[r3]
+  55 001c BB61     	 str r3,[r7,#24]
+  42:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+  43:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     /* Initialize indices for do-while loops */
+  44:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     i = first - 1;
+  56              	 .loc 1 44 0
+  57 001e BB68     	 ldr r3,[r7,#8]
+  58 0020 013B     	 subs r3,r3,#1
+  59 0022 7B62     	 str r3,[r7,#36]
+  45:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     j = last + 1; 
+  60              	 .loc 1 45 0
+  61 0024 7B68     	 ldr r3,[r7,#4]
+  62 0026 0133     	 adds r3,r3,#1
+  63 0028 3B62     	 str r3,[r7,#32]
+  46:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+  47:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     while(i < j) 
+  64              	 .loc 1 47 0
+  65 002a 67E0     	 b .L2
+  66              	.L10:
+  48:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     {
+  49:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         /* The loop will stop as soon as the indices i and j cross each other.
+  50:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****          *
+  51:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****          * This event will happen surely since the values of the indices are incremented and 
+  52:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****          * decrement in the do-while loops that are executed at least once. 
+  53:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****          * It is impossible to loop forever inside the do-while loops since the pivot is
+  54:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****          * always an element of the array and the conditions cannot be always true (at least 
+  55:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****          * the i-th or the j-th element will be equal to the pivot-th element).
+  56:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****          * For example, in the extreme case of an ordered array the do-while loop related to i will
+  57:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****          * at the first iteration (because pSrc[i]=pSrc[pivot] already), and the loop related to j
+  58:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****          * will stop after (last-first) iterations (when j=pivot=i=first). j is returned and
+  59:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****          * j+1 is going to be used as pivot by other calls of the function, until j=pivot=last. */ 
+  60:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+  61:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         /* Move indices to the right and to the left */
+  62:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         if(dir)
+  67              	 .loc 1 62 0
+  68 002c FB78     	 ldrb r3,[r7,#3]
+  69 002e 002B     	 cmp r3,#0
+  70 0030 25D0     	 beq .L3
+  71              	.L6:
+  63:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         {    
+  64:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             /* Compare left elements with pivot */
+  65:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             do
+  66:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             {
+  67:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****                 i++; 
+  72              	 .loc 1 67 0 discriminator 2
+  73 0032 7B6A     	 ldr r3,[r7,#36]
+  74 0034 0133     	 adds r3,r3,#1
+  75 0036 7B62     	 str r3,[r7,#36]
+  68:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             } while (pSrc[i] < pivot && i<last);
+  76              	 .loc 1 68 0 discriminator 2
+  77 0038 7B6A     	 ldr r3,[r7,#36]
+  78 003a 9B00     	 lsls r3,r3,#2
+  79 003c FA68     	 ldr r2,[r7,#12]
+  80 003e 1344     	 add r3,r3,r2
+  81 0040 93ED007A 	 flds s14,[r3]
+  82 0044 D7ED067A 	 flds s15,[r7,#24]
+  83 0048 B4EEE77A 	 fcmpes s14,s15
+  84 004c F1EE10FA 	 fmstat
+  85 0050 00D4     	 bmi .L12
+  86 0052 03E0     	 b .L4
+  87              	.L12:
+  88              	 .loc 1 68 0 is_stmt 0 discriminator 1
+  89 0054 7A6A     	 ldr r2,[r7,#36]
+  90 0056 7B68     	 ldr r3,[r7,#4]
+  91 0058 9A42     	 cmp r2,r3
+  92 005a EADB     	 blt .L6
+  93              	.L4:
+  69:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****        
+  70:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             /* Compare right elements with pivot */
+  71:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             do
+  72:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             {
+  73:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****                 j--; 
+  94              	 .loc 1 73 0 is_stmt 1 discriminator 1
+  95 005c 3B6A     	 ldr r3,[r7,#32]
+  96 005e 013B     	 subs r3,r3,#1
+  97 0060 3B62     	 str r3,[r7,#32]
+  74:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             } while (pSrc[j] > pivot);
+  98              	 .loc 1 74 0 discriminator 1
+  99 0062 3B6A     	 ldr r3,[r7,#32]
+ 100 0064 9B00     	 lsls r3,r3,#2
+ 101 0066 FA68     	 ldr r2,[r7,#12]
+ 102 0068 1344     	 add r3,r3,r2
+ 103 006a 93ED007A 	 flds s14,[r3]
+ 104 006e D7ED067A 	 flds s15,[r7,#24]
+ 105 0072 B4EEE77A 	 fcmpes s14,s15
+ 106 0076 F1EE10FA 	 fmstat
+ 107 007a EFDC     	 bgt .L4
+ 108 007c 24E0     	 b .L7
+ 109              	.L3:
+  75:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         }
+  76:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         else
+  77:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         {
+  78:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             /* Compare left elements with pivot */
+  79:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             do
+  80:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             {
+  81:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****                 i++; 
+ 110              	 .loc 1 81 0 discriminator 2
+ 111 007e 7B6A     	 ldr r3,[r7,#36]
+ 112 0080 0133     	 adds r3,r3,#1
+ 113 0082 7B62     	 str r3,[r7,#36]
+  82:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             } while (pSrc[i] > pivot && i<last);
+ 114              	 .loc 1 82 0 discriminator 2
+ 115 0084 7B6A     	 ldr r3,[r7,#36]
+ 116 0086 9B00     	 lsls r3,r3,#2
+ 117 0088 FA68     	 ldr r2,[r7,#12]
+ 118 008a 1344     	 add r3,r3,r2
+ 119 008c 93ED007A 	 flds s14,[r3]
+ 120 0090 D7ED067A 	 flds s15,[r7,#24]
+ 121 0094 B4EEE77A 	 fcmpes s14,s15
+ 122 0098 F1EE10FA 	 fmstat
+ 123 009c 00DC     	 bgt .L13
+ 124 009e 03E0     	 b .L8
+ 125              	.L13:
+ 126              	 .loc 1 82 0 is_stmt 0 discriminator 1
+ 127 00a0 7A6A     	 ldr r2,[r7,#36]
+ 128 00a2 7B68     	 ldr r3,[r7,#4]
+ 129 00a4 9A42     	 cmp r2,r3
+ 130 00a6 EADB     	 blt .L3
+ 131              	.L8:
+  83:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         
+  84:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             /* Compare right elements with pivot */
+  85:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             do
+  86:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             {
+  87:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****                 j--; 
+ 132              	 .loc 1 87 0 is_stmt 1 discriminator 1
+ 133 00a8 3B6A     	 ldr r3,[r7,#32]
+ 134 00aa 013B     	 subs r3,r3,#1
+ 135 00ac 3B62     	 str r3,[r7,#32]
+  88:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             } while (pSrc[j] < pivot);
+ 136              	 .loc 1 88 0 discriminator 1
+ 137 00ae 3B6A     	 ldr r3,[r7,#32]
+ 138 00b0 9B00     	 lsls r3,r3,#2
+ 139 00b2 FA68     	 ldr r2,[r7,#12]
+ 140 00b4 1344     	 add r3,r3,r2
+ 141 00b6 93ED007A 	 flds s14,[r3]
+ 142 00ba D7ED067A 	 flds s15,[r7,#24]
+ 143 00be B4EEE77A 	 fcmpes s14,s15
+ 144 00c2 F1EE10FA 	 fmstat
+ 145 00c6 EFD4     	 bmi .L8
+ 146              	.L7:
+  89:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         }
+  90:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+  91:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         /* If the indices didn't cross each other */
+  92:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         if (i < j) 
+ 147              	 .loc 1 92 0
+ 148 00c8 7A6A     	 ldr r2,[r7,#36]
+ 149 00ca 3B6A     	 ldr r3,[r7,#32]
+ 150 00cc 9A42     	 cmp r2,r3
+ 151 00ce 15DA     	 bge .L2
+  93:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         { 
+  94:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             /* i and j are in the wrong position -> Swap */
+  95:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             temp=pSrc[i];
+ 152              	 .loc 1 95 0
+ 153 00d0 7B6A     	 ldr r3,[r7,#36]
+ 154 00d2 9B00     	 lsls r3,r3,#2
+ 155 00d4 FA68     	 ldr r2,[r7,#12]
+ 156 00d6 1344     	 add r3,r3,r2
+ 157 00d8 1B68     	 ldr r3,[r3]
+ 158 00da 7B61     	 str r3,[r7,#20]
+  96:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             pSrc[i]=pSrc[j];
+ 159              	 .loc 1 96 0
+ 160 00dc 7B6A     	 ldr r3,[r7,#36]
+ 161 00de 9B00     	 lsls r3,r3,#2
+ 162 00e0 FA68     	 ldr r2,[r7,#12]
+ 163 00e2 1344     	 add r3,r3,r2
+ 164 00e4 3A6A     	 ldr r2,[r7,#32]
+ 165 00e6 9200     	 lsls r2,r2,#2
+ 166 00e8 F968     	 ldr r1,[r7,#12]
+ 167 00ea 0A44     	 add r2,r2,r1
+ 168 00ec 1268     	 ldr r2,[r2]
+ 169 00ee 1A60     	 str r2,[r3]
+  97:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****             pSrc[j]=temp;
+ 170              	 .loc 1 97 0
+ 171 00f0 3B6A     	 ldr r3,[r7,#32]
+ 172 00f2 9B00     	 lsls r3,r3,#2
+ 173 00f4 FA68     	 ldr r2,[r7,#12]
+ 174 00f6 1344     	 add r3,r3,r2
+ 175 00f8 7A69     	 ldr r2,[r7,#20]
+ 176 00fa 1A60     	 str r2,[r3]
+ 177              	.L2:
+  47:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     {
+ 178              	 .loc 1 47 0
+ 179 00fc 7A6A     	 ldr r2,[r7,#36]
+ 180 00fe 3B6A     	 ldr r3,[r7,#32]
+ 181 0100 9A42     	 cmp r2,r3
+ 182 0102 93DB     	 blt .L10
+  98:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         }
+  99:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     }
+ 100:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+ 101:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     return j; 
+ 183              	 .loc 1 101 0
+ 184 0104 3B6A     	 ldr r3,[r7,#32]
+ 102:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** }
+ 185              	 .loc 1 102 0
+ 186 0106 1846     	 mov r0,r3
+ 187 0108 2C37     	 adds r7,r7,#44
+ 188              	.LCFI3:
+ 189              	 .cfi_def_cfa_offset 4
+ 190 010a BD46     	 mov sp,r7
+ 191              	.LCFI4:
+ 192              	 .cfi_def_cfa_register 13
+ 193              	 
+ 194 010c 5DF8047B 	 ldr r7,[sp],#4
+ 195              	.LCFI5:
+ 196              	 .cfi_restore 7
+ 197              	 .cfi_def_cfa_offset 0
+ 198 0110 7047     	 bx lr
+ 199              	 .cfi_endproc
+ 200              	.LFE149:
+ 202 0112 00BF     	 .section .text.arm_quick_sort_core_f32,"ax",%progbits
+ 203              	 .align 2
+ 204              	 .thumb
+ 205              	 .thumb_func
+ 207              	arm_quick_sort_core_f32:
+ 208              	.LFB150:
+ 103:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+ 104:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** static void arm_quick_sort_core_f32(float32_t *pSrc, int32_t first, int32_t last, uint8_t dir)
+ 105:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** {
+ 209              	 .loc 1 105 0
+ 210              	 .cfi_startproc
+ 211              	 
+ 212              	 
+ 213 0000 80B5     	 push {r7,lr}
+ 214              	.LCFI6:
+ 215              	 .cfi_def_cfa_offset 8
+ 216              	 .cfi_offset 7,-8
+ 217              	 .cfi_offset 14,-4
+ 218 0002 86B0     	 sub sp,sp,#24
+ 219              	.LCFI7:
+ 220              	 .cfi_def_cfa_offset 32
+ 221 0004 00AF     	 add r7,sp,#0
+ 222              	.LCFI8:
+ 223              	 .cfi_def_cfa_register 7
+ 224 0006 F860     	 str r0,[r7,#12]
+ 225 0008 B960     	 str r1,[r7,#8]
+ 226 000a 7A60     	 str r2,[r7,#4]
+ 227 000c FB70     	 strb r3,[r7,#3]
+ 106:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     /* If the array [first ... last] has more than one element */
+ 107:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     if(first<last)
+ 228              	 .loc 1 107 0
+ 229 000e BA68     	 ldr r2,[r7,#8]
+ 230 0010 7B68     	 ldr r3,[r7,#4]
+ 231 0012 9A42     	 cmp r2,r3
+ 232 0014 15DA     	 bge .L14
+ 233              	.LBB2:
+ 108:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     {
+ 109:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         int32_t pivot;
+ 110:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+ 111:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         /* Compute pivot */
+ 112:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         pivot = arm_quick_sort_partition_f32(pSrc, first, last, dir);
+ 234              	 .loc 1 112 0
+ 235 0016 FB78     	 ldrb r3,[r7,#3]
+ 236 0018 F868     	 ldr r0,[r7,#12]
+ 237 001a B968     	 ldr r1,[r7,#8]
+ 238 001c 7A68     	 ldr r2,[r7,#4]
+ 239 001e FFF7FEFF 	 bl arm_quick_sort_partition_f32
+ 240 0022 0346     	 mov r3,r0
+ 241 0024 7B61     	 str r3,[r7,#20]
+ 113:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+ 114:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         /* Iterate algorithm with two sub-arrays [first ... pivot] and [pivot+1 ... last] */
+ 115:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         arm_quick_sort_core_f32(pSrc, first,   pivot, dir);
+ 242              	 .loc 1 115 0
+ 243 0026 FB78     	 ldrb r3,[r7,#3]
+ 244 0028 F868     	 ldr r0,[r7,#12]
+ 245 002a B968     	 ldr r1,[r7,#8]
+ 246 002c 7A69     	 ldr r2,[r7,#20]
+ 247 002e FFF7E7FF 	 bl arm_quick_sort_core_f32
+ 116:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         arm_quick_sort_core_f32(pSrc, pivot+1, last,  dir);
+ 248              	 .loc 1 116 0
+ 249 0032 7B69     	 ldr r3,[r7,#20]
+ 250 0034 5A1C     	 adds r2,r3,#1
+ 251 0036 FB78     	 ldrb r3,[r7,#3]
+ 252 0038 F868     	 ldr r0,[r7,#12]
+ 253 003a 1146     	 mov r1,r2
+ 254 003c 7A68     	 ldr r2,[r7,#4]
+ 255 003e FFF7DFFF 	 bl arm_quick_sort_core_f32
+ 256              	.L14:
+ 257              	.LBE2:
+ 117:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     }
+ 118:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** }
+ 258              	 .loc 1 118 0
+ 259 0042 1837     	 adds r7,r7,#24
+ 260              	.LCFI9:
+ 261              	 .cfi_def_cfa_offset 8
+ 262 0044 BD46     	 mov sp,r7
+ 263              	.LCFI10:
+ 264              	 .cfi_def_cfa_register 13
+ 265              	 
+ 266 0046 80BD     	 pop {r7,pc}
+ 267              	 .cfi_endproc
+ 268              	.LFE150:
+ 270              	 .section .text.arm_quick_sort_f32,"ax",%progbits
+ 271              	 .align 2
+ 272              	 .global arm_quick_sort_f32
+ 273              	 .thumb
+ 274              	 .thumb_func
+ 276              	arm_quick_sort_f32:
+ 277              	.LFB151:
+ 119:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+ 120:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** /**
+ 121:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****   @ingroup groupSupport
+ 122:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  */
+ 123:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+ 124:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** /**
+ 125:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****   @addtogroup Sorting
+ 126:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****   @{
+ 127:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****  */
+ 128:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+ 129:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** /**
+ 130:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    * @private
+ 131:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    * @param[in]      S          points to an instance of the sorting structure.
+ 132:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    * @param[in,out]  pSrc       points to the block of input data.
+ 133:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    * @param[out]     pDst       points to the block of output data.
+ 134:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    * @param[in]      blockSize  number of samples to process.
+ 135:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *
+ 136:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    * @par        Algorithm
+ 137:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                The quick sort algorithm is a comparison algorithm that
+ 138:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                divides the input array into two smaller sub-arrays and 
+ 139:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                recursively sort them. An element of the array (the pivot)
+ 140:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                is chosen, all the elements with values smaller than the 
+ 141:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                pivot are moved before the pivot, while all elements with 
+ 142:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                values greater than the pivot are moved after it (partition).
+ 143:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *
+ 144:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    * @par
+ 145:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                In this implementation the Hoare partition scheme has been 
+ 146:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                used [Hoare, C. A. R. (1 January 1962). "Quicksort". The Computer
+ 147:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                Journal. 5 (1): 10–16.] The first element has always been chosen
+ 148:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                as the pivot. The partition algorithm guarantees that the returned
+ 149:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                pivot is never placed outside the vector, since it is returned only 
+ 150:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                when the pointers crossed each other. In this way it isn't 
+ 151:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                possible to obtain empty partitions and infinite recursion is avoided.
+ 152:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *
+ 153:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    * @par
+ 154:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                It's an in-place algorithm. In order to obtain an out-of-place
+ 155:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    *                function, a memcpy of the source vector is performed.
+ 156:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****    */
+ 157:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+ 158:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** void arm_quick_sort_f32(
+ 159:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****   const arm_sort_instance_f32 * S, 
+ 160:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         float32_t * pSrc, 
+ 161:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         float32_t * pDst, 
+ 162:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         uint32_t blockSize)
+ 163:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** {
+ 278              	 .loc 1 163 0
+ 279              	 .cfi_startproc
+ 280              	 
+ 281              	 
+ 282 0000 80B5     	 push {r7,lr}
+ 283              	.LCFI11:
+ 284              	 .cfi_def_cfa_offset 8
+ 285              	 .cfi_offset 7,-8
+ 286              	 .cfi_offset 14,-4
+ 287 0002 86B0     	 sub sp,sp,#24
+ 288              	.LCFI12:
+ 289              	 .cfi_def_cfa_offset 32
+ 290 0004 00AF     	 add r7,sp,#0
+ 291              	.LCFI13:
+ 292              	 .cfi_def_cfa_register 7
+ 293 0006 F860     	 str r0,[r7,#12]
+ 294 0008 B960     	 str r1,[r7,#8]
+ 295 000a 7A60     	 str r2,[r7,#4]
+ 296 000c 3B60     	 str r3,[r7]
+ 164:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     float32_t * pA;
+ 165:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+ 166:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     /* Out-of-place */
+ 167:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     if(pSrc != pDst) 
+ 297              	 .loc 1 167 0
+ 298 000e BA68     	 ldr r2,[r7,#8]
+ 299 0010 7B68     	 ldr r3,[r7,#4]
+ 300 0012 9A42     	 cmp r2,r3
+ 301 0014 09D0     	 beq .L17
+ 168:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     {   
+ 169:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         memcpy(pDst, pSrc, blockSize*sizeof(float32_t) );
+ 302              	 .loc 1 169 0
+ 303 0016 3B68     	 ldr r3,[r7]
+ 304 0018 9B00     	 lsls r3,r3,#2
+ 305 001a 7868     	 ldr r0,[r7,#4]
+ 306 001c B968     	 ldr r1,[r7,#8]
+ 307 001e 1A46     	 mov r2,r3
+ 308 0020 FFF7FEFF 	 bl memcpy
+ 170:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         pA = pDst;
+ 309              	 .loc 1 170 0
+ 310 0024 7B68     	 ldr r3,[r7,#4]
+ 311 0026 7B61     	 str r3,[r7,#20]
+ 312 0028 01E0     	 b .L18
+ 313              	.L17:
+ 171:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     }
+ 172:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     else
+ 173:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****         pA = pSrc;
+ 314              	 .loc 1 173 0
+ 315 002a BB68     	 ldr r3,[r7,#8]
+ 316 002c 7B61     	 str r3,[r7,#20]
+ 317              	.L18:
+ 174:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** 
+ 175:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     arm_quick_sort_core_f32(pA, 0, blockSize-1, S->dir);
+ 318              	 .loc 1 175 0
+ 319 002e 3B68     	 ldr r3,[r7]
+ 320 0030 013B     	 subs r3,r3,#1
+ 321 0032 1A46     	 mov r2,r3
+ 322 0034 FB68     	 ldr r3,[r7,#12]
+ 323 0036 5B78     	 ldrb r3,[r3,#1]
+ 324 0038 7869     	 ldr r0,[r7,#20]
+ 325 003a 0021     	 movs r1,#0
+ 326 003c FFF7FEFF 	 bl arm_quick_sort_core_f32
+ 176:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****     /* The previous function could be called recursively a maximum 
+ 177:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c ****      * of (blockSize-1) times, generating a stack consumption of 4*(blockSize-1) bytes. */
+ 178:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_quick_sort_f32.c **** }
+ 327              	 .loc 1 178 0
+ 328 0040 1837     	 adds r7,r7,#24
+ 329              	.LCFI14:
+ 330              	 .cfi_def_cfa_offset 8
+ 331 0042 BD46     	 mov sp,r7
+ 332              	.LCFI15:
+ 333              	 .cfi_def_cfa_register 13
+ 334              	 
+ 335 0044 80BD     	 pop {r7,pc}
+ 336              	 .cfi_endproc
+ 337              	.LFE151:
+ 339 0046 00BF     	 .text
+ 340              	.Letext0:
+ 341              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 342              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 343              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 344              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_quick_sort_f32.c
+    {standard input}:20     .text.arm_quick_sort_partition_f32:00000000 $t
+    {standard input}:24     .text.arm_quick_sort_partition_f32:00000000 arm_quick_sort_partition_f32
+    {standard input}:203    .text.arm_quick_sort_core_f32:00000000 $t
+    {standard input}:207    .text.arm_quick_sort_core_f32:00000000 arm_quick_sort_core_f32
+    {standard input}:271    .text.arm_quick_sort_f32:00000000 $t
+    {standard input}:276    .text.arm_quick_sort_f32:00000000 arm_quick_sort_f32
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+memcpy

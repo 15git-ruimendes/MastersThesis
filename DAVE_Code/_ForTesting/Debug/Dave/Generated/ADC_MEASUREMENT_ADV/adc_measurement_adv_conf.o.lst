@@ -1,0 +1,428 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "adc_measurement_adv_conf.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .rodata.ADC_CURRENT_A_ch_config,"a",%progbits
+  20              	 .align 2
+  23              	ADC_CURRENT_A_ch_config:
+  24 0000 00       	 .byte 0
+  25 0001 00       	 .byte 0
+  26 0002 2F       	 .byte 47
+  27 0003 00       	 .byte 0
+  28 0004 00000000 	 .word 0
+  29 0008 01       	 .byte 1
+  30 0009 FF       	 .byte -1
+  31 000a 0000     	 .space 2
+  32              	 .section .rodata.ADC_CURRENT_A_res_config,"a",%progbits
+  33              	 .align 2
+  36              	ADC_CURRENT_A_res_config:
+  37 0000 00000000 	 .space 4
+  38              	 .global ADC_CURRENT_A_handle
+  39              	 .section .rodata.ADC_CURRENT_A_handle,"a",%progbits
+  40              	 .align 2
+  43              	ADC_CURRENT_A_handle:
+  44 0000 00000000 	 .word ADC_CURRENT_A_ch_config
+  45 0004 00000000 	 .word ADC_CURRENT_A_res_config
+  46 0008 00       	 .byte 0
+  47 0009 07       	 .byte 7
+  48 000a 0000     	 .space 2
+  49              	 .section .rodata.ADC_CURRENT_B_ch_config,"a",%progbits
+  50              	 .align 2
+  53              	ADC_CURRENT_B_ch_config:
+  54 0000 00       	 .byte 0
+  55 0001 00       	 .byte 0
+  56 0002 24       	 .byte 36
+  57 0003 00       	 .byte 0
+  58 0004 00000000 	 .word 0
+  59 0008 01       	 .byte 1
+  60 0009 FF       	 .byte -1
+  61 000a 0000     	 .space 2
+  62              	 .section .rodata.ADC_CURRENT_B_res_config,"a",%progbits
+  63              	 .align 2
+  66              	ADC_CURRENT_B_res_config:
+  67 0000 00000000 	 .space 4
+  68              	 .global ADC_CURRENT_B_handle
+  69              	 .section .rodata.ADC_CURRENT_B_handle,"a",%progbits
+  70              	 .align 2
+  73              	ADC_CURRENT_B_handle:
+  74 0000 00000000 	 .word ADC_CURRENT_B_ch_config
+  75 0004 00000000 	 .word ADC_CURRENT_B_res_config
+  76 0008 00       	 .byte 0
+  77 0009 05       	 .byte 5
+  78 000a 0000     	 .space 2
+  79              	 .section .rodata.ADC_CURRENT_C_ch_config,"a",%progbits
+  80              	 .align 2
+  83              	ADC_CURRENT_C_ch_config:
+  84 0000 00       	 .byte 0
+  85 0001 00       	 .byte 0
+  86 0002 25       	 .byte 37
+  87 0003 00       	 .byte 0
+  88 0004 00000000 	 .word 0
+  89 0008 01       	 .byte 1
+  90 0009 FF       	 .byte -1
+  91 000a 0000     	 .space 2
+  92              	 .section .rodata.ADC_CURRENT_C_res_config,"a",%progbits
+  93              	 .align 2
+  96              	ADC_CURRENT_C_res_config:
+  97 0000 00000000 	 .space 4
+  98              	 .global ADC_CURRENT_C_handle
+  99              	 .section .rodata.ADC_CURRENT_C_handle,"a",%progbits
+ 100              	 .align 2
+ 103              	ADC_CURRENT_C_handle:
+ 104 0000 00000000 	 .word ADC_CURRENT_C_ch_config
+ 105 0004 00000000 	 .word ADC_CURRENT_C_res_config
+ 106 0008 00       	 .byte 0
+ 107 0009 03       	 .byte 3
+ 108 000a 0000     	 .space 2
+ 109              	 .section .rodata.ADC_V_DC_ch_config,"a",%progbits
+ 110              	 .align 2
+ 113              	ADC_V_DC_ch_config:
+ 114 0000 00       	 .byte 0
+ 115 0001 00       	 .byte 0
+ 116 0002 28       	 .byte 40
+ 117 0003 00       	 .byte 0
+ 118 0004 00000000 	 .word 0
+ 119 0008 01       	 .byte 1
+ 120 0009 FF       	 .byte -1
+ 121 000a 0000     	 .space 2
+ 122              	 .section .rodata.ADC_V_DC_res_config,"a",%progbits
+ 123              	 .align 2
+ 126              	ADC_V_DC_res_config:
+ 127 0000 00000000 	 .space 4
+ 128              	 .global ADC_V_DC_handle
+ 129              	 .section .rodata.ADC_V_DC_handle,"a",%progbits
+ 130              	 .align 2
+ 133              	ADC_V_DC_handle:
+ 134 0000 00000000 	 .word ADC_V_DC_ch_config
+ 135 0004 00000000 	 .word ADC_V_DC_res_config
+ 136 0008 00       	 .byte 0
+ 137 0009 01       	 .byte 1
+ 138 000a 0000     	 .space 2
+ 139              	 .section .rodata.ADC_RPM_COS_ch_config,"a",%progbits
+ 140              	 .align 2
+ 143              	ADC_RPM_COS_ch_config:
+ 144 0000 00       	 .byte 0
+ 145 0001 00       	 .byte 0
+ 146 0002 29       	 .byte 41
+ 147 0003 00       	 .byte 0
+ 148 0004 00000000 	 .word 0
+ 149 0008 01       	 .byte 1
+ 150 0009 FF       	 .byte -1
+ 151 000a 0000     	 .space 2
+ 152              	 .section .rodata.ADC_RPM_COS_res_config,"a",%progbits
+ 153              	 .align 2
+ 156              	ADC_RPM_COS_res_config:
+ 157 0000 00000000 	 .space 4
+ 158              	 .global ADC_RPM_COS_handle
+ 159              	 .section .rodata.ADC_RPM_COS_handle,"a",%progbits
+ 160              	 .align 2
+ 163              	ADC_RPM_COS_handle:
+ 164 0000 00000000 	 .word ADC_RPM_COS_ch_config
+ 165 0004 00000000 	 .word ADC_RPM_COS_res_config
+ 166 0008 00       	 .byte 0
+ 167 0009 00       	 .byte 0
+ 168 000a 0000     	 .space 2
+ 169              	 .section .rodata.ADC_RPM_SIN_ch_config,"a",%progbits
+ 170              	 .align 2
+ 173              	ADC_RPM_SIN_ch_config:
+ 174 0000 00       	 .byte 0
+ 175 0001 00       	 .byte 0
+ 176 0002 26       	 .byte 38
+ 177 0003 00       	 .byte 0
+ 178 0004 00000000 	 .word 0
+ 179 0008 01       	 .byte 1
+ 180 0009 FF       	 .byte -1
+ 181 000a 0000     	 .space 2
+ 182              	 .section .rodata.ADC_RPM_SIN_res_config,"a",%progbits
+ 183              	 .align 2
+ 186              	ADC_RPM_SIN_res_config:
+ 187 0000 00000000 	 .space 4
+ 188              	 .global ADC_RPM_SIN_handle
+ 189              	 .section .rodata.ADC_RPM_SIN_handle,"a",%progbits
+ 190              	 .align 2
+ 193              	ADC_RPM_SIN_handle:
+ 194 0000 00000000 	 .word ADC_RPM_SIN_ch_config
+ 195 0004 00000000 	 .word ADC_RPM_SIN_res_config
+ 196 0008 00       	 .byte 0
+ 197 0009 04       	 .byte 4
+ 198 000a 0000     	 .space 2
+ 199              	 .section .rodata.ADC_TEMP_SENS_MOT_ch_config,"a",%progbits
+ 200              	 .align 2
+ 203              	ADC_TEMP_SENS_MOT_ch_config:
+ 204 0000 00       	 .byte 0
+ 205 0001 00       	 .byte 0
+ 206 0002 2B       	 .byte 43
+ 207 0003 00       	 .byte 0
+ 208 0004 00000000 	 .word 0
+ 209 0008 01       	 .byte 1
+ 210 0009 FF       	 .byte -1
+ 211 000a 0000     	 .space 2
+ 212              	 .section .rodata.ADC_TEMP_SENS_MOT_res_config,"a",%progbits
+ 213              	 .align 2
+ 216              	ADC_TEMP_SENS_MOT_res_config:
+ 217 0000 00000000 	 .space 4
+ 218              	 .global ADC_TEMP_SENS_MOT_handle
+ 219              	 .section .rodata.ADC_TEMP_SENS_MOT_handle,"a",%progbits
+ 220              	 .align 2
+ 223              	ADC_TEMP_SENS_MOT_handle:
+ 224 0000 00000000 	 .word ADC_TEMP_SENS_MOT_ch_config
+ 225 0004 00000000 	 .word ADC_TEMP_SENS_MOT_res_config
+ 226 0008 00       	 .byte 0
+ 227 0009 02       	 .byte 2
+ 228 000a 0000     	 .space 2
+ 229              	 .section .rodata.ADC_TEMP_SENS_IGBT_ch_config,"a",%progbits
+ 230              	 .align 2
+ 233              	ADC_TEMP_SENS_IGBT_ch_config:
+ 234 0000 00       	 .byte 0
+ 235 0001 00       	 .byte 0
+ 236 0002 2C       	 .byte 44
+ 237 0003 00       	 .byte 0
+ 238 0004 00000000 	 .word 0
+ 239 0008 01       	 .byte 1
+ 240 0009 FF       	 .byte -1
+ 241 000a 0000     	 .space 2
+ 242              	 .section .rodata.ADC_TEMP_SENS_IGBT_res_config,"a",%progbits
+ 243              	 .align 2
+ 246              	ADC_TEMP_SENS_IGBT_res_config:
+ 247 0000 00000000 	 .space 4
+ 248              	 .global ADC_TEMP_SENS_IGBT_handle
+ 249              	 .section .rodata.ADC_TEMP_SENS_IGBT_handle,"a",%progbits
+ 250              	 .align 2
+ 253              	ADC_TEMP_SENS_IGBT_handle:
+ 254 0000 00000000 	 .word ADC_TEMP_SENS_IGBT_ch_config
+ 255 0004 00000000 	 .word ADC_TEMP_SENS_IGBT_res_config
+ 256 0008 00       	 .byte 0
+ 257 0009 06       	 .byte 6
+ 258 000a 0000     	 .space 2
+ 259              	 .section .rodata.ADC_CURRENT_A_queue_entry_0,"a",%progbits
+ 260              	 .align 2
+ 263              	ADC_CURRENT_A_queue_entry_0:
+ 264 0000 00000000 	 .word 0
+ 265 0004 00       	 .byte 0
+ 266 0005 07       	 .byte 7
+ 267 0006 00       	 .byte 0
+ 268 0007 01       	 .byte 1
+ 269 0008 00       	 .byte 0
+ 270 0009 00       	 .byte 0
+ 271 000a 0000     	 .space 2
+ 272              	 .section .rodata.ADC_CURRENT_B_queue_entry_1,"a",%progbits
+ 273              	 .align 2
+ 276              	ADC_CURRENT_B_queue_entry_1:
+ 277 0000 00000000 	 .word 0
+ 278 0004 01       	 .byte 1
+ 279 0005 05       	 .byte 5
+ 280 0006 00       	 .byte 0
+ 281 0007 01       	 .byte 1
+ 282 0008 00       	 .byte 0
+ 283 0009 00       	 .byte 0
+ 284 000a 0000     	 .space 2
+ 285              	 .section .rodata.ADC_CURRENT_C_queue_entry_2,"a",%progbits
+ 286              	 .align 2
+ 289              	ADC_CURRENT_C_queue_entry_2:
+ 290 0000 00000000 	 .word 0
+ 291 0004 02       	 .byte 2
+ 292 0005 03       	 .byte 3
+ 293 0006 00       	 .byte 0
+ 294 0007 01       	 .byte 1
+ 295 0008 00       	 .byte 0
+ 296 0009 00       	 .byte 0
+ 297 000a 0000     	 .space 2
+ 298              	 .section .rodata.ADC_V_DC_queue_entry_3,"a",%progbits
+ 299              	 .align 2
+ 302              	ADC_V_DC_queue_entry_3:
+ 303 0000 00000000 	 .word 0
+ 304 0004 03       	 .byte 3
+ 305 0005 01       	 .byte 1
+ 306 0006 00       	 .byte 0
+ 307 0007 01       	 .byte 1
+ 308 0008 00       	 .byte 0
+ 309 0009 00       	 .byte 0
+ 310 000a 0000     	 .space 2
+ 311              	 .section .rodata.ADC_RPM_COS_queue_entry_4,"a",%progbits
+ 312              	 .align 2
+ 315              	ADC_RPM_COS_queue_entry_4:
+ 316 0000 00000000 	 .word 0
+ 317 0004 04       	 .byte 4
+ 318 0005 00       	 .byte 0
+ 319 0006 00       	 .byte 0
+ 320 0007 01       	 .byte 1
+ 321 0008 00       	 .byte 0
+ 322 0009 00       	 .byte 0
+ 323 000a 0000     	 .space 2
+ 324              	 .section .rodata.ADC_RPM_SIN_queue_entry_5,"a",%progbits
+ 325              	 .align 2
+ 328              	ADC_RPM_SIN_queue_entry_5:
+ 329 0000 00000000 	 .word 0
+ 330 0004 05       	 .byte 5
+ 331 0005 04       	 .byte 4
+ 332 0006 00       	 .byte 0
+ 333 0007 01       	 .byte 1
+ 334 0008 00       	 .byte 0
+ 335 0009 00       	 .byte 0
+ 336 000a 0000     	 .space 2
+ 337              	 .section .rodata.ADC_TEMP_SENS_MOT_queue_entry_6,"a",%progbits
+ 338              	 .align 2
+ 341              	ADC_TEMP_SENS_MOT_queue_entry_6:
+ 342 0000 00000000 	 .word 0
+ 343 0004 06       	 .byte 6
+ 344 0005 02       	 .byte 2
+ 345 0006 00       	 .byte 0
+ 346 0007 01       	 .byte 1
+ 347 0008 00       	 .byte 0
+ 348 0009 00       	 .byte 0
+ 349 000a 0000     	 .space 2
+ 350              	 .section .rodata.ADC_TEMP_SENS_IGBT_queue_entry_7,"a",%progbits
+ 351              	 .align 2
+ 354              	ADC_TEMP_SENS_IGBT_queue_entry_7:
+ 355 0000 00000000 	 .word 0
+ 356 0004 07       	 .byte 7
+ 357 0005 06       	 .byte 6
+ 358 0006 00       	 .byte 0
+ 359 0007 01       	 .byte 1
+ 360 0008 00       	 .byte 0
+ 361 0009 00       	 .byte 0
+ 362 000a 0000     	 .space 2
+ 363              	 .section .data.ADC_queue_entries,"aw",%progbits
+ 364              	 .align 2
+ 367              	ADC_queue_entries:
+ 368 0000 00000000 	 .word ADC_CURRENT_A_queue_entry_0
+ 369 0004 00000000 	 .word ADC_CURRENT_B_queue_entry_1
+ 370 0008 00000000 	 .word ADC_CURRENT_C_queue_entry_2
+ 371 000c 00000000 	 .word ADC_V_DC_queue_entry_3
+ 372 0010 00000000 	 .word ADC_RPM_COS_queue_entry_4
+ 373 0014 00000000 	 .word ADC_RPM_SIN_queue_entry_5
+ 374 0018 00000000 	 .word ADC_TEMP_SENS_MOT_queue_entry_6
+ 375 001c 00000000 	 .word ADC_TEMP_SENS_IGBT_queue_entry_7
+ 376              	 .section .data.ADC_channel_array,"aw",%progbits
+ 377              	 .align 2
+ 380              	ADC_channel_array:
+ 381 0000 00000000 	 .word ADC_CURRENT_A_handle
+ 382 0004 00000000 	 .word ADC_CURRENT_B_handle
+ 383 0008 00000000 	 .word ADC_CURRENT_C_handle
+ 384 000c 00000000 	 .word ADC_V_DC_handle
+ 385 0010 00000000 	 .word ADC_RPM_COS_handle
+ 386 0014 00000000 	 .word ADC_RPM_SIN_handle
+ 387 0018 00000000 	 .word ADC_TEMP_SENS_MOT_handle
+ 388 001c 00000000 	 .word ADC_TEMP_SENS_IGBT_handle
+ 389              	 .section .data.ADC_initialization_status,"aw",%progbits
+ 392              	ADC_initialization_status:
+ 393 0000 02       	 .byte 2
+ 394              	 .global ADC
+ 395              	 .section .rodata.ADC,"a",%progbits
+ 396              	 .align 2
+ 399              	ADC:
+ 400 0000 00000000 	 .word ADC_channel_array
+ 401 0004 00000000 	 .word ADC_queue_entries
+ 402 0008 00000000 	 .word 0
+ 403 000c 00000000 	 .word ADC_QUEUE_0
+ 404 0010 00000000 	 .word ADC_initialization_status
+ 405 0014 02       	 .byte 2
+ 406 0015 00       	 .byte 0
+ 407 0016 08       	 .byte 8
+ 408 0017 08       	 .byte 8
+ 409 0018 01       	 .byte 1
+ 410 0019 000000   	 .space 3
+ 411              	 .text
+ 412              	.Letext0:
+ 413              	 .file 1 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 414              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 415              	 .file 3 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Infineon/XMC4500_series/Include/XMC4500.h"
+ 416              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/XMCLib/inc/xmc_vadc.h"
+ 417              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/GLOBAL_ADC/global_adc.h"
+ 418              	 .file 6 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/ADC_QUEUE/adc_queue.h"
+ 419              	 .file 7 "../Dave/Generated/ADC_MEASUREMENT_ADV/adc_measurement_adv.h"
+ 420              	 .file 8 "../Dave/Generated/ADC_MEASUREMENT_ADV/adc_measurement_adv_conf.c"
+ 421              	 .file 9 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+ 422              	 .file 10 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/core_cm4.h"
+ 423              	 .file 11 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Infineon/XMC4500_series/Include/system_XMC4500.h"
+ 424              	 .file 12 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/ADC_QUEUE/adc_queue_extern.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 adc_measurement_adv_conf.c
+    {standard input}:20     .rodata.ADC_CURRENT_A_ch_config:00000000 $d
+    {standard input}:23     .rodata.ADC_CURRENT_A_ch_config:00000000 ADC_CURRENT_A_ch_config
+    {standard input}:33     .rodata.ADC_CURRENT_A_res_config:00000000 $d
+    {standard input}:36     .rodata.ADC_CURRENT_A_res_config:00000000 ADC_CURRENT_A_res_config
+    {standard input}:43     .rodata.ADC_CURRENT_A_handle:00000000 ADC_CURRENT_A_handle
+    {standard input}:40     .rodata.ADC_CURRENT_A_handle:00000000 $d
+    {standard input}:50     .rodata.ADC_CURRENT_B_ch_config:00000000 $d
+    {standard input}:53     .rodata.ADC_CURRENT_B_ch_config:00000000 ADC_CURRENT_B_ch_config
+    {standard input}:63     .rodata.ADC_CURRENT_B_res_config:00000000 $d
+    {standard input}:66     .rodata.ADC_CURRENT_B_res_config:00000000 ADC_CURRENT_B_res_config
+    {standard input}:73     .rodata.ADC_CURRENT_B_handle:00000000 ADC_CURRENT_B_handle
+    {standard input}:70     .rodata.ADC_CURRENT_B_handle:00000000 $d
+    {standard input}:80     .rodata.ADC_CURRENT_C_ch_config:00000000 $d
+    {standard input}:83     .rodata.ADC_CURRENT_C_ch_config:00000000 ADC_CURRENT_C_ch_config
+    {standard input}:93     .rodata.ADC_CURRENT_C_res_config:00000000 $d
+    {standard input}:96     .rodata.ADC_CURRENT_C_res_config:00000000 ADC_CURRENT_C_res_config
+    {standard input}:103    .rodata.ADC_CURRENT_C_handle:00000000 ADC_CURRENT_C_handle
+    {standard input}:100    .rodata.ADC_CURRENT_C_handle:00000000 $d
+    {standard input}:110    .rodata.ADC_V_DC_ch_config:00000000 $d
+    {standard input}:113    .rodata.ADC_V_DC_ch_config:00000000 ADC_V_DC_ch_config
+    {standard input}:123    .rodata.ADC_V_DC_res_config:00000000 $d
+    {standard input}:126    .rodata.ADC_V_DC_res_config:00000000 ADC_V_DC_res_config
+    {standard input}:133    .rodata.ADC_V_DC_handle:00000000 ADC_V_DC_handle
+    {standard input}:130    .rodata.ADC_V_DC_handle:00000000 $d
+    {standard input}:140    .rodata.ADC_RPM_COS_ch_config:00000000 $d
+    {standard input}:143    .rodata.ADC_RPM_COS_ch_config:00000000 ADC_RPM_COS_ch_config
+    {standard input}:153    .rodata.ADC_RPM_COS_res_config:00000000 $d
+    {standard input}:156    .rodata.ADC_RPM_COS_res_config:00000000 ADC_RPM_COS_res_config
+    {standard input}:163    .rodata.ADC_RPM_COS_handle:00000000 ADC_RPM_COS_handle
+    {standard input}:160    .rodata.ADC_RPM_COS_handle:00000000 $d
+    {standard input}:170    .rodata.ADC_RPM_SIN_ch_config:00000000 $d
+    {standard input}:173    .rodata.ADC_RPM_SIN_ch_config:00000000 ADC_RPM_SIN_ch_config
+    {standard input}:183    .rodata.ADC_RPM_SIN_res_config:00000000 $d
+    {standard input}:186    .rodata.ADC_RPM_SIN_res_config:00000000 ADC_RPM_SIN_res_config
+    {standard input}:193    .rodata.ADC_RPM_SIN_handle:00000000 ADC_RPM_SIN_handle
+    {standard input}:190    .rodata.ADC_RPM_SIN_handle:00000000 $d
+    {standard input}:200    .rodata.ADC_TEMP_SENS_MOT_ch_config:00000000 $d
+    {standard input}:203    .rodata.ADC_TEMP_SENS_MOT_ch_config:00000000 ADC_TEMP_SENS_MOT_ch_config
+    {standard input}:213    .rodata.ADC_TEMP_SENS_MOT_res_config:00000000 $d
+    {standard input}:216    .rodata.ADC_TEMP_SENS_MOT_res_config:00000000 ADC_TEMP_SENS_MOT_res_config
+    {standard input}:223    .rodata.ADC_TEMP_SENS_MOT_handle:00000000 ADC_TEMP_SENS_MOT_handle
+    {standard input}:220    .rodata.ADC_TEMP_SENS_MOT_handle:00000000 $d
+    {standard input}:230    .rodata.ADC_TEMP_SENS_IGBT_ch_config:00000000 $d
+    {standard input}:233    .rodata.ADC_TEMP_SENS_IGBT_ch_config:00000000 ADC_TEMP_SENS_IGBT_ch_config
+    {standard input}:243    .rodata.ADC_TEMP_SENS_IGBT_res_config:00000000 $d
+    {standard input}:246    .rodata.ADC_TEMP_SENS_IGBT_res_config:00000000 ADC_TEMP_SENS_IGBT_res_config
+    {standard input}:253    .rodata.ADC_TEMP_SENS_IGBT_handle:00000000 ADC_TEMP_SENS_IGBT_handle
+    {standard input}:250    .rodata.ADC_TEMP_SENS_IGBT_handle:00000000 $d
+    {standard input}:260    .rodata.ADC_CURRENT_A_queue_entry_0:00000000 $d
+    {standard input}:263    .rodata.ADC_CURRENT_A_queue_entry_0:00000000 ADC_CURRENT_A_queue_entry_0
+    {standard input}:273    .rodata.ADC_CURRENT_B_queue_entry_1:00000000 $d
+    {standard input}:276    .rodata.ADC_CURRENT_B_queue_entry_1:00000000 ADC_CURRENT_B_queue_entry_1
+    {standard input}:286    .rodata.ADC_CURRENT_C_queue_entry_2:00000000 $d
+    {standard input}:289    .rodata.ADC_CURRENT_C_queue_entry_2:00000000 ADC_CURRENT_C_queue_entry_2
+    {standard input}:299    .rodata.ADC_V_DC_queue_entry_3:00000000 $d
+    {standard input}:302    .rodata.ADC_V_DC_queue_entry_3:00000000 ADC_V_DC_queue_entry_3
+    {standard input}:312    .rodata.ADC_RPM_COS_queue_entry_4:00000000 $d
+    {standard input}:315    .rodata.ADC_RPM_COS_queue_entry_4:00000000 ADC_RPM_COS_queue_entry_4
+    {standard input}:325    .rodata.ADC_RPM_SIN_queue_entry_5:00000000 $d
+    {standard input}:328    .rodata.ADC_RPM_SIN_queue_entry_5:00000000 ADC_RPM_SIN_queue_entry_5
+    {standard input}:338    .rodata.ADC_TEMP_SENS_MOT_queue_entry_6:00000000 $d
+    {standard input}:341    .rodata.ADC_TEMP_SENS_MOT_queue_entry_6:00000000 ADC_TEMP_SENS_MOT_queue_entry_6
+    {standard input}:351    .rodata.ADC_TEMP_SENS_IGBT_queue_entry_7:00000000 $d
+    {standard input}:354    .rodata.ADC_TEMP_SENS_IGBT_queue_entry_7:00000000 ADC_TEMP_SENS_IGBT_queue_entry_7
+    {standard input}:364    .data.ADC_queue_entries:00000000 $d
+    {standard input}:367    .data.ADC_queue_entries:00000000 ADC_queue_entries
+    {standard input}:377    .data.ADC_channel_array:00000000 $d
+    {standard input}:380    .data.ADC_channel_array:00000000 ADC_channel_array
+    {standard input}:392    .data.ADC_initialization_status:00000000 ADC_initialization_status
+    {standard input}:399    .rodata.ADC:00000000 ADC
+    {standard input}:396    .rodata.ADC:00000000 $d
+
+UNDEFINED SYMBOLS
+ADC_QUEUE_0

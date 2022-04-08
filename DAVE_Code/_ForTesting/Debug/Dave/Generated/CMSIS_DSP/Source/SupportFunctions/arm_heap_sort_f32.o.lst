@@ -1,0 +1,422 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_heap_sort_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_heapify,"ax",%progbits
+  20              	 .align 2
+  21              	 .thumb
+  22              	 .thumb_func
+  24              	arm_heapify:
+  25              	.LFB149:
+  26              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * Title:        arm_heap_sort_f32.c
+   4:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * Description:  Floating point heap sort
+   5:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * $Date:        2019
+   7:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * $Revision:    V1.6.0
+   8:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  *
+   9:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * Target Processor: Cortex-M and Cortex-A cores
+  10:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * -------------------------------------------------------------------- */
+  11:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** /*
+  12:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  *
+  16:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * not use this file except in compliance with the License.
+  18:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * You may obtain a copy of the License at
+  19:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  *
+  22:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * See the License for the specific language governing permissions and
+  26:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  * limitations under the License.
+  27:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  */
+  28:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+  29:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  30:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** #include "CMSIS_DSP/PrivateInclude/arm_sorting.h"
+  31:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+  32:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+  33:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+  34:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** static void arm_heapify(float32_t * pSrc, uint32_t n, uint32_t i, uint8_t dir)
+  35:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** {
+  27              	 .loc 1 35 0
+  28              	 .cfi_startproc
+  29              	 
+  30              	 
+  31 0000 80B5     	 push {r7,lr}
+  32              	.LCFI0:
+  33              	 .cfi_def_cfa_offset 8
+  34              	 .cfi_offset 7,-8
+  35              	 .cfi_offset 14,-4
+  36 0002 88B0     	 sub sp,sp,#32
+  37              	.LCFI1:
+  38              	 .cfi_def_cfa_offset 40
+  39 0004 00AF     	 add r7,sp,#0
+  40              	.LCFI2:
+  41              	 .cfi_def_cfa_register 7
+  42 0006 F860     	 str r0,[r7,#12]
+  43 0008 B960     	 str r1,[r7,#8]
+  44 000a 7A60     	 str r2,[r7,#4]
+  45 000c FB70     	 strb r3,[r7,#3]
+  36:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     /* Put all the elements of pSrc in heap order */
+  37:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     uint32_t k = i; // Initialize largest/smallest as root 
+  46              	 .loc 1 37 0
+  47 000e 7B68     	 ldr r3,[r7,#4]
+  48 0010 FB61     	 str r3,[r7,#28]
+  38:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     uint32_t l = 2*i + 1; // left = 2*i + 1 
+  49              	 .loc 1 38 0
+  50 0012 7B68     	 ldr r3,[r7,#4]
+  51 0014 5B00     	 lsls r3,r3,#1
+  52 0016 0133     	 adds r3,r3,#1
+  53 0018 BB61     	 str r3,[r7,#24]
+  39:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     uint32_t r = 2*i + 2; // right = 2*i + 2 
+  54              	 .loc 1 39 0
+  55 001a 7B68     	 ldr r3,[r7,#4]
+  56 001c 0133     	 adds r3,r3,#1
+  57 001e 5B00     	 lsls r3,r3,#1
+  58 0020 7B61     	 str r3,[r7,#20]
+  40:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     float32_t temp;
+  41:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+  42:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     if (l < n && dir==(pSrc[l] > pSrc[k]) )
+  59              	 .loc 1 42 0
+  60 0022 BA69     	 ldr r2,[r7,#24]
+  61 0024 BB68     	 ldr r3,[r7,#8]
+  62 0026 9A42     	 cmp r2,r3
+  63 0028 18D2     	 bcs .L2
+  64              	 .loc 1 42 0 is_stmt 0 discriminator 1
+  65 002a FB78     	 ldrb r3,[r7,#3]
+  66 002c BA69     	 ldr r2,[r7,#24]
+  67 002e 9200     	 lsls r2,r2,#2
+  68 0030 F968     	 ldr r1,[r7,#12]
+  69 0032 0A44     	 add r2,r2,r1
+  70 0034 92ED007A 	 flds s14,[r2]
+  71 0038 FA69     	 ldr r2,[r7,#28]
+  72 003a 9200     	 lsls r2,r2,#2
+  73 003c F968     	 ldr r1,[r7,#12]
+  74 003e 0A44     	 add r2,r2,r1
+  75 0040 D2ED007A 	 flds s15,[r2]
+  76 0044 B4EEE77A 	 fcmpes s14,s15
+  77 0048 F1EE10FA 	 fmstat
+  78 004c CCBF     	 ite gt
+  79 004e 0122     	 movgt r2,#1
+  80 0050 0022     	 movle r2,#0
+  81 0052 D2B2     	 uxtb r2,r2
+  82 0054 9342     	 cmp r3,r2
+  83 0056 01D1     	 bne .L2
+  43:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         k = l; 
+  84              	 .loc 1 43 0 is_stmt 1
+  85 0058 BB69     	 ldr r3,[r7,#24]
+  86 005a FB61     	 str r3,[r7,#28]
+  87              	.L2:
+  44:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+  45:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     if (r < n && dir==(pSrc[r] > pSrc[k]) )
+  88              	 .loc 1 45 0
+  89 005c 7A69     	 ldr r2,[r7,#20]
+  90 005e BB68     	 ldr r3,[r7,#8]
+  91 0060 9A42     	 cmp r2,r3
+  92 0062 18D2     	 bcs .L3
+  93              	 .loc 1 45 0 is_stmt 0 discriminator 1
+  94 0064 FB78     	 ldrb r3,[r7,#3]
+  95 0066 7A69     	 ldr r2,[r7,#20]
+  96 0068 9200     	 lsls r2,r2,#2
+  97 006a F968     	 ldr r1,[r7,#12]
+  98 006c 0A44     	 add r2,r2,r1
+  99 006e 92ED007A 	 flds s14,[r2]
+ 100 0072 FA69     	 ldr r2,[r7,#28]
+ 101 0074 9200     	 lsls r2,r2,#2
+ 102 0076 F968     	 ldr r1,[r7,#12]
+ 103 0078 0A44     	 add r2,r2,r1
+ 104 007a D2ED007A 	 flds s15,[r2]
+ 105 007e B4EEE77A 	 fcmpes s14,s15
+ 106 0082 F1EE10FA 	 fmstat
+ 107 0086 CCBF     	 ite gt
+ 108 0088 0122     	 movgt r2,#1
+ 109 008a 0022     	 movle r2,#0
+ 110 008c D2B2     	 uxtb r2,r2
+ 111 008e 9342     	 cmp r3,r2
+ 112 0090 01D1     	 bne .L3
+  46:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         k = r; 
+ 113              	 .loc 1 46 0 is_stmt 1
+ 114 0092 7B69     	 ldr r3,[r7,#20]
+ 115 0094 FB61     	 str r3,[r7,#28]
+ 116              	.L3:
+  47:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+  48:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     if (k != i) 
+ 117              	 .loc 1 48 0
+ 118 0096 FA69     	 ldr r2,[r7,#28]
+ 119 0098 7B68     	 ldr r3,[r7,#4]
+ 120 009a 9A42     	 cmp r2,r3
+ 121 009c 1BD0     	 beq .L1
+  49:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     { 
+  50:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 	temp = pSrc[i];
+ 122              	 .loc 1 50 0
+ 123 009e 7B68     	 ldr r3,[r7,#4]
+ 124 00a0 9B00     	 lsls r3,r3,#2
+ 125 00a2 FA68     	 ldr r2,[r7,#12]
+ 126 00a4 1344     	 add r3,r3,r2
+ 127 00a6 1B68     	 ldr r3,[r3]
+ 128 00a8 3B61     	 str r3,[r7,#16]
+  51:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 	pSrc[i]=pSrc[k];
+ 129              	 .loc 1 51 0
+ 130 00aa 7B68     	 ldr r3,[r7,#4]
+ 131 00ac 9B00     	 lsls r3,r3,#2
+ 132 00ae FA68     	 ldr r2,[r7,#12]
+ 133 00b0 1344     	 add r3,r3,r2
+ 134 00b2 FA69     	 ldr r2,[r7,#28]
+ 135 00b4 9200     	 lsls r2,r2,#2
+ 136 00b6 F968     	 ldr r1,[r7,#12]
+ 137 00b8 0A44     	 add r2,r2,r1
+ 138 00ba 1268     	 ldr r2,[r2]
+ 139 00bc 1A60     	 str r2,[r3]
+  52:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 	pSrc[k]=temp;
+ 140              	 .loc 1 52 0
+ 141 00be FB69     	 ldr r3,[r7,#28]
+ 142 00c0 9B00     	 lsls r3,r3,#2
+ 143 00c2 FA68     	 ldr r2,[r7,#12]
+ 144 00c4 1344     	 add r3,r3,r2
+ 145 00c6 3A69     	 ldr r2,[r7,#16]
+ 146 00c8 1A60     	 str r2,[r3]
+  53:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+  54:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         arm_heapify(pSrc, n, k, dir); 
+ 147              	 .loc 1 54 0
+ 148 00ca FB78     	 ldrb r3,[r7,#3]
+ 149 00cc F868     	 ldr r0,[r7,#12]
+ 150 00ce B968     	 ldr r1,[r7,#8]
+ 151 00d0 FA69     	 ldr r2,[r7,#28]
+ 152 00d2 FFF795FF 	 bl arm_heapify
+ 153              	.L1:
+  55:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     }
+  56:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** }
+ 154              	 .loc 1 56 0
+ 155 00d6 2037     	 adds r7,r7,#32
+ 156              	.LCFI3:
+ 157              	 .cfi_def_cfa_offset 8
+ 158 00d8 BD46     	 mov sp,r7
+ 159              	.LCFI4:
+ 160              	 .cfi_def_cfa_register 13
+ 161              	 
+ 162 00da 80BD     	 pop {r7,pc}
+ 163              	 .cfi_endproc
+ 164              	.LFE149:
+ 166              	 .section .text.arm_heap_sort_f32,"ax",%progbits
+ 167              	 .align 2
+ 168              	 .global arm_heap_sort_f32
+ 169              	 .thumb
+ 170              	 .thumb_func
+ 172              	arm_heap_sort_f32:
+ 173              	.LFB150:
+  57:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+  58:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** /**
+  59:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****   @ingroup groupSupport
+  60:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  */
+  61:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+  62:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** /**
+  63:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****   @addtogroup Sorting
+  64:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****   @{
+  65:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****  */
+  66:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+  67:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** /**
+  68:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    * @private
+  69:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    * @param[in]  S          points to an instance of the sorting structure.
+  70:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    * @param[in]  pSrc       points to the block of input data.
+  71:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    * @param[out] pDst       points to the block of output data
+  72:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    * @param[in]  blockSize  number of samples to process.
+  73:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    *
+  74:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    * @par        Algorithm
+  75:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    *               The heap sort algorithm is a comparison algorithm that
+  76:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    *               divides the input array into a sorted and an unsorted region, 
+  77:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    *               and shrinks the unsorted region by extracting the largest 
+  78:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    *               element and moving it to the sorted region. A heap data 
+  79:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    *               structure is used to find the maximum.
+  80:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    *
+  81:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    * @par          It's an in-place algorithm. In order to obtain an out-of-place
+  82:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    *               function, a memcpy of the source vector is performed.
+  83:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****    */
+  84:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** void arm_heap_sort_f32(
+  85:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****   const arm_sort_instance_f32 * S, 
+  86:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         float32_t * pSrc, 
+  87:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         float32_t * pDst, 
+  88:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         uint32_t blockSize)
+  89:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** {
+ 174              	 .loc 1 89 0
+ 175              	 .cfi_startproc
+ 176              	 
+ 177              	 
+ 178 0000 80B5     	 push {r7,lr}
+ 179              	.LCFI5:
+ 180              	 .cfi_def_cfa_offset 8
+ 181              	 .cfi_offset 7,-8
+ 182              	 .cfi_offset 14,-4
+ 183 0002 88B0     	 sub sp,sp,#32
+ 184              	.LCFI6:
+ 185              	 .cfi_def_cfa_offset 40
+ 186 0004 00AF     	 add r7,sp,#0
+ 187              	.LCFI7:
+ 188              	 .cfi_def_cfa_register 7
+ 189 0006 F860     	 str r0,[r7,#12]
+ 190 0008 B960     	 str r1,[r7,#8]
+ 191 000a 7A60     	 str r2,[r7,#4]
+ 192 000c 3B60     	 str r3,[r7]
+  90:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     float32_t * pA;
+  91:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     int32_t i;
+  92:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     float32_t temp;
+  93:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+  94:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     if(pSrc != pDst) // out-of-place
+ 193              	 .loc 1 94 0
+ 194 000e BA68     	 ldr r2,[r7,#8]
+ 195 0010 7B68     	 ldr r3,[r7,#4]
+ 196 0012 9A42     	 cmp r2,r3
+ 197 0014 09D0     	 beq .L6
+  95:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     {   
+  96:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         memcpy(pDst, pSrc, blockSize*sizeof(float32_t) );
+ 198              	 .loc 1 96 0
+ 199 0016 3B68     	 ldr r3,[r7]
+ 200 0018 9B00     	 lsls r3,r3,#2
+ 201 001a 7868     	 ldr r0,[r7,#4]
+ 202 001c B968     	 ldr r1,[r7,#8]
+ 203 001e 1A46     	 mov r2,r3
+ 204 0020 FFF7FEFF 	 bl memcpy
+  97:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         pA = pDst;
+ 205              	 .loc 1 97 0
+ 206 0024 7B68     	 ldr r3,[r7,#4]
+ 207 0026 FB61     	 str r3,[r7,#28]
+ 208 0028 01E0     	 b .L7
+ 209              	.L6:
+  98:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     }
+  99:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     else
+ 100:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         pA = pSrc;
+ 210              	 .loc 1 100 0
+ 211 002a BB68     	 ldr r3,[r7,#8]
+ 212 002c FB61     	 str r3,[r7,#28]
+ 213              	.L7:
+ 101:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+ 102:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     // Build the heap array so that the largest value is the root
+ 103:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     for (i = blockSize/2 - 1; i >= 0; i--) 
+ 214              	 .loc 1 103 0
+ 215 002e 3B68     	 ldr r3,[r7]
+ 216 0030 5B08     	 lsrs r3,r3,#1
+ 217 0032 013B     	 subs r3,r3,#1
+ 218 0034 BB61     	 str r3,[r7,#24]
+ 219 0036 09E0     	 b .L8
+ 220              	.L9:
+ 104:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         arm_heapify(pA, blockSize, i, S->dir); 
+ 221              	 .loc 1 104 0 discriminator 3
+ 222 0038 BA69     	 ldr r2,[r7,#24]
+ 223 003a FB68     	 ldr r3,[r7,#12]
+ 224 003c 5B78     	 ldrb r3,[r3,#1]
+ 225 003e F869     	 ldr r0,[r7,#28]
+ 226 0040 3968     	 ldr r1,[r7]
+ 227 0042 FFF7FEFF 	 bl arm_heapify
+ 103:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         arm_heapify(pA, blockSize, i, S->dir); 
+ 228              	 .loc 1 103 0 discriminator 3
+ 229 0046 BB69     	 ldr r3,[r7,#24]
+ 230 0048 013B     	 subs r3,r3,#1
+ 231 004a BB61     	 str r3,[r7,#24]
+ 232              	.L8:
+ 103:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         arm_heapify(pA, blockSize, i, S->dir); 
+ 233              	 .loc 1 103 0 is_stmt 0 discriminator 1
+ 234 004c BB69     	 ldr r3,[r7,#24]
+ 235 004e 002B     	 cmp r3,#0
+ 236 0050 F2DA     	 bge .L9
+ 105:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+ 106:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     for (i = blockSize - 1; i >= 0; i--)
+ 237              	 .loc 1 106 0 is_stmt 1
+ 238 0052 3B68     	 ldr r3,[r7]
+ 239 0054 013B     	 subs r3,r3,#1
+ 240 0056 BB61     	 str r3,[r7,#24]
+ 241 0058 1AE0     	 b .L10
+ 242              	.L11:
+ 107:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     {
+ 108:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         // Swap
+ 109:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 	temp = pA[i];
+ 243              	 .loc 1 109 0 discriminator 3
+ 244 005a BB69     	 ldr r3,[r7,#24]
+ 245 005c 9B00     	 lsls r3,r3,#2
+ 246 005e FA69     	 ldr r2,[r7,#28]
+ 247 0060 1344     	 add r3,r3,r2
+ 248 0062 1B68     	 ldr r3,[r3]
+ 249 0064 7B61     	 str r3,[r7,#20]
+ 110:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 	pA[i] = pA[0];
+ 250              	 .loc 1 110 0 discriminator 3
+ 251 0066 BB69     	 ldr r3,[r7,#24]
+ 252 0068 9B00     	 lsls r3,r3,#2
+ 253 006a FA69     	 ldr r2,[r7,#28]
+ 254 006c 1344     	 add r3,r3,r2
+ 255 006e FA69     	 ldr r2,[r7,#28]
+ 256 0070 1268     	 ldr r2,[r2]
+ 257 0072 1A60     	 str r2,[r3]
+ 111:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         pA[0] = temp;
+ 258              	 .loc 1 111 0 discriminator 3
+ 259 0074 FB69     	 ldr r3,[r7,#28]
+ 260 0076 7A69     	 ldr r2,[r7,#20]
+ 261 0078 1A60     	 str r2,[r3]
+ 112:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 
+ 113:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****         // Restore heap order
+ 114:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** 	arm_heapify(pA, i, 0, S->dir);
+ 262              	 .loc 1 114 0 discriminator 3
+ 263 007a BA69     	 ldr r2,[r7,#24]
+ 264 007c FB68     	 ldr r3,[r7,#12]
+ 265 007e 5B78     	 ldrb r3,[r3,#1]
+ 266 0080 F869     	 ldr r0,[r7,#28]
+ 267 0082 1146     	 mov r1,r2
+ 268 0084 0022     	 movs r2,#0
+ 269 0086 FFF7FEFF 	 bl arm_heapify
+ 106:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     {
+ 270              	 .loc 1 106 0 discriminator 3
+ 271 008a BB69     	 ldr r3,[r7,#24]
+ 272 008c 013B     	 subs r3,r3,#1
+ 273 008e BB61     	 str r3,[r7,#24]
+ 274              	.L10:
+ 106:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     {
+ 275              	 .loc 1 106 0 is_stmt 0 discriminator 1
+ 276 0090 BB69     	 ldr r3,[r7,#24]
+ 277 0092 002B     	 cmp r3,#0
+ 278 0094 E1DA     	 bge .L11
+ 115:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c ****     }
+ 116:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_heap_sort_f32.c **** }
+ 279              	 .loc 1 116 0 is_stmt 1
+ 280 0096 2037     	 adds r7,r7,#32
+ 281              	.LCFI8:
+ 282              	 .cfi_def_cfa_offset 8
+ 283 0098 BD46     	 mov sp,r7
+ 284              	.LCFI9:
+ 285              	 .cfi_def_cfa_register 13
+ 286              	 
+ 287 009a 80BD     	 pop {r7,pc}
+ 288              	 .cfi_endproc
+ 289              	.LFE150:
+ 291              	 .text
+ 292              	.Letext0:
+ 293              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 294              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 295              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 296              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_heap_sort_f32.c
+    {standard input}:20     .text.arm_heapify:00000000 $t
+    {standard input}:24     .text.arm_heapify:00000000 arm_heapify
+    {standard input}:167    .text.arm_heap_sort_f32:00000000 $t
+    {standard input}:172    .text.arm_heap_sort_f32:00000000 arm_heap_sort_f32
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+memcpy

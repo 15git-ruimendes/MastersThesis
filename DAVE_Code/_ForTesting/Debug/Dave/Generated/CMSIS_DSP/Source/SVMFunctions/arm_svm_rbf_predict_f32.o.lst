@@ -1,0 +1,704 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_svm_rbf_predict_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_svm_rbf_predict_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_svm_rbf_predict_f32
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_svm_rbf_predict_f32:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * Title:        arm_svm_rbf_predict_f32.c
+   4:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * Description:  SVM Radial Basis Function Classifier
+   5:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  *
+   7:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * Target Processor: Cortex-M and Cortex-A cores
+   8:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * -------------------------------------------------------------------- */
+   9:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** /*
+  10:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  11:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  *
+  12:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  13:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  15:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * not use this file except in compliance with the License.
+  16:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * You may obtain a copy of the License at
+  17:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  *
+  18:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  19:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  21:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  22:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  23:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * See the License for the specific language governing permissions and
+  24:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * limitations under the License.
+  25:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  */
+  26:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+  27:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  28:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** #include <limits.h>
+  29:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** #include <math.h>
+  30:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+  31:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+  32:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** /**
+  33:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * @addtogroup groupSVM
+  34:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * @{
+  35:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  */
+  36:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+  37:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+  38:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** /**
+  39:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * @brief SVM rbf prediction
+  40:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * @param[in]    S         Pointer to an instance of the rbf SVM structure.
+  41:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * @param[in]    in        Pointer to input vector
+  42:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * @param[out]   pResult   decision value
+  43:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  * @return none.
+  44:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  *
+  45:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****  */
+  46:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+  47:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
+  48:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+  49:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** #include "CMSIS_DSP/Include/arm_helium_utils.h"
+  50:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** #include "CMSIS_DSP/Include/arm_vec_math.h"
+  51:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+  52:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** void arm_svm_rbf_predict_f32(
+  53:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const arm_svm_rbf_instance_f32 *S,
+  54:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t * in,
+  55:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     int32_t * pResult)
+  56:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** {
+  57:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /* inlined Matrix x Vector function interleaved with dot prod */
+  58:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     uint32_t        numRows = S->nbOfSupportVectors;
+  59:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     uint32_t        numCols = S->vectorDimension;
+  60:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t *pSupport = S->supportVectors;
+  61:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t *pSrcA = pSupport;
+  62:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t *pInA0;
+  63:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t *pInA1;
+  64:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     uint32_t         row;
+  65:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     uint32_t         blkCnt;     /* loop counters */
+  66:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t *pDualCoef = S->dualCoefficients;
+  67:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     float32_t       sum = S->intercept;
+  68:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     f32x4_t         vSum = vdupq_n_f32(0);
+  69:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+  70:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     row = numRows;
+  71:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+  72:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     /*
+  73:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****      * compute 4 rows in parrallel
+  74:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****      */
+  75:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     while (row >= 4) {
+  76:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         const float32_t *pInA2, *pInA3;
+  77:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         float32_t const *pSrcA0Vec, *pSrcA1Vec, *pSrcA2Vec, *pSrcA3Vec, *pInVec;
+  78:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         f32x4_t         vecIn, acc0, acc1, acc2, acc3;
+  79:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         float32_t const *pSrcVecPtr = in;
+  80:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+  81:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+  82:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * Initialize the pointers to 4 consecutive MatrixA rows
+  83:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+  84:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pInA0 = pSrcA;
+  85:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pInA1 = pInA0 + numCols;
+  86:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pInA2 = pInA1 + numCols;
+  87:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pInA3 = pInA2 + numCols;
+  88:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+  89:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * Initialize the vector pointer
+  90:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+  91:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pInVec = pSrcVecPtr;
+  92:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+  93:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * reset accumulators
+  94:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+  95:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         acc0 = vdupq_n_f32(0.0f);
+  96:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         acc1 = vdupq_n_f32(0.0f);
+  97:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         acc2 = vdupq_n_f32(0.0f);
+  98:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         acc3 = vdupq_n_f32(0.0f);
+  99:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 100:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pSrcA0Vec = pInA0;
+ 101:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pSrcA1Vec = pInA1;
+ 102:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pSrcA2Vec = pInA2;
+ 103:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pSrcA3Vec = pInA3;
+ 104:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 105:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         blkCnt = numCols >> 2;
+ 106:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         while (blkCnt > 0U) {
+ 107:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             f32x4_t         vecA;
+ 108:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             f32x4_t         vecDif;
+ 109:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 110:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecIn = vld1q(pInVec);
+ 111:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pInVec += 4;
+ 112:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vld1q(pSrcA0Vec);
+ 113:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSrcA0Vec += 4;
+ 114:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 115:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc0 = vfmaq(acc0, vecDif, vecDif);
+ 116:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vld1q(pSrcA1Vec);
+ 117:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSrcA1Vec += 4;
+ 118:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 119:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc1 = vfmaq(acc1, vecDif, vecDif);
+ 120:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vld1q(pSrcA2Vec);
+ 121:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSrcA2Vec += 4;
+ 122:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 123:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc2 = vfmaq(acc2, vecDif, vecDif);
+ 124:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vld1q(pSrcA3Vec);
+ 125:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSrcA3Vec += 4;
+ 126:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 127:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc3 = vfmaq(acc3, vecDif, vecDif);
+ 128:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 129:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             blkCnt--;
+ 130:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         }
+ 131:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+ 132:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * tail
+ 133:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * (will be merged thru tail predication)
+ 134:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+ 135:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         blkCnt = numCols & 3;
+ 136:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         if (blkCnt > 0U) {
+ 137:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             mve_pred16_t    p0 = vctp32q(blkCnt);
+ 138:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             f32x4_t         vecA;
+ 139:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             f32x4_t         vecDif;
+ 140:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 141:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecIn = vldrwq_z_f32(pInVec, p0);
+ 142:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA0Vec, p0);
+ 143:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 144:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc0 = vfmaq(acc0, vecDif, vecDif);
+ 145:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA1Vec, p0);
+ 146:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 147:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc1 = vfmaq(acc1, vecDif, vecDif);
+ 148:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA2Vec, p0);;
+ 149:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 150:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc2 = vfmaq(acc2, vecDif, vecDif);
+ 151:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA3Vec, p0);
+ 152:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 153:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc3 = vfmaq(acc3, vecDif, vecDif);
+ 154:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         }
+ 155:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+ 156:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * Sum the partial parts
+ 157:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+ 158:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 159:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         //sum += *pDualCoef++ * expf(-S->gamma * vecReduceF32Mve(acc0));
+ 160:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         f32x4_t         vtmp = vuninitializedq_f32();
+ 161:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc0), vtmp, 0);
+ 162:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc1), vtmp, 1);
+ 163:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc2), vtmp, 2);
+ 164:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc3), vtmp, 3);
+ 165:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 166:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         vSum =
+ 167:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vfmaq_f32(vSum, vld1q(pDualCoef),
+ 168:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****                       vexpq_f32(vmulq_n_f32(vtmp, -S->gamma)));
+ 169:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pDualCoef += 4;
+ 170:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pSrcA += numCols * 4;
+ 171:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+ 172:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * Decrement the row loop counter
+ 173:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+ 174:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         row -= 4;
+ 175:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     }
+ 176:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 177:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     /*
+ 178:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****      * compute 2 rows in parrallel
+ 179:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****      */
+ 180:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     if (row >= 2) {
+ 181:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         float32_t const *pSrcA0Vec, *pSrcA1Vec, *pInVec;
+ 182:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         f32x4_t         vecIn, acc0, acc1;
+ 183:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         float32_t const *pSrcVecPtr = in;
+ 184:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 185:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+ 186:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * Initialize the pointers to 2 consecutive MatrixA rows
+ 187:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+ 188:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pInA0 = pSrcA;
+ 189:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pInA1 = pInA0 + numCols;
+ 190:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+ 191:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * Initialize the vector pointer
+ 192:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+ 193:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pInVec = pSrcVecPtr;
+ 194:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+ 195:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * reset accumulators
+ 196:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+ 197:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         acc0 = vdupq_n_f32(0.0f);
+ 198:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         acc1 = vdupq_n_f32(0.0f);
+ 199:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pSrcA0Vec = pInA0;
+ 200:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pSrcA1Vec = pInA1;
+ 201:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 202:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         blkCnt = numCols >> 2;
+ 203:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         while (blkCnt > 0U) {
+ 204:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             f32x4_t         vecA;
+ 205:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             f32x4_t         vecDif;
+ 206:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 207:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecIn = vld1q(pInVec);
+ 208:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pInVec += 4;
+ 209:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vld1q(pSrcA0Vec);
+ 210:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSrcA0Vec += 4;
+ 211:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 212:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc0 = vfmaq(acc0, vecDif, vecDif);;
+ 213:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vld1q(pSrcA1Vec);
+ 214:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSrcA1Vec += 4;
+ 215:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 216:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc1 = vfmaq(acc1, vecDif, vecDif);
+ 217:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 218:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             blkCnt--;
+ 219:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         }
+ 220:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+ 221:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * tail
+ 222:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * (will be merged thru tail predication)
+ 223:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+ 224:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         blkCnt = numCols & 3;
+ 225:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         if (blkCnt > 0U) {
+ 226:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             mve_pred16_t    p0 = vctp32q(blkCnt);
+ 227:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             f32x4_t         vecA, vecDif;
+ 228:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 229:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecIn = vldrwq_z_f32(pInVec, p0);
+ 230:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA0Vec, p0);
+ 231:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 232:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc0 = vfmaq(acc0, vecDif, vecDif);
+ 233:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA1Vec, p0);
+ 234:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 235:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc1 = vfmaq(acc1, vecDif, vecDif);
+ 236:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         }
+ 237:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+ 238:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * Sum the partial parts
+ 239:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+ 240:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         f32x4_t         vtmp = vuninitializedq_f32();
+ 241:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc0), vtmp, 0);
+ 242:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc1), vtmp, 1);
+ 243:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 244:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         vSum =
+ 245:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vfmaq_m_f32(vSum, vld1q(pDualCoef),
+ 246:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****                         vexpq_f32(vmulq_n_f32(vtmp, -S->gamma)), vctp32q(2));
+ 247:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pDualCoef += 2;
+ 248:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 249:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pSrcA += numCols * 2;
+ 250:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         row -= 2;
+ 251:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     }
+ 252:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 253:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     if (row >= 1) {
+ 254:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         f32x4_t         vecIn, acc0;
+ 255:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         float32_t const *pSrcA0Vec, *pInVec;
+ 256:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         float32_t const *pSrcVecPtr = in;
+ 257:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+ 258:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * Initialize the pointers to last MatrixA row
+ 259:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+ 260:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pInA0 = pSrcA;
+ 261:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+ 262:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * Initialize the vector pointer
+ 263:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+ 264:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pInVec = pSrcVecPtr;
+ 265:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+ 266:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * reset accumulators
+ 267:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+ 268:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         acc0 = vdupq_n_f32(0.0f);
+ 269:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 270:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pSrcA0Vec = pInA0;
+ 271:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 272:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         blkCnt = numCols >> 2;
+ 273:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         while (blkCnt > 0U) {
+ 274:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             f32x4_t         vecA, vecDif;
+ 275:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 276:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecIn = vld1q(pInVec);
+ 277:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pInVec += 4;
+ 278:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vld1q(pSrcA0Vec);
+ 279:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSrcA0Vec += 4;
+ 280:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 281:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc0 = vfmaq(acc0, vecDif, vecDif);
+ 282:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 283:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             blkCnt--;
+ 284:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         }
+ 285:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+ 286:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * tail
+ 287:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * (will be merged thru tail predication)
+ 288:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+ 289:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         blkCnt = numCols & 3;
+ 290:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         if (blkCnt > 0U) {
+ 291:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             mve_pred16_t    p0 = vctp32q(blkCnt);
+ 292:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             f32x4_t         vecA, vecDif;
+ 293:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 294:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecIn = vldrwq_z_f32(pInVec, p0);
+ 295:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecA = vldrwq_z_f32(pSrcA0Vec, p0);
+ 296:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vecDif = vsubq(vecIn, vecA);
+ 297:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             acc0 = vfmaq(acc0, vecDif, vecDif);
+ 298:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         }
+ 299:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         /*
+ 300:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          * Sum the partial parts
+ 301:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****          */
+ 302:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         f32x4_t         vtmp = vuninitializedq_f32();
+ 303:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         vtmp = vsetq_lane(vecAddAcrossF32Mve(acc0), vtmp, 0);
+ 304:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 305:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         vSum =
+ 306:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vfmaq_m_f32(vSum, vld1q(pDualCoef),
+ 307:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****                         vexpq_f32(vmulq_n_f32(vtmp, -S->gamma)), vctp32q(1));
+ 308:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 309:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     }
+ 310:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 311:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 312:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     sum += vecAddAcrossF32Mve(vSum);
+ 313:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     *pResult = S->classes[STEP(sum)];
+ 314:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** }
+ 315:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 316:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 317:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** #else
+ 318:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** #if defined(ARM_MATH_NEON)
+ 319:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 320:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** #include "NEMath.h"
+ 321:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 322:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** void arm_svm_rbf_predict_f32(
+ 323:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const arm_svm_rbf_instance_f32 *S,
+ 324:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t * in,
+ 325:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     int32_t * pResult)
+ 326:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** {
+ 327:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     float32_t sum = S->intercept;
+ 328:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****    
+ 329:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     float32_t dot;
+ 330:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     float32x4_t dotV; 
+ 331:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 332:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     float32x4_t accuma,accumb,accumc,accumd,accum;
+ 333:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     float32x2_t accum2;
+ 334:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     float32x4_t temp;
+ 335:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     float32x4_t vec1;
+ 336:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 337:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     float32x4_t vec2,vec2a,vec2b,vec2c,vec2d;
+ 338:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 339:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     uint32_t blkCnt;   
+ 340:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     uint32_t vectorBlkCnt;   
+ 341:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 342:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t *pIn = in;
+ 343:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 344:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t *pSupport = S->supportVectors;
+ 345:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 346:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t *pSupporta = S->supportVectors;
+ 347:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t *pSupportb;
+ 348:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t *pSupportc;
+ 349:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t *pSupportd;
+ 350:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 351:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     pSupportb = pSupporta + S->vectorDimension;
+ 352:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     pSupportc = pSupportb + S->vectorDimension;
+ 353:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     pSupportd = pSupportc + S->vectorDimension;
+ 354:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 355:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t *pDualCoefs = S->dualCoefficients;
+ 356:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 357:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 358:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     vectorBlkCnt = S->nbOfSupportVectors >> 2;
+ 359:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     while (vectorBlkCnt > 0U)
+ 360:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     {
+ 361:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         accuma = vdupq_n_f32(0);
+ 362:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         accumb = vdupq_n_f32(0);
+ 363:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         accumc = vdupq_n_f32(0);
+ 364:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         accumd = vdupq_n_f32(0);
+ 365:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 366:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pIn = in;
+ 367:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 368:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         blkCnt = S->vectorDimension >> 2;
+ 369:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         while (blkCnt > 0U)
+ 370:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         {
+ 371:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         
+ 372:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vec1 = vld1q_f32(pIn);
+ 373:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vec2a = vld1q_f32(pSupporta);
+ 374:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vec2b = vld1q_f32(pSupportb);
+ 375:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vec2c = vld1q_f32(pSupportc);
+ 376:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vec2d = vld1q_f32(pSupportd);
+ 377:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 378:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pIn += 4;
+ 379:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSupporta += 4;
+ 380:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSupportb += 4;
+ 381:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSupportc += 4;
+ 382:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSupportd += 4;
+ 383:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 384:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             temp = vsubq_f32(vec1, vec2a);
+ 385:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             accuma = vmlaq_f32(accuma, temp, temp);
+ 386:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 387:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             temp = vsubq_f32(vec1, vec2b);
+ 388:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             accumb = vmlaq_f32(accumb, temp, temp);
+ 389:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 390:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             temp = vsubq_f32(vec1, vec2c);
+ 391:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             accumc = vmlaq_f32(accumc, temp, temp);
+ 392:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 393:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             temp = vsubq_f32(vec1, vec2d);
+ 394:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             accumd = vmlaq_f32(accumd, temp, temp);
+ 395:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 396:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             blkCnt -- ;
+ 397:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         }
+ 398:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         accum2 = vpadd_f32(vget_low_f32(accuma),vget_high_f32(accuma));
+ 399:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         dotV = vsetq_lane_f32(vget_lane_f32(accum2, 0) + vget_lane_f32(accum2, 1),dotV,0);
+ 400:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 401:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         accum2 = vpadd_f32(vget_low_f32(accumb),vget_high_f32(accumb));
+ 402:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         dotV = vsetq_lane_f32(vget_lane_f32(accum2, 0) + vget_lane_f32(accum2, 1),dotV,1);
+ 403:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 404:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         accum2 = vpadd_f32(vget_low_f32(accumc),vget_high_f32(accumc));
+ 405:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         dotV = vsetq_lane_f32(vget_lane_f32(accum2, 0) + vget_lane_f32(accum2, 1),dotV,2);
+ 406:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 407:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         accum2 = vpadd_f32(vget_low_f32(accumd),vget_high_f32(accumd));
+ 408:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         dotV = vsetq_lane_f32(vget_lane_f32(accum2, 0) + vget_lane_f32(accum2, 1),dotV,3);
+ 409:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 410:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 411:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         blkCnt = S->vectorDimension & 3;
+ 412:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         while (blkCnt > 0U)
+ 413:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         {
+ 414:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             dotV = vsetq_lane_f32(vgetq_lane_f32(dotV,0) + SQ(*pIn - *pSupporta), dotV,0);
+ 415:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             dotV = vsetq_lane_f32(vgetq_lane_f32(dotV,1) + SQ(*pIn - *pSupportb), dotV,1);
+ 416:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             dotV = vsetq_lane_f32(vgetq_lane_f32(dotV,2) + SQ(*pIn - *pSupportc), dotV,2);
+ 417:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             dotV = vsetq_lane_f32(vgetq_lane_f32(dotV,3) + SQ(*pIn - *pSupportd), dotV,3);
+ 418:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 419:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSupporta++;
+ 420:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSupportb++;
+ 421:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSupportc++;
+ 422:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSupportd++;
+ 423:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 424:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pIn++;
+ 425:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 426:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             blkCnt -- ;
+ 427:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         }
+ 428:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 429:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         vec1 = vld1q_f32(pDualCoefs);
+ 430:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pDualCoefs += 4; 
+ 431:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 432:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         // To vectorize later
+ 433:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         dotV = vmulq_n_f32(dotV, -S->gamma);
+ 434:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         dotV = vexpq_f32(dotV);
+ 435:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 436:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         accum = vmulq_f32(vec1,dotV);
+ 437:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         accum2 = vpadd_f32(vget_low_f32(accum),vget_high_f32(accum));
+ 438:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         sum += vget_lane_f32(accum2, 0) + vget_lane_f32(accum2, 1);
+ 439:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 440:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pSupporta += 3*S->vectorDimension;
+ 441:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pSupportb += 3*S->vectorDimension;
+ 442:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pSupportc += 3*S->vectorDimension;
+ 443:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pSupportd += 3*S->vectorDimension;
+ 444:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 445:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         vectorBlkCnt -- ;
+ 446:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     }
+ 447:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 448:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     pSupport = pSupporta;
+ 449:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     vectorBlkCnt = S->nbOfSupportVectors & 3;
+ 450:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 451:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     while (vectorBlkCnt > 0U)
+ 452:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     {
+ 453:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         accum = vdupq_n_f32(0);
+ 454:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         dot = 0.0f;
+ 455:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         pIn = in;
+ 456:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 457:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         blkCnt = S->vectorDimension >> 2;
+ 458:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         while (blkCnt > 0U)
+ 459:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         {
+ 460:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         
+ 461:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vec1 = vld1q_f32(pIn);
+ 462:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             vec2 = vld1q_f32(pSupport);
+ 463:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pIn += 4;
+ 464:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSupport += 4;
+ 465:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 466:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             temp = vsubq_f32(vec1,vec2);
+ 467:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             accum = vmlaq_f32(accum, temp,temp);
+ 468:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 469:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             blkCnt -- ;
+ 470:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         }
+ 471:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         accum2 = vpadd_f32(vget_low_f32(accum),vget_high_f32(accum));
+ 472:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         dot = vget_lane_f32(accum2, 0) + vget_lane_f32(accum2, 1);
+ 473:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 474:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 475:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         blkCnt = S->vectorDimension & 3;
+ 476:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         while (blkCnt > 0U)
+ 477:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         {
+ 478:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 479:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             dot = dot + SQ(*pIn - *pSupport);
+ 480:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pIn++;
+ 481:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSupport++;
+ 482:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 483:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             blkCnt -- ;
+ 484:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         }
+ 485:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 486:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         sum += *pDualCoefs++ * expf(-S->gamma * dot);
+ 487:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         vectorBlkCnt -- ;
+ 488:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     }
+ 489:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 490:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     *pResult=S->classes[STEP(sum)];
+ 491:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** }
+ 492:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** #else
+ 493:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** void arm_svm_rbf_predict_f32(
+ 494:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const arm_svm_rbf_instance_f32 *S,
+ 495:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t * in,
+ 496:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     int32_t * pResult)
+ 497:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** {
+  28              	 .loc 1 497 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32 0000 80B5     	 push {r7,lr}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 8
+  35              	 .cfi_offset 7,-8
+  36              	 .cfi_offset 14,-4
+  37 0002 2DED028B 	 fstmfdd sp!,{d8}
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 16
+  40              	 .cfi_offset 80,-16
+  41              	 .cfi_offset 81,-12
+  42 0006 8AB0     	 sub sp,sp,#40
+  43              	.LCFI2:
+  44              	 .cfi_def_cfa_offset 56
+  45 0008 00AF     	 add r7,sp,#0
+  46              	.LCFI3:
+  47              	 .cfi_def_cfa_register 7
+  48 000a F860     	 str r0,[r7,#12]
+  49 000c B960     	 str r1,[r7,#8]
+  50 000e 7A60     	 str r2,[r7,#4]
+ 498:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     float32_t sum=S->intercept;
+  51              	 .loc 1 498 0
+  52 0010 FB68     	 ldr r3,[r7,#12]
+  53 0012 9B68     	 ldr r3,[r3,#8]
+  54 0014 7B62     	 str r3,[r7,#36]
+ 499:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     float32_t dot=0;
+  55              	 .loc 1 499 0
+  56 0016 4FF00003 	 mov r3,#0
+  57 001a 3B62     	 str r3,[r7,#32]
+ 500:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     uint32_t i,j;
+ 501:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     const float32_t *pSupport = S->supportVectors;
+  58              	 .loc 1 501 0
+  59 001c FB68     	 ldr r3,[r7,#12]
+  60 001e 1B69     	 ldr r3,[r3,#16]
+  61 0020 7B61     	 str r3,[r7,#20]
+ 502:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** 
+ 503:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     for(i=0; i < S->nbOfSupportVectors; i++)
+  62              	 .loc 1 503 0
+  63 0022 0023     	 movs r3,#0
+  64 0024 FB61     	 str r3,[r7,#28]
+  65 0026 4FE0     	 b .L2
+  66              	.L5:
+ 504:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     {
+ 505:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         dot=0;
+  67              	 .loc 1 505 0
+  68 0028 4FF00003 	 mov r3,#0
+  69 002c 3B62     	 str r3,[r7,#32]
+ 506:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         for(j=0; j < S->vectorDimension; j++)
+  70              	 .loc 1 506 0
+  71 002e 0023     	 movs r3,#0
+  72 0030 BB61     	 str r3,[r7,#24]
+  73 0032 23E0     	 b .L3
+  74              	.L4:
+ 507:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         {
+ 508:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             dot = dot + SQ(in[j] - *pSupport);
+  75              	 .loc 1 508 0 discriminator 3
+  76 0034 BB69     	 ldr r3,[r7,#24]
+  77 0036 9B00     	 lsls r3,r3,#2
+  78 0038 BA68     	 ldr r2,[r7,#8]
+  79 003a 1344     	 add r3,r3,r2
+  80 003c 93ED007A 	 flds s14,[r3]
+  81 0040 7B69     	 ldr r3,[r7,#20]
+  82 0042 D3ED007A 	 flds s15,[r3]
+  83 0046 37EE677A 	 fsubs s14,s14,s15
+  84 004a BB69     	 ldr r3,[r7,#24]
+  85 004c 9B00     	 lsls r3,r3,#2
+  86 004e BA68     	 ldr r2,[r7,#8]
+  87 0050 1344     	 add r3,r3,r2
+  88 0052 D3ED006A 	 flds s13,[r3]
+  89 0056 7B69     	 ldr r3,[r7,#20]
+  90 0058 D3ED007A 	 flds s15,[r3]
+  91 005c 76EEE77A 	 fsubs s15,s13,s15
+  92 0060 67EE277A 	 fmuls s15,s14,s15
+  93 0064 97ED087A 	 flds s14,[r7,#32]
+  94 0068 77EE277A 	 fadds s15,s14,s15
+  95 006c C7ED087A 	 fsts s15,[r7,#32]
+ 509:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****             pSupport++;
+  96              	 .loc 1 509 0 discriminator 3
+  97 0070 7B69     	 ldr r3,[r7,#20]
+  98 0072 0433     	 adds r3,r3,#4
+  99 0074 7B61     	 str r3,[r7,#20]
+ 506:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         for(j=0; j < S->vectorDimension; j++)
+ 100              	 .loc 1 506 0 discriminator 3
+ 101 0076 BB69     	 ldr r3,[r7,#24]
+ 102 0078 0133     	 adds r3,r3,#1
+ 103 007a BB61     	 str r3,[r7,#24]
+ 104              	.L3:
+ 506:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         for(j=0; j < S->vectorDimension; j++)
+ 105              	 .loc 1 506 0 is_stmt 0 discriminator 1
+ 106 007c FB68     	 ldr r3,[r7,#12]
+ 107 007e 5A68     	 ldr r2,[r3,#4]
+ 108 0080 BB69     	 ldr r3,[r7,#24]
+ 109 0082 9A42     	 cmp r2,r3
+ 110 0084 D6D8     	 bhi .L4
+ 510:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         }
+ 511:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****         sum += S->dualCoefficients[i] * expf(-S->gamma * dot);
+ 111              	 .loc 1 511 0 is_stmt 1 discriminator 2
+ 112 0086 FB68     	 ldr r3,[r7,#12]
+ 113 0088 DA68     	 ldr r2,[r3,#12]
+ 114 008a FB69     	 ldr r3,[r7,#28]
+ 115 008c 9B00     	 lsls r3,r3,#2
+ 116 008e 1344     	 add r3,r3,r2
+ 117 0090 93ED008A 	 flds s16,[r3]
+ 118 0094 FB68     	 ldr r3,[r7,#12]
+ 119 0096 D3ED067A 	 flds s15,[r3,#24]
+ 120 009a B1EE677A 	 fnegs s14,s15
+ 121 009e D7ED087A 	 flds s15,[r7,#32]
+ 122 00a2 67EE277A 	 fmuls s15,s14,s15
+ 123 00a6 17EE900A 	 fmrs r0,s15
+ 124 00aa FFF7FEFF 	 bl expf
+ 125 00ae 07EE900A 	 fmsr s15,r0
+ 126 00b2 68EE277A 	 fmuls s15,s16,s15
+ 127 00b6 97ED097A 	 flds s14,[r7,#36]
+ 128 00ba 77EE277A 	 fadds s15,s14,s15
+ 129 00be C7ED097A 	 fsts s15,[r7,#36]
+ 503:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     {
+ 130              	 .loc 1 503 0 discriminator 2
+ 131 00c2 FB69     	 ldr r3,[r7,#28]
+ 132 00c4 0133     	 adds r3,r3,#1
+ 133 00c6 FB61     	 str r3,[r7,#28]
+ 134              	.L2:
+ 503:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     {
+ 135              	 .loc 1 503 0 is_stmt 0 discriminator 1
+ 136 00c8 FB68     	 ldr r3,[r7,#12]
+ 137 00ca 1A68     	 ldr r2,[r3]
+ 138 00cc FB69     	 ldr r3,[r7,#28]
+ 139 00ce 9A42     	 cmp r2,r3
+ 140 00d0 AAD8     	 bhi .L5
+ 512:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     }
+ 513:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c ****     *pResult=S->classes[STEP(sum)];
+ 141              	 .loc 1 513 0 is_stmt 1
+ 142 00d2 FB68     	 ldr r3,[r7,#12]
+ 143 00d4 5A69     	 ldr r2,[r3,#20]
+ 144 00d6 D7ED097A 	 flds s15,[r7,#36]
+ 145 00da F5EEC07A 	 fcmpezs s15
+ 146 00de F1EE10FA 	 fmstat
+ 147 00e2 94BF     	 ite ls
+ 148 00e4 0123     	 movls r3,#1
+ 149 00e6 0023     	 movhi r3,#0
+ 150 00e8 DBB2     	 uxtb r3,r3
+ 151 00ea 83F00103 	 eor r3,r3,#1
+ 152 00ee DBB2     	 uxtb r3,r3
+ 153 00f0 9B00     	 lsls r3,r3,#2
+ 154 00f2 1344     	 add r3,r3,r2
+ 155 00f4 1A68     	 ldr r2,[r3]
+ 156 00f6 7B68     	 ldr r3,[r7,#4]
+ 157 00f8 1A60     	 str r2,[r3]
+ 514:../Dave/Generated/CMSIS_DSP/Source/SVMFunctions/arm_svm_rbf_predict_f32.c **** }
+ 158              	 .loc 1 514 0
+ 159 00fa 2837     	 adds r7,r7,#40
+ 160              	.LCFI4:
+ 161              	 .cfi_def_cfa_offset 16
+ 162 00fc BD46     	 mov sp,r7
+ 163              	.LCFI5:
+ 164              	 .cfi_def_cfa_register 13
+ 165              	 
+ 166 00fe BDEC028B 	 fldmfdd sp!,{d8}
+ 167              	.LCFI6:
+ 168              	 .cfi_restore 80
+ 169              	 .cfi_restore 81
+ 170              	 .cfi_def_cfa_offset 8
+ 171 0102 80BD     	 pop {r7,pc}
+ 172              	 .cfi_endproc
+ 173              	.LFE149:
+ 175              	 .text
+ 176              	.Letext0:
+ 177              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 178              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 179              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 180              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_svm_rbf_predict_f32.c
+    {standard input}:20     .text.arm_svm_rbf_predict_f32:00000000 $t
+    {standard input}:25     .text.arm_svm_rbf_predict_f32:00000000 arm_svm_rbf_predict_f32
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+expf

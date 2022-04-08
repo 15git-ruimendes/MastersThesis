@@ -1,0 +1,1391 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_bitonic_sort_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_bitonic_sort_core_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .thumb
+  22              	 .thumb_func
+  24              	arm_bitonic_sort_core_f32:
+  25              	.LFB149:
+  26              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * Title:        arm_bitonic_sort_f32.c
+   4:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * Description:  Floating point bitonic sort
+   5:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * $Date:        2019
+   7:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * $Revision:    V1.6.0
+   8:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  *
+   9:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * Target Processor: Cortex-M and Cortex-A cores
+  10:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * -------------------------------------------------------------------- */
+  11:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** /*
+  12:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  *
+  16:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * not use this file except in compliance with the License.
+  18:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * You may obtain a copy of the License at
+  19:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  *
+  22:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * See the License for the specific language governing permissions and
+  26:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  * limitations under the License.
+  27:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  */
+  28:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+  29:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  30:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** #include "CMSIS_DSP/PrivateInclude/arm_sorting.h"
+  31:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+  32:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+  33:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** #if !defined(ARM_MATH_NEON)
+  34:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+  35:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** static void arm_bitonic_sort_core_f32(float32_t *pSrc, uint32_t n, uint8_t dir)
+  36:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** {
+  27              	 .loc 1 36 0
+  28              	 .cfi_startproc
+  29              	 
+  30              	 
+  31              	 
+  32 0000 80B4     	 push {r7}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 4
+  35              	 .cfi_offset 7,-4
+  36 0002 8BB0     	 sub sp,sp,#44
+  37              	.LCFI1:
+  38              	 .cfi_def_cfa_offset 48
+  39 0004 00AF     	 add r7,sp,#0
+  40              	.LCFI2:
+  41              	 .cfi_def_cfa_register 7
+  42 0006 F860     	 str r0,[r7,#12]
+  43 0008 B960     	 str r1,[r7,#8]
+  44 000a 1346     	 mov r3,r2
+  45 000c FB71     	 strb r3,[r7,#7]
+  37:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     uint32_t step;
+  38:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     uint32_t k, j;
+  39:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32_t *leftPtr, *rightPtr;
+  40:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32_t temp;
+  41:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+  42:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     step = n>>1;
+  46              	 .loc 1 42 0
+  47 000e BB68     	 ldr r3,[r7,#8]
+  48 0010 5B08     	 lsrs r3,r3,#1
+  49 0012 7B62     	 str r3,[r7,#36]
+  43:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     leftPtr = pSrc;
+  50              	 .loc 1 43 0
+  51 0014 FB68     	 ldr r3,[r7,#12]
+  52 0016 BB61     	 str r3,[r7,#24]
+  44:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     rightPtr = pSrc+n-1;
+  53              	 .loc 1 44 0
+  54 0018 BB68     	 ldr r3,[r7,#8]
+  55 001a 03F18043 	 add r3,r3,#1073741824
+  56 001e 013B     	 subs r3,r3,#1
+  57 0020 9B00     	 lsls r3,r3,#2
+  58 0022 FA68     	 ldr r2,[r7,#12]
+  59 0024 1344     	 add r3,r3,r2
+  60 0026 7B61     	 str r3,[r7,#20]
+  45:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+  46:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     for(k=0; k<step; k++)
+  61              	 .loc 1 46 0
+  62 0028 0023     	 movs r3,#0
+  63 002a 3B62     	 str r3,[r7,#32]
+  64 002c 23E0     	 b .L2
+  65              	.L4:
+  47:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+  48:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	if(dir == (*leftPtr > *rightPtr))
+  66              	 .loc 1 48 0
+  67 002e FB79     	 ldrb r3,[r7,#7]
+  68 0030 BA69     	 ldr r2,[r7,#24]
+  69 0032 92ED007A 	 flds s14,[r2]
+  70 0036 7A69     	 ldr r2,[r7,#20]
+  71 0038 D2ED007A 	 flds s15,[r2]
+  72 003c B4EEE77A 	 fcmpes s14,s15
+  73 0040 F1EE10FA 	 fmstat
+  74 0044 CCBF     	 ite gt
+  75 0046 0122     	 movgt r2,#1
+  76 0048 0022     	 movle r2,#0
+  77 004a D2B2     	 uxtb r2,r2
+  78 004c 9342     	 cmp r3,r2
+  79 004e 09D1     	 bne .L3
+  49:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	{
+  50:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             // Swap
+  51:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	    temp=*leftPtr;
+  80              	 .loc 1 51 0
+  81 0050 BB69     	 ldr r3,[r7,#24]
+  82 0052 1B68     	 ldr r3,[r3]
+  83 0054 3B61     	 str r3,[r7,#16]
+  52:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	    *leftPtr=*rightPtr;
+  84              	 .loc 1 52 0
+  85 0056 7B69     	 ldr r3,[r7,#20]
+  86 0058 1A68     	 ldr r2,[r3]
+  87 005a BB69     	 ldr r3,[r7,#24]
+  88 005c 1A60     	 str r2,[r3]
+  53:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	    *rightPtr=temp;
+  89              	 .loc 1 53 0
+  90 005e 7B69     	 ldr r3,[r7,#20]
+  91 0060 3A69     	 ldr r2,[r7,#16]
+  92 0062 1A60     	 str r2,[r3]
+  93              	.L3:
+  54:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	}
+  55:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+  56:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	leftPtr++;  // Move right
+  94              	 .loc 1 56 0 discriminator 2
+  95 0064 BB69     	 ldr r3,[r7,#24]
+  96 0066 0433     	 adds r3,r3,#4
+  97 0068 BB61     	 str r3,[r7,#24]
+  57:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	rightPtr--; // Move left
+  98              	 .loc 1 57 0 discriminator 2
+  99 006a 7B69     	 ldr r3,[r7,#20]
+ 100 006c 043B     	 subs r3,r3,#4
+ 101 006e 7B61     	 str r3,[r7,#20]
+  46:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 102              	 .loc 1 46 0 discriminator 2
+ 103 0070 3B6A     	 ldr r3,[r7,#32]
+ 104 0072 0133     	 adds r3,r3,#1
+ 105 0074 3B62     	 str r3,[r7,#32]
+ 106              	.L2:
+  46:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 107              	 .loc 1 46 0 is_stmt 0 discriminator 1
+ 108 0076 3A6A     	 ldr r2,[r7,#32]
+ 109 0078 7B6A     	 ldr r3,[r7,#36]
+ 110 007a 9A42     	 cmp r2,r3
+ 111 007c D7D3     	 bcc .L4
+  58:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+  59:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+  60:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     // Merge
+  61:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     for(step=(n>>2); step>0; step/=2)
+ 112              	 .loc 1 61 0 is_stmt 1
+ 113 007e BB68     	 ldr r3,[r7,#8]
+ 114 0080 9B08     	 lsrs r3,r3,#2
+ 115 0082 7B62     	 str r3,[r7,#36]
+ 116 0084 3FE0     	 b .L5
+ 117              	.L12:
+  62:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+  63:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	for(j=0; j<n; j=j+step*2)
+ 118              	 .loc 1 63 0
+ 119 0086 0023     	 movs r3,#0
+ 120 0088 FB61     	 str r3,[r7,#28]
+ 121 008a 35E0     	 b .L6
+ 122              	.L11:
+  64:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	{
+  65:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	    leftPtr  = pSrc+j;
+ 123              	 .loc 1 65 0
+ 124 008c FB69     	 ldr r3,[r7,#28]
+ 125 008e 9B00     	 lsls r3,r3,#2
+ 126 0090 FA68     	 ldr r2,[r7,#12]
+ 127 0092 1344     	 add r3,r3,r2
+ 128 0094 BB61     	 str r3,[r7,#24]
+  66:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	    rightPtr = pSrc+j+step;
+ 129              	 .loc 1 66 0
+ 130 0096 FA69     	 ldr r2,[r7,#28]
+ 131 0098 7B6A     	 ldr r3,[r7,#36]
+ 132 009a 1344     	 add r3,r3,r2
+ 133 009c 9B00     	 lsls r3,r3,#2
+ 134 009e FA68     	 ldr r2,[r7,#12]
+ 135 00a0 1344     	 add r3,r3,r2
+ 136 00a2 7B61     	 str r3,[r7,#20]
+  67:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+  68:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	    for(k=0; k<step; k++)
+ 137              	 .loc 1 68 0
+ 138 00a4 0023     	 movs r3,#0
+ 139 00a6 3B62     	 str r3,[r7,#32]
+ 140 00a8 1DE0     	 b .L7
+ 141              	.L10:
+  69:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	    {
+  70:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 		if(*leftPtr > *rightPtr)
+ 142              	 .loc 1 70 0
+ 143 00aa BB69     	 ldr r3,[r7,#24]
+ 144 00ac 93ED007A 	 flds s14,[r3]
+ 145 00b0 7B69     	 ldr r3,[r7,#20]
+ 146 00b2 D3ED007A 	 flds s15,[r3]
+ 147 00b6 B4EEE77A 	 fcmpes s14,s15
+ 148 00ba F1EE10FA 	 fmstat
+ 149 00be 09DD     	 ble .L8
+  71:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 		{
+  72:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 		    // Swap
+  73:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	    	    temp=*leftPtr;
+ 150              	 .loc 1 73 0
+ 151 00c0 BB69     	 ldr r3,[r7,#24]
+ 152 00c2 1B68     	 ldr r3,[r3]
+ 153 00c4 3B61     	 str r3,[r7,#16]
+  74:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 		    *leftPtr=*rightPtr;
+ 154              	 .loc 1 74 0
+ 155 00c6 7B69     	 ldr r3,[r7,#20]
+ 156 00c8 1A68     	 ldr r2,[r3]
+ 157 00ca BB69     	 ldr r3,[r7,#24]
+ 158 00cc 1A60     	 str r2,[r3]
+  75:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 		    *rightPtr=temp;
+ 159              	 .loc 1 75 0
+ 160 00ce 7B69     	 ldr r3,[r7,#20]
+ 161 00d0 3A69     	 ldr r2,[r7,#16]
+ 162 00d2 1A60     	 str r2,[r3]
+ 163              	.L8:
+  76:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 		}
+  77:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+  78:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 		leftPtr++;
+ 164              	 .loc 1 78 0 discriminator 2
+ 165 00d4 BB69     	 ldr r3,[r7,#24]
+ 166 00d6 0433     	 adds r3,r3,#4
+ 167 00d8 BB61     	 str r3,[r7,#24]
+  79:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 		rightPtr++;
+ 168              	 .loc 1 79 0 discriminator 2
+ 169 00da 7B69     	 ldr r3,[r7,#20]
+ 170 00dc 0433     	 adds r3,r3,#4
+ 171 00de 7B61     	 str r3,[r7,#20]
+  68:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	    {
+ 172              	 .loc 1 68 0 discriminator 2
+ 173 00e0 3B6A     	 ldr r3,[r7,#32]
+ 174 00e2 0133     	 adds r3,r3,#1
+ 175 00e4 3B62     	 str r3,[r7,#32]
+ 176              	.L7:
+  68:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	    {
+ 177              	 .loc 1 68 0 is_stmt 0 discriminator 1
+ 178 00e6 3A6A     	 ldr r2,[r7,#32]
+ 179 00e8 7B6A     	 ldr r3,[r7,#36]
+ 180 00ea 9A42     	 cmp r2,r3
+ 181 00ec DDD3     	 bcc .L10
+  63:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	{
+ 182              	 .loc 1 63 0 is_stmt 1 discriminator 2
+ 183 00ee 7B6A     	 ldr r3,[r7,#36]
+ 184 00f0 5B00     	 lsls r3,r3,#1
+ 185 00f2 FA69     	 ldr r2,[r7,#28]
+ 186 00f4 1344     	 add r3,r3,r2
+ 187 00f6 FB61     	 str r3,[r7,#28]
+ 188              	.L6:
+  63:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	{
+ 189              	 .loc 1 63 0 is_stmt 0 discriminator 1
+ 190 00f8 FA69     	 ldr r2,[r7,#28]
+ 191 00fa BB68     	 ldr r3,[r7,#8]
+ 192 00fc 9A42     	 cmp r2,r3
+ 193 00fe C5D3     	 bcc .L11
+  61:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 194              	 .loc 1 61 0 is_stmt 1 discriminator 2
+ 195 0100 7B6A     	 ldr r3,[r7,#36]
+ 196 0102 5B08     	 lsrs r3,r3,#1
+ 197 0104 7B62     	 str r3,[r7,#36]
+ 198              	.L5:
+  61:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 199              	 .loc 1 61 0 is_stmt 0 discriminator 1
+ 200 0106 7B6A     	 ldr r3,[r7,#36]
+ 201 0108 002B     	 cmp r3,#0
+ 202 010a BCD1     	 bne .L12
+  80:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	    }
+  81:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	}
+  82:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+  83:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** }
+ 203              	 .loc 1 83 0 is_stmt 1
+ 204 010c 2C37     	 adds r7,r7,#44
+ 205              	.LCFI3:
+ 206              	 .cfi_def_cfa_offset 4
+ 207 010e BD46     	 mov sp,r7
+ 208              	.LCFI4:
+ 209              	 .cfi_def_cfa_register 13
+ 210              	 
+ 211 0110 5DF8047B 	 ldr r7,[sp],#4
+ 212              	.LCFI5:
+ 213              	 .cfi_restore 7
+ 214              	 .cfi_def_cfa_offset 0
+ 215 0114 7047     	 bx lr
+ 216              	 .cfi_endproc
+ 217              	.LFE149:
+ 219 0116 00BF     	 .section .text.arm_bitonic_sort_f32,"ax",%progbits
+ 220              	 .align 2
+ 221              	 .global arm_bitonic_sort_f32
+ 222              	 .thumb
+ 223              	 .thumb_func
+ 225              	arm_bitonic_sort_f32:
+ 226              	.LFB150:
+  84:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** #endif
+  85:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+  86:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** #if defined(ARM_MATH_NEON)
+  87:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+  88:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+  89:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** static float32x4x2_t arm_bitonic_resort_8_f32(float32x4_t a, float32x4_t b, uint8_t dir)
+  90:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** {
+  91:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     /* Start with two vectors:
+  92:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+
+  93:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | a | b | c | d |
+  94:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+
+  95:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+
+  96:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | e | f | g | h |
+  97:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+
+  98:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * All the elements of the first are guaranteed to be less than or equal to
+  99:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * all of the elements in the second, and both vectors are bitonic.
+ 100:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * We need to perform these operations to completely sort both lists:
+ 101:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * vminmax([abcd],[efgh]) 
+ 102:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * vminmax([acbd],[egfh]) 
+ 103:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      */
+ 104:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vtrn128_64q(a, b);
+ 105:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     /* +---+---+---+---+
+ 106:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | a | b | e | f |
+ 107:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+
+ 108:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+
+ 109:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | c | d | g | h |
+ 110:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+
+ 111:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      */
+ 112:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 113:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(a, b);
+ 114:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 115:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(b, a);
+ 116:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 117:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vtrn128_32q(a, b);
+ 118:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     /* +---+---+---+---+
+ 119:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | a | c | e | g |
+ 120:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+
+ 121:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+
+ 122:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | b | d | f | h |
+ 123:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+
+ 124:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      */
+ 125:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 126:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(a, b);
+ 127:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 128:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(b, a);
+ 129:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 130:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     return vzipq_f32(a, b);
+ 131:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** }
+ 132:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 133:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 134:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** static float32x4x2_t arm_bitonic_merge_8_f32(float32x4_t a, float32x4_t b, uint8_t dir)
+ 135:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** {
+ 136:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     /* a and b are guaranteed to be bitonic */
+ 137:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     // Reverse the element of the second vector
+ 138:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     b = vrev128q_f32(b);
+ 139:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 140:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     // Compare the two vectors
+ 141:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 142:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(a, b);
+ 143:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 144:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vminmaxq(b, a);
+ 145:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 146:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     // Merge the two vectors
+ 147:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4x2_t ab = arm_bitonic_resort_8_f32(a, b, dir);
+ 148:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 149:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     return ab;
+ 150:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** }
+ 151:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 152:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** static void arm_bitonic_resort_16_f32(float32_t * pOut, float32x4x2_t a, float32x4x2_t b, uint8_t d
+ 153:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** {
+ 154:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     /* Start with two vectors:
+ 155:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 156:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | a | b | c | d | e | f | g | h |
+ 157:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 158:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 159:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | i | j | k | l | m | n | o | p |
+ 160:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 161:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * All the elements of the first are guaranteed to be less than or equal to
+ 162:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * all of the elements in the second, and both vectors are bitonic.
+ 163:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * We need to perform these operations to completely sort both lists:
+ 164:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * vminmax([abcd],[efgh]) vminmax([ijkl],[mnop])
+ 165:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * vminmax([abef],[cdgh]) vminmax([ijmn],[klop])
+ 166:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * vminmax([acef],[bdfh]) vminmax([ikmo],[jlmp])
+ 167:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      */
+ 168:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 169:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vtrn256_128q(a, b);
+ 170:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     /* +---+---+---+---+---+---+---+---+
+ 171:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | a | b | c | d | i | j | k | l |
+ 172:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 173:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 174:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | e | f | g | h | m | n | o | p |
+ 175:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 176:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      */
+ 177:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 178:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(a, b);
+ 179:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 180:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(b, a);
+ 181:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 182:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vtrn256_64q(a, b);
+ 183:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 184:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     /* +---+---+---+---+---+---+---+---+
+ 185:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | a | b | e | f | i | j | m | n |
+ 186:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 187:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 188:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | c | d | g | h | k | l | o | p |
+ 189:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 190:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      */
+ 191:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 192:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(a, b);
+ 193:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 194:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(b, a);
+ 195:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 196:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vtrn256_32q(a, b);
+ 197:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     /* We now have:
+ 198:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 199:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | a | c | e | g | i | k | m | o |
+ 200:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 201:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 202:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * | b | d | f | h | j | l | n | p |
+ 203:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      * +---+---+---+---+---+---+---+---+
+ 204:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****      */
+ 205:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 206:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(a, b);
+ 207:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 208:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(b, a);
+ 209:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 210:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4x2_t out1 = vzipq_f32(a.val[0], b.val[0]);
+ 211:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4x2_t out2 = vzipq_f32(a.val[1], b.val[1]);
+ 212:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 213:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pOut, out1.val[0]);
+ 214:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pOut+4, out1.val[1]);
+ 215:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pOut+8, out2.val[0]);
+ 216:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pOut+12, out2.val[1]);
+ 217:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** } 
+ 218:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 219:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** static void arm_bitonic_merge_16_f32(float32_t * pOut, float32x4x2_t a, float32x4x2_t b, uint8_t di
+ 220:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** {
+ 221:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     // Merge two preordered float32x4x2_t
+ 222:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vrev256q_f32(b);
+ 223:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 224:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 225:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(a, b);
+ 226:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 227:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(b, a);
+ 228:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 229:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     arm_bitonic_resort_16_f32(pOut, a, b, dir);
+ 230:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** }
+ 231:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 232:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** static void arm_bitonic_sort_16_f32(float32_t *pSrc, float32_t *pDst, uint8_t dir)
+ 233:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** {
+ 234:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4_t a;
+ 235:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4_t b;
+ 236:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4_t c;
+ 237:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4_t d;
+ 238:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 239:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     // Load 16 samples
+ 240:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     a = vld1q_f32(pSrc);
+ 241:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     b = vld1q_f32(pSrc+4);
+ 242:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     c = vld1q_f32(pSrc+8); 
+ 243:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     d = vld1q_f32(pSrc+12);
+ 244:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 245:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     // Bitonic sorting network for 4 samples x 4 times
+ 246:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 247:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 248:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(a, b);
+ 249:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(c, d);
+ 250:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         
+ 251:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(a, d);
+ 252:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(b, c);
+ 253:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         
+ 254:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(a, b);
+ 255:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(c, d);
+ 256:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 257:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 258:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 259:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(b, a);
+ 260:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(d, c);
+ 261:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         
+ 262:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(d, a);
+ 263:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(c, b);
+ 264:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         
+ 265:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(b, a);
+ 266:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmaxq(d, c);
+ 267:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 268:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 269:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4x2_t ab = vtrnq_f32 (a, b);
+ 270:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4x2_t cd = vtrnq_f32 (c, d);
+ 271:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 272:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     // Transpose 4 ordered arrays of 4 samples
+ 273:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     a = vcombine_f32(vget_low_f32(ab.val[0]), vget_low_f32(cd.val[0]));
+ 274:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     b = vcombine_f32(vget_low_f32(ab.val[1]), vget_low_f32(cd.val[1]));
+ 275:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     c = vcombine_f32(vget_high_f32(ab.val[0]), vget_high_f32(cd.val[0]));
+ 276:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     d = vcombine_f32(vget_high_f32(ab.val[1]), vget_high_f32(cd.val[1]));
+ 277:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 278:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     // Merge pairs of arrays of 4 samples
+ 279:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab = arm_bitonic_merge_8_f32(a, b, dir);
+ 280:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd = arm_bitonic_merge_8_f32(c, d, dir);
+ 281:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 282:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     // Merge arrays of 8 samples
+ 283:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     arm_bitonic_merge_16_f32(pDst, ab, cd, dir);
+ 284:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** }
+ 285:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 286:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 287:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 288:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 289:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 290:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** static void arm_bitonic_merge_32_f32(float32_t * pSrc, float32x4x2_t ab1, float32x4x2_t ab2, float3
+ 291:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** {
+ 292:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Compare
+ 293:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 294:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 295:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab1, cd1);
+ 296:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab2, cd2);
+ 297:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 298:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 299:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 300:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd1, ab1);
+ 301:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd2, ab2);
+ 302:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 303:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Transpose 256
+ 304:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4_t temp;
+ 305:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 306:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab2.val[0];
+ 307:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab2.val[0] = cd1.val[0];
+ 308:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd1.val[0] = temp;
+ 309:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab2.val[1];
+ 310:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab2.val[1] = cd1.val[1];
+ 311:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd1.val[1] = temp;
+ 312:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 313:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Compare
+ 314:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 315:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 316:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab1, cd1);
+ 317:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab2, cd2);
+ 318:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 319:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 320:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 321:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd1, ab1);
+ 322:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd2, ab2);
+ 323:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 324:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 325:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Transpose 128
+ 326:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     arm_bitonic_merge_16_f32(pSrc+0,  ab1, cd1, dir);
+ 327:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     arm_bitonic_merge_16_f32(pSrc+16, ab2, cd2, dir);
+ 328:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** }
+ 329:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 330:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** static void arm_bitonic_merge_64_f32(float32_t * pSrc, uint8_t dir)
+ 331:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** {
+ 332:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4x2_t ab1, ab2, ab3, ab4;
+ 333:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4x2_t cd1, cd2, cd3, cd4;
+ 334:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 335:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Load and reverse second array
+ 336:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab1.val[0] = vld1q_f32(pSrc+0 );
+ 337:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab1.val[1] = vld1q_f32(pSrc+4 );
+ 338:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab2.val[0] = vld1q_f32(pSrc+8 ); 
+ 339:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab2.val[1] = vld1q_f32(pSrc+12);
+ 340:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab3.val[0] = vld1q_f32(pSrc+16);
+ 341:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab3.val[1] = vld1q_f32(pSrc+20);
+ 342:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab4.val[0] = vld1q_f32(pSrc+24); 
+ 343:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab4.val[1] = vld1q_f32(pSrc+28);
+ 344:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 345:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd4.val[1], pSrc+32);
+ 346:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd4.val[0], pSrc+36);
+ 347:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd3.val[1], pSrc+40);
+ 348:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd3.val[0], pSrc+44);
+ 349:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd2.val[1], pSrc+48);
+ 350:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd2.val[0], pSrc+52);
+ 351:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd1.val[1], pSrc+56);
+ 352:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd1.val[0], pSrc+60);
+ 353:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 354:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Compare
+ 355:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 356:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 357:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab1, cd1);
+ 358:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab2, cd2);
+ 359:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab3, cd3);
+ 360:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab4, cd4);
+ 361:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 362:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 363:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 364:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd1, ab1);
+ 365:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd2, ab2);
+ 366:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd3, ab3);
+ 367:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd4, ab4);
+ 368:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 369:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 370:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Transpose 512
+ 371:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4_t temp;
+ 372:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 373:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab3.val[0];
+ 374:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab3.val[0] = cd1.val[0];
+ 375:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd1.val[0] = temp;
+ 376:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab3.val[1];
+ 377:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab3.val[1] = cd1.val[1];
+ 378:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd1.val[1] = temp;
+ 379:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab4.val[0];
+ 380:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab4.val[0] = cd2.val[0];
+ 381:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd2.val[0] = temp;
+ 382:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab4.val[1];
+ 383:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab4.val[1] = cd2.val[1];
+ 384:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd2.val[1] = temp;
+ 385:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 386:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Compare
+ 387:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 388:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 389:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab1, cd1);
+ 390:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab2, cd2);
+ 391:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab3, cd3);
+ 392:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab4, cd4);
+ 393:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 394:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 395:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 396:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd1, ab1);
+ 397:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd2, ab2);
+ 398:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd3, ab3);
+ 399:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd4, ab4);
+ 400:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 401:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 402:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Transpose 256
+ 403:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     arm_bitonic_merge_32_f32(pSrc+0,  ab1, ab2, cd1, cd2, dir);
+ 404:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     arm_bitonic_merge_32_f32(pSrc+32, ab3, ab4, cd3, cd4, dir);
+ 405:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** }
+ 406:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 407:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** static void arm_bitonic_merge_128_f32(float32_t * pSrc, uint8_t dir)
+ 408:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** {
+ 409:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4x2_t ab1, ab2, ab3, ab4, ab5, ab6, ab7, ab8;
+ 410:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4x2_t cd1, cd2, cd3, cd4, cd5, cd6, cd7, cd8;
+ 411:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 412:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Load and reverse second array
+ 413:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab1.val[0] = vld1q_f32(pSrc+0 );
+ 414:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab1.val[1] = vld1q_f32(pSrc+4 );
+ 415:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab2.val[0] = vld1q_f32(pSrc+8 ); 
+ 416:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab2.val[1] = vld1q_f32(pSrc+12);
+ 417:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab3.val[0] = vld1q_f32(pSrc+16);
+ 418:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab3.val[1] = vld1q_f32(pSrc+20);
+ 419:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab4.val[0] = vld1q_f32(pSrc+24); 
+ 420:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab4.val[1] = vld1q_f32(pSrc+28);
+ 421:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab5.val[0] = vld1q_f32(pSrc+32);
+ 422:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab5.val[1] = vld1q_f32(pSrc+36);
+ 423:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab6.val[0] = vld1q_f32(pSrc+40); 
+ 424:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab6.val[1] = vld1q_f32(pSrc+44);
+ 425:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab7.val[0] = vld1q_f32(pSrc+48);
+ 426:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab7.val[1] = vld1q_f32(pSrc+52);
+ 427:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab8.val[0] = vld1q_f32(pSrc+56); 
+ 428:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab8.val[1] = vld1q_f32(pSrc+60);
+ 429:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 430:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd8.val[1], pSrc+64);
+ 431:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd8.val[0], pSrc+68);
+ 432:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd7.val[1], pSrc+72);
+ 433:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd7.val[0], pSrc+76);
+ 434:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd6.val[1], pSrc+80);
+ 435:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd6.val[0], pSrc+84);
+ 436:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd5.val[1], pSrc+88);
+ 437:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd5.val[0], pSrc+92);
+ 438:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd4.val[1], pSrc+96);
+ 439:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd4.val[0], pSrc+100);
+ 440:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd3.val[1], pSrc+104);
+ 441:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd3.val[0], pSrc+108);
+ 442:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd2.val[1], pSrc+112);
+ 443:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd2.val[0], pSrc+116);
+ 444:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd1.val[1], pSrc+120);
+ 445:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd1.val[0], pSrc+124);
+ 446:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 447:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Compare
+ 448:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 449:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 450:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab1, cd1);
+ 451:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab2, cd2);
+ 452:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab3, cd3);
+ 453:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab4, cd4);
+ 454:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab5, cd5);
+ 455:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab6, cd6);
+ 456:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab7, cd7);
+ 457:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab8, cd8);
+ 458:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 459:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 460:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 461:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd1, ab1);
+ 462:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd2, ab2);
+ 463:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd3, ab3);
+ 464:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd4, ab4);
+ 465:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd5, ab5);
+ 466:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd6, ab6);
+ 467:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd7, ab7);
+ 468:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd8, ab8);
+ 469:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 470:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 471:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Transpose
+ 472:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4_t temp;
+ 473:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 474:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab5.val[0];
+ 475:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab5.val[0] = cd1.val[0];
+ 476:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd1.val[0] = temp;
+ 477:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab5.val[1];
+ 478:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab5.val[1] = cd1.val[1];
+ 479:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd1.val[1] = temp;
+ 480:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab6.val[0];
+ 481:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab6.val[0] = cd2.val[0];
+ 482:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd2.val[0] = temp;
+ 483:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab6.val[1];
+ 484:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab6.val[1] = cd2.val[1];
+ 485:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd2.val[1] = temp;
+ 486:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab7.val[0];
+ 487:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab7.val[0] = cd3.val[0];
+ 488:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd3.val[0] = temp;
+ 489:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab7.val[1];
+ 490:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab7.val[1] = cd3.val[1];
+ 491:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd3.val[1] = temp;
+ 492:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab8.val[0];
+ 493:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab8.val[0] = cd4.val[0];
+ 494:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd4.val[0] = temp;
+ 495:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab8.val[1];
+ 496:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab8.val[1] = cd4.val[1];
+ 497:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd4.val[1] = temp;
+ 498:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 499:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Compare
+ 500:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 501:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 502:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab1, cd1);
+ 503:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab2, cd2);
+ 504:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab3, cd3);
+ 505:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab4, cd4);
+ 506:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab5, cd5);
+ 507:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab6, cd6);
+ 508:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab7, cd7);
+ 509:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab8, cd8);
+ 510:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 511:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 512:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 513:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd1, ab1);
+ 514:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd2, ab2);
+ 515:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd3, ab3);
+ 516:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd4, ab4);
+ 517:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd5, ab5);
+ 518:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd6, ab6);
+ 519:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd7, ab7);
+ 520:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd8, ab8);
+ 521:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 522:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 523:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc,     ab1.val[0]);
+ 524:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+4,   ab1.val[1]);
+ 525:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+8,   ab2.val[0]);
+ 526:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+12,  ab2.val[1]);
+ 527:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+16,  ab3.val[0]);
+ 528:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+20,  ab3.val[1]);
+ 529:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+24,  ab4.val[0]);
+ 530:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+28,  ab4.val[1]);
+ 531:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+32,  cd1.val[0]);
+ 532:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+36,  cd1.val[1]);
+ 533:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+40,  cd2.val[0]);
+ 534:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+44,  cd2.val[1]);
+ 535:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+48,  cd3.val[0]);
+ 536:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+52,  cd3.val[1]);
+ 537:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+56,  cd4.val[0]);
+ 538:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+60,  cd4.val[1]);
+ 539:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+64,  ab5.val[0]);
+ 540:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+68,  ab5.val[1]);
+ 541:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+72,  ab6.val[0]);
+ 542:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+76,  ab6.val[1]);
+ 543:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+80,  ab7.val[0]);
+ 544:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+84,  ab7.val[1]);
+ 545:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+88,  ab8.val[0]);
+ 546:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+92,  ab8.val[1]);
+ 547:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+96,  cd5.val[0]);
+ 548:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+100, cd5.val[1]);
+ 549:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+104, cd6.val[0]);
+ 550:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+108, cd6.val[1]);
+ 551:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+112, cd7.val[0]);
+ 552:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+116, cd7.val[1]);
+ 553:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+120, cd8.val[0]);
+ 554:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+124, cd8.val[1]);
+ 555:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 556:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Transpose
+ 557:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     arm_bitonic_merge_64_f32(pSrc+0 , dir);
+ 558:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     arm_bitonic_merge_64_f32(pSrc+64, dir);
+ 559:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** }
+ 560:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 561:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** static void arm_bitonic_merge_256_f32(float32_t * pSrc, uint8_t dir)
+ 562:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** {
+ 563:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4x2_t ab1, ab2, ab3, ab4, ab5, ab6, ab7, ab8;
+ 564:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4x2_t ab9, ab10, ab11, ab12, ab13, ab14, ab15, ab16;
+ 565:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4x2_t cd1, cd2, cd3, cd4, cd5, cd6, cd7, cd8;
+ 566:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4x2_t cd9, cd10, cd11, cd12, cd13, cd14, cd15, cd16;
+ 567:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 568:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Load and reverse second array
+ 569:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab1.val[0]  = vld1q_f32(pSrc+0  );
+ 570:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab1.val[1]  = vld1q_f32(pSrc+4  );
+ 571:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab2.val[0]  = vld1q_f32(pSrc+8  ); 
+ 572:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab2.val[1]  = vld1q_f32(pSrc+12 );
+ 573:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab3.val[0]  = vld1q_f32(pSrc+16 );
+ 574:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab3.val[1]  = vld1q_f32(pSrc+20 );
+ 575:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab4.val[0]  = vld1q_f32(pSrc+24 ); 
+ 576:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab4.val[1]  = vld1q_f32(pSrc+28 );
+ 577:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab5.val[0]  = vld1q_f32(pSrc+32 );
+ 578:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab5.val[1]  = vld1q_f32(pSrc+36 );
+ 579:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab6.val[0]  = vld1q_f32(pSrc+40 ); 
+ 580:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab6.val[1]  = vld1q_f32(pSrc+44 );
+ 581:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab7.val[0]  = vld1q_f32(pSrc+48 );
+ 582:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab7.val[1]  = vld1q_f32(pSrc+52 );
+ 583:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab8.val[0]  = vld1q_f32(pSrc+56 ); 
+ 584:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab8.val[1]  = vld1q_f32(pSrc+60 );
+ 585:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab9.val[0]  = vld1q_f32(pSrc+64 );
+ 586:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab9.val[1]  = vld1q_f32(pSrc+68 );
+ 587:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab10.val[0] = vld1q_f32(pSrc+72 ); 
+ 588:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab10.val[1] = vld1q_f32(pSrc+76 );
+ 589:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab11.val[0] = vld1q_f32(pSrc+80 );
+ 590:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab11.val[1] = vld1q_f32(pSrc+84 );
+ 591:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab12.val[0] = vld1q_f32(pSrc+88 ); 
+ 592:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab12.val[1] = vld1q_f32(pSrc+92 );
+ 593:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab13.val[0] = vld1q_f32(pSrc+96 );
+ 594:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab13.val[1] = vld1q_f32(pSrc+100);
+ 595:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab14.val[0] = vld1q_f32(pSrc+104); 
+ 596:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab14.val[1] = vld1q_f32(pSrc+108);
+ 597:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab15.val[0] = vld1q_f32(pSrc+112);
+ 598:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab15.val[1] = vld1q_f32(pSrc+116);
+ 599:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab16.val[0] = vld1q_f32(pSrc+120); 
+ 600:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab16.val[1] = vld1q_f32(pSrc+124);
+ 601:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 602:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd16.val[1], pSrc+128);
+ 603:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd16.val[0], pSrc+132);
+ 604:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd15.val[1], pSrc+136);
+ 605:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd15.val[0], pSrc+140);
+ 606:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd14.val[1], pSrc+144);
+ 607:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd14.val[0], pSrc+148);
+ 608:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd13.val[1], pSrc+152);
+ 609:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd13.val[0], pSrc+156);
+ 610:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd12.val[1], pSrc+160);
+ 611:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd12.val[0], pSrc+164);
+ 612:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd11.val[1], pSrc+168);
+ 613:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd11.val[0], pSrc+172);
+ 614:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd10.val[1], pSrc+176);
+ 615:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd10.val[0], pSrc+180);
+ 616:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd9.val[1] , pSrc+184);
+ 617:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd9.val[0] , pSrc+188);
+ 618:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd8.val[1] , pSrc+192);
+ 619:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd8.val[0] , pSrc+196);
+ 620:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd7.val[1] , pSrc+200);
+ 621:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd7.val[0] , pSrc+204);
+ 622:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd6.val[1] , pSrc+208);
+ 623:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd6.val[0] , pSrc+212);
+ 624:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd5.val[1] , pSrc+216);
+ 625:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd5.val[0] , pSrc+220);
+ 626:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd4.val[1] , pSrc+224);
+ 627:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd4.val[0] , pSrc+228);
+ 628:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd3.val[1] , pSrc+232);
+ 629:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd3.val[0] , pSrc+236);
+ 630:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd2.val[1] , pSrc+240);
+ 631:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd2.val[0] , pSrc+244);
+ 632:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd1.val[1] , pSrc+248);
+ 633:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vldrev128q_f32(cd1.val[0] , pSrc+252);
+ 634:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 635:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Compare
+ 636:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 637:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 638:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab1 , cd1 );
+ 639:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab2 , cd2 );
+ 640:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab3 , cd3 );
+ 641:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab4 , cd4 );
+ 642:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab5 , cd5 );
+ 643:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab6 , cd6 );
+ 644:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab7 , cd7 );
+ 645:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab8 , cd8 );
+ 646:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab9 , cd9 );
+ 647:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab10, cd10);
+ 648:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab11, cd11);
+ 649:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab12, cd12);
+ 650:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab13, cd13);
+ 651:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab14, cd14);
+ 652:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab15, cd15);
+ 653:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab16, cd16);
+ 654:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 655:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 656:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 657:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd1 , ab1 );
+ 658:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd2 , ab2 );
+ 659:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd3 , ab3 );
+ 660:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd4 , ab4 );
+ 661:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd5 , ab5 );
+ 662:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd6 , ab6 );
+ 663:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd7 , ab7 );
+ 664:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd8 , ab8 );
+ 665:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd9 , ab9 );
+ 666:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd10, ab10);
+ 667:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd11, ab11);
+ 668:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd12, ab12);
+ 669:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd13, ab13);
+ 670:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd14, ab14);
+ 671:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd15, ab15);
+ 672:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd16, ab16);
+ 673:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 674:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 675:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Transpose
+ 676:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32x4_t temp;
+ 677:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 678:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab9.val[0];
+ 679:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab9.val[0] = cd1.val[0];
+ 680:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd1.val[0] = temp;
+ 681:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab9.val[1];
+ 682:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab9.val[1] = cd1.val[1];
+ 683:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd1.val[1] = temp;
+ 684:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab10.val[0];
+ 685:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab10.val[0] = cd2.val[0];
+ 686:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd2.val[0] = temp;
+ 687:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab10.val[1];
+ 688:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab10.val[1] = cd2.val[1];
+ 689:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd2.val[1] = temp;
+ 690:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab11.val[0];
+ 691:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab11.val[0] = cd3.val[0];
+ 692:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd3.val[0] = temp;
+ 693:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab11.val[1];
+ 694:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab11.val[1] = cd3.val[1];
+ 695:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd3.val[1] = temp;
+ 696:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab12.val[0];
+ 697:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab12.val[0] = cd4.val[0];
+ 698:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd4.val[0] = temp;
+ 699:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab12.val[1];
+ 700:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab12.val[1] = cd4.val[1];
+ 701:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd4.val[1] = temp;
+ 702:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab13.val[0];
+ 703:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab13.val[0] = cd5.val[0];
+ 704:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd5.val[0] = temp;
+ 705:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab13.val[1];
+ 706:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab13.val[1] = cd5.val[1];
+ 707:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd5.val[1] = temp;
+ 708:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab14.val[0];
+ 709:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab14.val[0] = cd6.val[0];
+ 710:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd6.val[0] = temp;
+ 711:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab14.val[1];
+ 712:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab14.val[1] = cd6.val[1];
+ 713:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd6.val[1] = temp;
+ 714:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab15.val[0];
+ 715:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab15.val[0] = cd7.val[0];
+ 716:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd7.val[0] = temp;
+ 717:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab15.val[1];
+ 718:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab15.val[1] = cd7.val[1];
+ 719:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd7.val[1] = temp;
+ 720:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab16.val[0];
+ 721:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab16.val[0] = cd8.val[0];
+ 722:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd8.val[0] = temp;
+ 723:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = ab16.val[1];
+ 724:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     ab16.val[1] = cd8.val[1];
+ 725:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     cd8.val[1] = temp;
+ 726:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 727:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Compare
+ 728:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(dir)
+ 729:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 730:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab1 , cd1 );
+ 731:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab2 , cd2 );
+ 732:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab3 , cd3 );
+ 733:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab4 , cd4 );
+ 734:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab5 , cd5 );
+ 735:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab6 , cd6 );
+ 736:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab7 , cd7 );
+ 737:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab8 , cd8 );
+ 738:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab9 , cd9 );
+ 739:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab10, cd10);
+ 740:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab11, cd11);
+ 741:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab12, cd12);
+ 742:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab13, cd13);
+ 743:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab14, cd14);
+ 744:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab15, cd15);
+ 745:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(ab16, cd16);
+ 746:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 747:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+ 748:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 749:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd1 , ab1 );
+ 750:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd2 , ab2 );
+ 751:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd3 , ab3 );
+ 752:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd4 , ab4 );
+ 753:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd5 , ab5 );
+ 754:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd6 , ab6 );
+ 755:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd7 , ab7 );
+ 756:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd8 , ab8 );
+ 757:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd9 , ab9 );
+ 758:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd10, ab10);
+ 759:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd11, ab11);
+ 760:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd12, ab12);
+ 761:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd13, ab13);
+ 762:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd14, ab14);
+ 763:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd15, ab15);
+ 764:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         vminmax256q(cd16, ab16);
+ 765:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 766:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 767:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc,     ab1.val[0] );
+ 768:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+4,   ab1.val[1] );
+ 769:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+8,   ab2.val[0] );
+ 770:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+12,  ab2.val[1] );
+ 771:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+16,  ab3.val[0] );
+ 772:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+20,  ab3.val[1] );
+ 773:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+24,  ab4.val[0] );
+ 774:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+28,  ab4.val[1] );
+ 775:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+32,  ab5.val[0] );
+ 776:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+36,  ab5.val[1] );
+ 777:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+40,  ab6.val[0] );
+ 778:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+44,  ab6.val[1] );
+ 779:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+48,  ab7.val[0] );
+ 780:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+52,  ab7.val[1] );
+ 781:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+56,  ab8.val[0] );
+ 782:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+60,  ab8.val[1] );
+ 783:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+64,  cd1.val[0] );
+ 784:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+68,  cd1.val[1] );
+ 785:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+72,  cd2.val[0] );
+ 786:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+76,  cd2.val[1] );
+ 787:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+80,  cd3.val[0] );
+ 788:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+84,  cd3.val[1] );
+ 789:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+88,  cd4.val[0] );
+ 790:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+92,  cd4.val[1] );
+ 791:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+96,  cd5.val[0] );
+ 792:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+100, cd5.val[1] );
+ 793:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+104, cd6.val[0] );
+ 794:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+108, cd6.val[1] );
+ 795:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+112, cd7.val[0] );
+ 796:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+116, cd7.val[1] );
+ 797:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+120, cd8.val[0] );
+ 798:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+124, cd8.val[1] );
+ 799:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+128, ab9.val[0] );
+ 800:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+132, ab9.val[1] );
+ 801:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+136, ab10.val[0]);
+ 802:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+140, ab10.val[1]);
+ 803:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+144, ab11.val[0]);
+ 804:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+148, ab11.val[1]);
+ 805:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+152, ab12.val[0]);
+ 806:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+156, ab12.val[1]);
+ 807:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+160, ab13.val[0]);
+ 808:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+164, ab13.val[1]);
+ 809:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+168, ab14.val[0]);
+ 810:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+172, ab14.val[1]);
+ 811:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+176, ab15.val[0]);
+ 812:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+180, ab15.val[1]);
+ 813:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+184, ab16.val[0]);
+ 814:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+188, ab16.val[1]);
+ 815:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+192, cd9.val[0] );
+ 816:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+196, cd9.val[1] );
+ 817:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+200, cd10.val[0]);
+ 818:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+204, cd10.val[1]);
+ 819:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+208, cd11.val[0]);
+ 820:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+212, cd11.val[1]);
+ 821:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+216, cd12.val[0]);
+ 822:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+220, cd12.val[1]);
+ 823:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+224, cd13.val[0]);
+ 824:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+228, cd13.val[1]);
+ 825:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+232, cd14.val[0]);
+ 826:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+236, cd14.val[1]);
+ 827:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+240, cd15.val[0]);
+ 828:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+244, cd15.val[1]);
+ 829:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+248, cd16.val[0]);
+ 830:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     vst1q_f32(pSrc+252, cd16.val[1]);
+ 831:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 832:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     //Transpose
+ 833:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     arm_bitonic_merge_128_f32(pSrc+0  , dir);
+ 834:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     arm_bitonic_merge_128_f32(pSrc+128, dir);
+ 835:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** }
+ 836:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 837:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** #define SWAP(a,i,j)                            \
+ 838:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     temp = vgetq_lane_f32(a, j);                   \
+ 839:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     a = vsetq_lane_f32(vgetq_lane_f32(a, i), a, j);\
+ 840:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     a = vsetq_lane_f32(temp, a, i);
+ 841:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 842:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** static float32x4_t arm_bitonic_sort_4_f32(float32x4_t a, uint8_t dir)
+ 843:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** {
+ 844:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32_t temp;
+ 845:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 846:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 847:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if( dir==(vgetq_lane_f32(a, 0) > vgetq_lane_f32(a, 1)) )
+ 848:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 849:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         SWAP(a,0,1);
+ 850:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 851:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if( dir==(vgetq_lane_f32(a, 2) > vgetq_lane_f32(a, 3)) )
+ 852:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 853:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****        SWAP(a,2,3);
+ 854:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 855:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 856:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if( dir==(vgetq_lane_f32(a, 0) > vgetq_lane_f32(a, 3)) )
+ 857:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 858:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****       SWAP(a,0,3);
+ 859:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 860:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if( dir==(vgetq_lane_f32(a, 1) > vgetq_lane_f32(a, 2)) )
+ 861:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 862:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****       SWAP(a,1,2);
+ 863:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 864:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 865:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if( dir==(vgetq_lane_f32(a, 0) > vgetq_lane_f32(a, 1)) )
+ 866:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 867:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****       SWAP(a,0,1);
+ 868:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 869:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if( dir==(vgetq_lane_f32(a, 2)>vgetq_lane_f32(a, 3)) )
+ 870:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 871:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****       SWAP(a,2,3);
+ 872:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+ 873:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 874:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     return a;
+ 875:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** }
+ 876:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 877:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** static float32x4x2_t arm_bitonic_sort_8_f32(float32x4_t a, float32x4_t b, uint8_t dir)
+ 878:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** {
+ 879:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     a = arm_bitonic_sort_4_f32(a, dir);
+ 880:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     b = arm_bitonic_sort_4_f32(b, dir);
+ 881:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     return arm_bitonic_merge_8_f32(a, b, dir);
+ 882:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** }
+ 883:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 884:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 885:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 886:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** #endif
+ 887:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 888:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** /**
+ 889:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****   @ingroup groupSupport
+ 890:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  */
+ 891:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 892:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** /**
+ 893:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****   @defgroup Sorting Vector sorting algorithms
+ 894:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 895:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****   Sort the elements of a vector
+ 896:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 897:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****   There are separate functions for floating-point, Q31, Q15, and Q7 data types.
+ 898:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  */
+ 899:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 900:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** /**
+ 901:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****   @addtogroup Sorting
+ 902:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****   @{
+ 903:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****  */
+ 904:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 905:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** /**
+ 906:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****    * @private
+ 907:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****    * @param[in]  S          points to an instance of the sorting structure.
+ 908:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****    * @param[in]  pSrc       points to the block of input data.
+ 909:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****    * @param[out] pDst       points to the block of output data
+ 910:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****    * @param[in]  blockSize  number of samples to process.
+ 911:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****    */
+ 912:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** void arm_bitonic_sort_f32(
+ 913:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** const arm_sort_instance_f32 * S, 
+ 914:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****       float32_t * pSrc,
+ 915:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****       float32_t * pDst, 
+ 916:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****       uint32_t blockSize)
+ 917:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** {
+ 227              	 .loc 1 917 0
+ 228              	 .cfi_startproc
+ 229              	 
+ 230              	 
+ 231 0000 80B5     	 push {r7,lr}
+ 232              	.LCFI6:
+ 233              	 .cfi_def_cfa_offset 8
+ 234              	 .cfi_offset 7,-8
+ 235              	 .cfi_offset 14,-4
+ 236 0002 88B0     	 sub sp,sp,#32
+ 237              	.LCFI7:
+ 238              	 .cfi_def_cfa_offset 40
+ 239 0004 00AF     	 add r7,sp,#0
+ 240              	.LCFI8:
+ 241              	 .cfi_def_cfa_register 7
+ 242 0006 F860     	 str r0,[r7,#12]
+ 243 0008 B960     	 str r1,[r7,#8]
+ 244 000a 7A60     	 str r2,[r7,#4]
+ 245 000c 3B60     	 str r3,[r7]
+ 918:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     uint16_t s, i;
+ 919:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     uint8_t dir = S->dir;
+ 246              	 .loc 1 919 0
+ 247 000e FB68     	 ldr r3,[r7,#12]
+ 248 0010 5B78     	 ldrb r3,[r3,#1]
+ 249 0012 FB75     	 strb r3,[r7,#23]
+ 920:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 921:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** #ifdef ARM_MATH_NEON
+ 922:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     (void)s;
+ 923:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 924:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32_t * pOut;
+ 925:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     uint16_t counter = blockSize>>5;
+ 926:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 927:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if( (blockSize & (blockSize-1)) == 0 ) // Powers of 2 only
+ 928:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+ 929:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         if(pSrc == pDst) // in-place
+ 930:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             pOut = pSrc;
+ 931:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         else
+ 932:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     	    pOut = pDst;
+ 933:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     
+ 934:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         float32x4x2_t ab1, ab2;
+ 935:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         float32x4x2_t cd1, cd2;
+ 936:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 937:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	if(blockSize == 1)
+ 938:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 		pOut = pSrc;
+ 939:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	else if(blockSize == 2)
+ 940:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	{
+ 941:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             float32_t temp;
+ 942:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             
+ 943:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             if( dir==(pSrc[0]>pSrc[1]) )
+ 944:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             {
+ 945:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 temp = pSrc[1];
+ 946:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 pOut[1] = pSrc[0];
+ 947:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 pOut[0] = temp;
+ 948:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             }
+ 949:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	    else
+ 950:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 		pOut = pSrc;
+ 951:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	}
+ 952:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 	else if(blockSize == 4)
+ 953:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         {
+ 954:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     	    float32x4_t a = vld1q_f32(pSrc);
+ 955:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 956:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     	    a = arm_bitonic_sort_4_f32(a, dir);
+ 957:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 958:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     	    vst1q_f32(pOut, a);
+ 959:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         }
+ 960:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         else if(blockSize == 8)
+ 961:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         {
+ 962:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             float32x4_t a;
+ 963:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             float32x4_t b;
+ 964:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             float32x4x2_t ab;
+ 965:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         
+ 966:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             a = vld1q_f32(pSrc);
+ 967:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             b = vld1q_f32(pSrc+4);
+ 968:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         
+ 969:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             ab = arm_bitonic_sort_8_f32(a, b, dir);
+ 970:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 971:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             vst1q_f32(pOut,   ab.val[0]);
+ 972:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             vst1q_f32(pOut+4, ab.val[1]);
+ 973:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         }
+ 974:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         else if(blockSize >=16)
+ 975:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         {
+ 976:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             // Order 16 bits long vectors
+ 977:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             for(i=0; i<blockSize; i=i+16)
+ 978:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 arm_bitonic_sort_16_f32(pSrc+i, pOut+i, dir);
+ 979:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         
+ 980:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             // Merge
+ 981:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             for(i=0; i<counter; i++)
+ 982:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             {
+ 983:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 // Load and reverse second vector
+ 984:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 ab1.val[0] = vld1q_f32(pOut+32*i+0 );
+ 985:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 ab1.val[1] = vld1q_f32(pOut+32*i+4 );
+ 986:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 ab2.val[0] = vld1q_f32(pOut+32*i+8 ); 
+ 987:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 ab2.val[1] = vld1q_f32(pOut+32*i+12);
+ 988:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 989:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 vldrev128q_f32(cd2.val[1], pOut+32*i+16);
+ 990:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 vldrev128q_f32(cd2.val[0], pOut+32*i+20);
+ 991:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 vldrev128q_f32(cd1.val[1], pOut+32*i+24);
+ 992:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 vldrev128q_f32(cd1.val[0], pOut+32*i+28);
+ 993:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+ 994:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 arm_bitonic_merge_32_f32(pOut+32*i, ab1, ab2, cd1, cd2, dir);
+ 995:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             }
+ 996:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         
+ 997:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             counter = counter>>1;
+ 998:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             for(i=0; i<counter; i++)
+ 999:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 arm_bitonic_merge_64_f32(pOut+64*i, dir);
+1000:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         
+1001:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             counter = counter>>1;
+1002:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             for(i=0; i<counter; i++)
+1003:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 arm_bitonic_merge_128_f32(pOut+128*i, dir);
+1004:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         
+1005:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             counter = counter>>1;
+1006:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             for(i=0; i<counter; i++)
+1007:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****                 arm_bitonic_merge_256_f32(pOut+256*i, dir);
+1008:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+1009:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****             // Etc...
+1010:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         }
+1011:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+1012:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+1013:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** #else
+1014:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+1015:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     float32_t * pA;
+1016:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+1017:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if(pSrc != pDst) // out-of-place
+ 250              	 .loc 1 1017 0
+ 251 0014 BA68     	 ldr r2,[r7,#8]
+ 252 0016 7B68     	 ldr r3,[r7,#4]
+ 253 0018 9A42     	 cmp r2,r3
+ 254 001a 09D0     	 beq .L15
+1018:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {   
+1019:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         memcpy(pDst, pSrc, blockSize*sizeof(float32_t) );
+ 255              	 .loc 1 1019 0
+ 256 001c 3B68     	 ldr r3,[r7]
+ 257 001e 9B00     	 lsls r3,r3,#2
+ 258 0020 7868     	 ldr r0,[r7,#4]
+ 259 0022 B968     	 ldr r1,[r7,#8]
+ 260 0024 1A46     	 mov r2,r3
+ 261 0026 FFF7FEFF 	 bl memcpy
+1020:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         pA = pDst;
+ 262              	 .loc 1 1020 0
+ 263 002a 7B68     	 ldr r3,[r7,#4]
+ 264 002c BB61     	 str r3,[r7,#24]
+ 265 002e 01E0     	 b .L16
+ 266              	.L15:
+1021:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+1022:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     else
+1023:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         pA = pSrc;
+ 267              	 .loc 1 1023 0
+ 268 0030 BB68     	 ldr r3,[r7,#8]
+ 269 0032 BB61     	 str r3,[r7,#24]
+ 270              	.L16:
+1024:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+1025:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** 
+1026:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     if( (blockSize & (blockSize-1)) == 0 ) // Powers of 2 only
+ 271              	 .loc 1 1026 0
+ 272 0034 3B68     	 ldr r3,[r7]
+ 273 0036 5A1E     	 subs r2,r3,#1
+ 274 0038 3B68     	 ldr r3,[r7]
+ 275 003a 1340     	 ands r3,r3,r2
+ 276 003c 002B     	 cmp r3,#0
+ 277 003e 1FD1     	 bne .L14
+1027:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     {
+1028:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         for(s=2; s<=blockSize; s=s*2)
+ 278              	 .loc 1 1028 0
+ 279 0040 0223     	 movs r3,#2
+ 280 0042 FB83     	 strh r3,[r7,#30]
+ 281 0044 18E0     	 b .L18
+ 282              	.L21:
+1029:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         {
+1030:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     	    for(i=0; i<blockSize; i=i+s)
+ 283              	 .loc 1 1030 0
+ 284 0046 0023     	 movs r3,#0
+ 285 0048 BB83     	 strh r3,[r7,#28]
+ 286 004a 0EE0     	 b .L19
+ 287              	.L20:
+1031:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     	        arm_bitonic_sort_core_f32(pA+i, s, dir);
+ 288              	 .loc 1 1031 0 discriminator 3
+ 289 004c BB8B     	 ldrh r3,[r7,#28]
+ 290 004e 9B00     	 lsls r3,r3,#2
+ 291 0050 BA69     	 ldr r2,[r7,#24]
+ 292 0052 D118     	 adds r1,r2,r3
+ 293 0054 FA8B     	 ldrh r2,[r7,#30]
+ 294 0056 FB7D     	 ldrb r3,[r7,#23]
+ 295 0058 0846     	 mov r0,r1
+ 296 005a 1146     	 mov r1,r2
+ 297 005c 1A46     	 mov r2,r3
+ 298 005e FFF7FEFF 	 bl arm_bitonic_sort_core_f32
+1030:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     	        arm_bitonic_sort_core_f32(pA+i, s, dir);
+ 299              	 .loc 1 1030 0 discriminator 3
+ 300 0062 BA8B     	 ldrh r2,[r7,#28]
+ 301 0064 FB8B     	 ldrh r3,[r7,#30]
+ 302 0066 1344     	 add r3,r3,r2
+ 303 0068 BB83     	 strh r3,[r7,#28]
+ 304              	.L19:
+1030:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     	        arm_bitonic_sort_core_f32(pA+i, s, dir);
+ 305              	 .loc 1 1030 0 is_stmt 0 discriminator 1
+ 306 006a BA8B     	 ldrh r2,[r7,#28]
+ 307 006c 3B68     	 ldr r3,[r7]
+ 308 006e 9A42     	 cmp r2,r3
+ 309 0070 ECD3     	 bcc .L20
+1028:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         {
+ 310              	 .loc 1 1028 0 is_stmt 1 discriminator 2
+ 311 0072 FB8B     	 ldrh r3,[r7,#30]
+ 312 0074 5B00     	 lsls r3,r3,#1
+ 313 0076 FB83     	 strh r3,[r7,#30]
+ 314              	.L18:
+1028:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         {
+ 315              	 .loc 1 1028 0 is_stmt 0 discriminator 1
+ 316 0078 FA8B     	 ldrh r2,[r7,#30]
+ 317 007a 3B68     	 ldr r3,[r7]
+ 318 007c 9A42     	 cmp r2,r3
+ 319 007e E2D9     	 bls .L21
+ 320              	.L14:
+1032:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****         }
+1033:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c ****     }
+1034:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** #endif
+1035:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_bitonic_sort_f32.c **** }
+ 321              	 .loc 1 1035 0 is_stmt 1
+ 322 0080 2037     	 adds r7,r7,#32
+ 323              	.LCFI9:
+ 324              	 .cfi_def_cfa_offset 8
+ 325 0082 BD46     	 mov sp,r7
+ 326              	.LCFI10:
+ 327              	 .cfi_def_cfa_register 13
+ 328              	 
+ 329 0084 80BD     	 pop {r7,pc}
+ 330              	 .cfi_endproc
+ 331              	.LFE150:
+ 333 0086 00BF     	 .text
+ 334              	.Letext0:
+ 335              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 336              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 337              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 338              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_bitonic_sort_f32.c
+    {standard input}:20     .text.arm_bitonic_sort_core_f32:00000000 $t
+    {standard input}:24     .text.arm_bitonic_sort_core_f32:00000000 arm_bitonic_sort_core_f32
+    {standard input}:220    .text.arm_bitonic_sort_f32:00000000 $t
+    {standard input}:225    .text.arm_bitonic_sort_f32:00000000 arm_bitonic_sort_f32
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+memcpy

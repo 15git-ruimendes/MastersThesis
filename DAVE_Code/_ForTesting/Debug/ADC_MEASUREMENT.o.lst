@@ -1,0 +1,191 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "ADC_MEASUREMENT.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .comm UN_FILT_VALS,32,4
+  20              	 .comm FILT_VALS,32,4
+  21              	 .comm FIR_CURRENT_A,12,4
+  22              	 .comm FIR_CURRENT_B,12,4
+  23              	 .comm FIR_CURRENT_C,12,4
+  24              	 .comm FIR_CURRENT_A_pState,404,4
+  25              	 .comm FIR_CURRENT_B_pState,404,4
+  26              	 .comm FIR_CURRENT_C_pState,404,4
+  27              	 .comm FIR_RPM_COS,12,4
+  28              	 .comm FIR_RPM_SIN,12,4
+  29              	 .comm FIR_RPM_COS_pState,404,4
+  30              	 .comm FIR_RPM_SIN_pState,404,4
+  31              	 .comm FIR_V_DC,12,4
+  32              	 .comm FIR_V_DC_pState,404,4
+  33              	 .global FIR_V_DC_pCoeffs
+  34              	 .section .rodata.FIR_V_DC_pCoeffs,"a",%progbits
+  35              	 .align 2
+  38              	FIR_V_DC_pCoeffs:
+  39 0000 00000000 	 .space 404
+  39      00000000 
+  39      00000000 
+  39      00000000 
+  39      00000000 
+  40              	 .global FIR_RPM_pCoeffs
+  41              	 .section .rodata.FIR_RPM_pCoeffs,"a",%progbits
+  42              	 .align 2
+  45              	FIR_RPM_pCoeffs:
+  46 0000 00000000 	 .space 404
+  46      00000000 
+  46      00000000 
+  46      00000000 
+  46      00000000 
+  47              	 .global FIR_CURRENT_pCoeffs
+  48              	 .section .rodata.FIR_CURRENT_pCoeffs,"a",%progbits
+  49              	 .align 2
+  52              	FIR_CURRENT_pCoeffs:
+  53 0000 1C22DEB6 	 .word -1226956260
+  54 0004 844FE9B7 	 .word -1209446524
+  55 0008 07D69AB8 	 .word -1197812217
+  56 000c 66612BB9 	 .word -1188339354
+  57 0010 AE60A3B9 	 .word -1180475218
+  58 0014 63EE0BBA 	 .word -1173623197
+  59 0018 B7505ABA 	 .word -1168486217
+  60 001c BFEB9CBA 	 .word -1164121153
+  61 0020 0FA6D0BA 	 .word -1160731121
+  62 0024 F05E00BB 	 .word -1157603600
+  63 0028 D06511BB 	 .word -1156487728
+  64 002c 499B15BB 	 .word -1156211895
+  65 0030 67AB07BB 	 .word -1157125273
+  66 0034 687EC8BA 	 .word -1161265560
+  67 0038 DEB42DBA 	 .word -1171409698
+  68 003c DFD6F039 	 .word 972084959
+  69 0040 EC6CDD3A 	 .word 987589868
+  70 0044 4C82383B 	 .word 993559116
+  71 0048 77526B3B 	 .word 996889207
+  72 004c C0BE773B 	 .word 997703360
+  73 0050 0ADB523B 	 .word 995285770
+  74 0054 F0ABF33A 	 .word 989047792
+  75 0058 353236B9 	 .word -1187630539
+  76 005c A96129BB 	 .word -1154915927
+  77 0060 3B79A1BB 	 .word -1147045573
+  78 0064 63C3DABB 	 .word -1143291037
+  79 0068 17EBEFBB 	 .word -1141904617
+  80 006c 91D4D4BB 	 .word -1143679855
+  81 0070 B29C85BB 	 .word -1148871502
+  82 0074 37FD92B9 	 .word -1181549257
+  83 0078 85098E3B 	 .word 999164293
+  84 007c 47F7113C 	 .word 1007810375
+  85 0080 6F764B3C 	 .word 1011578479
+  86 0084 1427633C 	 .word 1013131028
+  87 0088 D9C44C3C 	 .word 1011664089
+  88 008c AC99033C 	 .word 1006868908
+  89 0090 7001503A 	 .word 978321776
+  90 0094 3ABC06BC 	 .word -1140409286
+  91 0098 0AC68EBC 	 .word -1131493878
+  92 009c CE72CBBC 	 .word -1127517490
+  93 00a0 4C64E8BC 	 .word -1125620660
+  94 00a4 8EDCD6BC 	 .word -1126769522
+  95 00a8 B8528DBC 	 .word -1131588936
+  96 00ac 60AF9CBA 	 .word -1164136608
+  97 00b0 CDEBAC3C 	 .word 1017965517
+  98 00b4 A3B3433D 	 .word 1027847075
+  99 00b8 4AD49B3D 	 .word 1033622602
+ 100 00bc 7298D23D 	 .word 1037211762
+ 101 00c0 1C8CFF3D 	 .word 1040157724
+ 102 00c4 D4860E3E 	 .word 1041139412
+ 103 00c8 8EAA133E 	 .word 1041476238
+ 104 00cc D4860E3E 	 .word 1041139412
+ 105 00d0 1C8CFF3D 	 .word 1040157724
+ 106 00d4 7298D23D 	 .word 1037211762
+ 107 00d8 4AD49B3D 	 .word 1033622602
+ 108 00dc A3B3433D 	 .word 1027847075
+ 109 00e0 CDEBAC3C 	 .word 1017965517
+ 110 00e4 60AF9CBA 	 .word -1164136608
+ 111 00e8 B8528DBC 	 .word -1131588936
+ 112 00ec 8EDCD6BC 	 .word -1126769522
+ 113 00f0 4C64E8BC 	 .word -1125620660
+ 114 00f4 CE72CBBC 	 .word -1127517490
+ 115 00f8 0AC68EBC 	 .word -1131493878
+ 116 00fc 3ABC06BC 	 .word -1140409286
+ 117 0100 7001503A 	 .word 978321776
+ 118 0104 AC99033C 	 .word 1006868908
+ 119 0108 D9C44C3C 	 .word 1011664089
+ 120 010c 1427633C 	 .word 1013131028
+ 121 0110 6F764B3C 	 .word 1011578479
+ 122 0114 47F7113C 	 .word 1007810375
+ 123 0118 85098E3B 	 .word 999164293
+ 124 011c 37FD92B9 	 .word -1181549257
+ 125 0120 B29C85BB 	 .word -1148871502
+ 126 0124 91D4D4BB 	 .word -1143679855
+ 127 0128 17EBEFBB 	 .word -1141904617
+ 128 012c 63C3DABB 	 .word -1143291037
+ 129 0130 3B79A1BB 	 .word -1147045573
+ 130 0134 A96129BB 	 .word -1154915927
+ 131 0138 353236B9 	 .word -1187630539
+ 132 013c F0ABF33A 	 .word 989047792
+ 133 0140 0ADB523B 	 .word 995285770
+ 134 0144 C0BE773B 	 .word 997703360
+ 135 0148 77526B3B 	 .word 996889207
+ 136 014c 4C82383B 	 .word 993559116
+ 137 0150 EC6CDD3A 	 .word 987589868
+ 138 0154 DFD6F039 	 .word 972084959
+ 139 0158 DEB42DBA 	 .word -1171409698
+ 140 015c 687EC8BA 	 .word -1161265560
+ 141 0160 67AB07BB 	 .word -1157125273
+ 142 0164 499B15BB 	 .word -1156211895
+ 143 0168 D06511BB 	 .word -1156487728
+ 144 016c F05E00BB 	 .word -1157603600
+ 145 0170 0FA6D0BA 	 .word -1160731121
+ 146 0174 BFEB9CBA 	 .word -1164121153
+ 147 0178 B7505ABA 	 .word -1168486217
+ 148 017c 63EE0BBA 	 .word -1173623197
+ 149 0180 AE60A3B9 	 .word -1180475218
+ 150 0184 66612BB9 	 .word -1188339354
+ 151 0188 07D69AB8 	 .word -1197812217
+ 152 018c 844FE9B7 	 .word -1209446524
+ 153 0190 1C22DEB6 	 .word -1226956260
+ 154              	 .text
+ 155              	.Letext0:
+ 156              	 .file 1 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 157              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 158              	 .file 3 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Infineon/XMC4500_series/Include/XMC4500.h"
+ 159              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/XMCLib/inc/xmc_vadc.h"
+ 160              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 161              	 .file 6 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+ 162              	 .file 7 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/core_cm4.h"
+ 163              	 .file 8 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Infineon/XMC4500_series/Include/system_XMC4500.h"
+ 164              	 .file 9 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/ADC_MEASUREMENT_ADV/adc_measurement_adv.h"
+ 165              	 .file 10 "../ADC_MEASUREMENT.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 ADC_MEASUREMENT.c
+                            *COM*:00000020 UN_FILT_VALS
+                            *COM*:00000020 FILT_VALS
+                            *COM*:0000000c FIR_CURRENT_A
+                            *COM*:0000000c FIR_CURRENT_B
+                            *COM*:0000000c FIR_CURRENT_C
+                            *COM*:00000194 FIR_CURRENT_A_pState
+                            *COM*:00000194 FIR_CURRENT_B_pState
+                            *COM*:00000194 FIR_CURRENT_C_pState
+                            *COM*:0000000c FIR_RPM_COS
+                            *COM*:0000000c FIR_RPM_SIN
+                            *COM*:00000194 FIR_RPM_COS_pState
+                            *COM*:00000194 FIR_RPM_SIN_pState
+                            *COM*:0000000c FIR_V_DC
+                            *COM*:00000194 FIR_V_DC_pState
+    {standard input}:38     .rodata.FIR_V_DC_pCoeffs:00000000 FIR_V_DC_pCoeffs
+    {standard input}:35     .rodata.FIR_V_DC_pCoeffs:00000000 $d
+    {standard input}:45     .rodata.FIR_RPM_pCoeffs:00000000 FIR_RPM_pCoeffs
+    {standard input}:42     .rodata.FIR_RPM_pCoeffs:00000000 $d
+    {standard input}:52     .rodata.FIR_CURRENT_pCoeffs:00000000 FIR_CURRENT_pCoeffs
+    {standard input}:49     .rodata.FIR_CURRENT_pCoeffs:00000000 $d
+
+NO UNDEFINED SYMBOLS

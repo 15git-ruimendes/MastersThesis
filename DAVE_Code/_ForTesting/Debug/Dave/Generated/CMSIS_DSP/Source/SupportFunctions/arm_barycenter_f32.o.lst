@@ -1,0 +1,610 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_barycenter_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_barycenter_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_barycenter_f32
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_barycenter_f32:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * Title:        arm_barycenter_f32.c
+   4:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * Description:  Barycenter
+   5:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  *
+   7:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * Target Processor: Cortex-M and Cortex-A cores
+   8:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * -------------------------------------------------------------------- */
+   9:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** /*
+  10:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  11:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  *
+  12:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  13:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  15:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * not use this file except in compliance with the License.
+  16:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * You may obtain a copy of the License at
+  17:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  *
+  18:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  19:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  21:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  22:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  23:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * See the License for the specific language governing permissions and
+  24:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * limitations under the License.
+  25:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  */
+  26:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  27:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  28:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** #include <limits.h>
+  29:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** #include <math.h>
+  30:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  31:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  32:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** /**
+  33:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****   @ingroup groupSupport
+  34:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  */
+  35:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  36:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  37:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** /**
+  38:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * @brief Barycenter
+  39:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  *
+  40:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  *
+  41:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * @param[in]    *in         List of vectors
+  42:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * @param[in]    *weights    Weights of the vectors
+  43:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * @param[out]   *out        Barycenter
+  44:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * @param[in]    nbVectors   Number of vectors
+  45:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * @param[in]    vecDim      Dimension of space (vector dimension)
+  46:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  * @return       None
+  47:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  *
+  48:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****  */
+  49:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  50:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
+  51:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** void arm_barycenter_f32(const float32_t *in, 
+  52:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****   const float32_t *weights, 
+  53:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****   float32_t *out, 
+  54:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****   uint32_t nbVectors,
+  55:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****   uint32_t vecDim)
+  56:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** {
+  57:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     const float32_t *pIn, *pW;
+  58:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     const float32_t *pIn1, *pIn2, *pIn3, *pIn4;
+  59:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     float32_t      *pOut;
+  60:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     uint32_t        blkCntVector, blkCntSample;
+  61:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     float32_t       accum, w;
+  62:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  63:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     blkCntVector = nbVectors;
+  64:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     blkCntSample = vecDim;
+  65:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  66:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     accum = 0.0f;
+  67:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  68:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     pW = weights;
+  69:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     pIn = in;
+  70:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  71:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  72:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     arm_fill_f32(0.0f, out, vecDim);
+  73:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  74:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  75:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     /* Sum */
+  76:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     pIn1 = pIn;
+  77:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     pIn2 = pIn1 + vecDim;
+  78:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     pIn3 = pIn2 + vecDim;
+  79:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     pIn4 = pIn3 + vecDim;
+  80:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  81:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     blkCntVector = nbVectors >> 2;
+  82:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     while (blkCntVector > 0) 
+  83:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     {
+  84:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         f32x4_t         outV, inV1, inV2, inV3, inV4;
+  85:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         float32_t       w1, w2, w3, w4;
+  86:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  87:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         pOut = out;
+  88:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         w1 = *pW++;
+  89:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         w2 = *pW++;
+  90:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         w3 = *pW++;
+  91:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         w4 = *pW++;
+  92:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         accum += w1 + w2 + w3 + w4;
+  93:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+  94:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         blkCntSample = vecDim >> 2;
+  95:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         while (blkCntSample > 0) {
+  96:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             outV = vld1q((const float32_t *) pOut);
+  97:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             inV1 = vld1q(pIn1);
+  98:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             inV2 = vld1q(pIn2);
+  99:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             inV3 = vld1q(pIn3);
+ 100:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             inV4 = vld1q(pIn4);
+ 101:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             outV = vfmaq(outV, inV1, w1);
+ 102:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             outV = vfmaq(outV, inV2, w2);
+ 103:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             outV = vfmaq(outV, inV3, w3);
+ 104:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             outV = vfmaq(outV, inV4, w4);
+ 105:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             vst1q(pOut, outV);
+ 106:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 107:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             pOut += 4;
+ 108:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             pIn1 += 4;
+ 109:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             pIn2 += 4;
+ 110:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             pIn3 += 4;
+ 111:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             pIn4 += 4;
+ 112:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 113:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             blkCntSample--;
+ 114:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         }
+ 115:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 116:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         blkCntSample = vecDim & 3;
+ 117:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         while (blkCntSample > 0) {
+ 118:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             *pOut = *pOut + *pIn1++ * w1;
+ 119:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             *pOut = *pOut + *pIn2++ * w2;
+ 120:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             *pOut = *pOut + *pIn3++ * w3;
+ 121:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             *pOut = *pOut + *pIn4++ * w4;
+ 122:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             pOut++;
+ 123:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             blkCntSample--;
+ 124:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         }
+ 125:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 126:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         pIn1 += 3 * vecDim;
+ 127:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         pIn2 += 3 * vecDim;
+ 128:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         pIn3 += 3 * vecDim;
+ 129:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         pIn4 += 3 * vecDim;
+ 130:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 131:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         blkCntVector--;
+ 132:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     }
+ 133:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 134:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     pIn = pIn1;
+ 135:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 136:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     blkCntVector = nbVectors & 3;
+ 137:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     while (blkCntVector > 0) 
+ 138:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     {
+ 139:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         f32x4_t         inV, outV;
+ 140:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 141:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         pOut = out;
+ 142:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         w = *pW++;
+ 143:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         accum += w;
+ 144:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 145:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         blkCntSample = vecDim >> 2;
+ 146:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         while (blkCntSample > 0) 
+ 147:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         {
+ 148:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             outV = vld1q_f32(pOut);
+ 149:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             inV = vld1q_f32(pIn);
+ 150:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             outV = vfmaq(outV, inV, w);
+ 151:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             vst1q_f32(pOut, outV);
+ 152:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             pOut += 4;
+ 153:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             pIn += 4;
+ 154:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 155:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             blkCntSample--;
+ 156:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         }
+ 157:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 158:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         blkCntSample = vecDim & 3;
+ 159:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         while (blkCntSample > 0) 
+ 160:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         {
+ 161:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             *pOut = *pOut + *pIn++ * w;
+ 162:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             pOut++;
+ 163:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****             blkCntSample--;
+ 164:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         }
+ 165:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 166:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         blkCntVector--;
+ 167:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     }
+ 168:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 169:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     /* Normalize */
+ 170:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     pOut = out;
+ 171:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     accum = 1.0f / accum;
+ 172:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 173:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     blkCntSample = vecDim >> 2;
+ 174:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     while (blkCntSample > 0) 
+ 175:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     {
+ 176:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         f32x4_t         tmp;
+ 177:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 178:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         tmp = vld1q((const float32_t *) pOut);
+ 179:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         tmp = vmulq(tmp, accum);
+ 180:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         vst1q(pOut, tmp);
+ 181:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         pOut += 4;
+ 182:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         blkCntSample--;
+ 183:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     }
+ 184:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 185:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     blkCntSample = vecDim & 3;
+ 186:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     while (blkCntSample > 0) 
+ 187:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     {
+ 188:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         *pOut = *pOut * accum;
+ 189:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         pOut++;
+ 190:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****         blkCntSample--;
+ 191:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****     }
+ 192:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** }
+ 193:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** #else
+ 194:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** #if defined(ARM_MATH_NEON)
+ 195:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 196:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** #include "NEMath.h"
+ 197:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** void arm_barycenter_f32(const float32_t *in, const float32_t *weights, float32_t *out, uint32_t nbV
+ 198:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** {
+ 199:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 200:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    const float32_t *pIn,*pW, *pIn1, *pIn2, *pIn3, *pIn4;
+ 201:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    float32_t *pOut;
+ 202:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    uint32_t blkCntVector,blkCntSample;
+ 203:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    float32_t accum, w,w1,w2,w3,w4;
+ 204:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 205:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    float32x4_t tmp, inV,outV, inV1, inV2, inV3, inV4;
+ 206:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 207:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    blkCntVector = nbVectors;
+ 208:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    blkCntSample = vecDim;
+ 209:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 210:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    accum = 0.0f;
+ 211:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 212:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    pW = weights;
+ 213:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    pIn = in;
+ 214:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 215:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    /* Set counters to 0 */
+ 216:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    tmp = vdupq_n_f32(0.0f);
+ 217:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    pOut = out;
+ 218:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 219:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    blkCntSample = vecDim >> 2;
+ 220:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    while(blkCntSample > 0)
+ 221:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    {
+ 222:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          vst1q_f32(pOut, tmp);
+ 223:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          pOut += 4;
+ 224:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          blkCntSample--;
+ 225:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    }
+ 226:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 227:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    blkCntSample = vecDim & 3;
+ 228:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    while(blkCntSample > 0)
+ 229:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    {
+ 230:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          *pOut = 0.0f;
+ 231:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          pOut++;
+ 232:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          blkCntSample--;
+ 233:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    }
+ 234:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 235:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    /* Sum */
+ 236:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****   
+ 237:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    pIn1 = pIn;
+ 238:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    pIn2 = pIn1 + vecDim;
+ 239:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    pIn3 = pIn2 + vecDim;
+ 240:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    pIn4 = pIn3 + vecDim;
+ 241:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    
+ 242:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    blkCntVector = nbVectors >> 2;
+ 243:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    while(blkCntVector > 0)
+ 244:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    {
+ 245:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       pOut = out;
+ 246:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       w1 = *pW++;
+ 247:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       w2 = *pW++;
+ 248:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       w3 = *pW++;
+ 249:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       w4 = *pW++;
+ 250:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       accum += w1 + w2 + w3 + w4;
+ 251:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 252:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       blkCntSample = vecDim >> 2;
+ 253:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       while(blkCntSample > 0)
+ 254:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       {
+ 255:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           outV = vld1q_f32(pOut);
+ 256:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           inV1 = vld1q_f32(pIn1);
+ 257:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           inV2 = vld1q_f32(pIn2);
+ 258:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           inV3 = vld1q_f32(pIn3);
+ 259:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           inV4 = vld1q_f32(pIn4);
+ 260:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           outV = vmlaq_n_f32(outV,inV1,w1);
+ 261:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           outV = vmlaq_n_f32(outV,inV2,w2);
+ 262:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           outV = vmlaq_n_f32(outV,inV3,w3);
+ 263:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           outV = vmlaq_n_f32(outV,inV4,w4);
+ 264:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           vst1q_f32(pOut, outV);
+ 265:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           pOut += 4;
+ 266:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           pIn1 += 4;
+ 267:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           pIn2 += 4;
+ 268:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           pIn3 += 4;
+ 269:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           pIn4 += 4;
+ 270:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 271:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           blkCntSample--;
+ 272:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       }
+ 273:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 274:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       blkCntSample = vecDim & 3;
+ 275:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       while(blkCntSample > 0)
+ 276:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       {
+ 277:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           *pOut = *pOut + *pIn1++ * w1;
+ 278:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           *pOut = *pOut + *pIn2++ * w2;
+ 279:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           *pOut = *pOut + *pIn3++ * w3;
+ 280:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           *pOut = *pOut + *pIn4++ * w4;
+ 281:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           pOut++;
+ 282:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           blkCntSample--;
+ 283:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       }
+ 284:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 285:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       pIn1 += 3*vecDim;
+ 286:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       pIn2 += 3*vecDim;
+ 287:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       pIn3 += 3*vecDim;
+ 288:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       pIn4 += 3*vecDim;
+ 289:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 290:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       blkCntVector--;
+ 291:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    }
+ 292:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 293:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    pIn = pIn1;
+ 294:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 295:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    blkCntVector = nbVectors & 3;
+ 296:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    while(blkCntVector > 0)
+ 297:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    {
+ 298:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       pOut = out;
+ 299:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       w = *pW++;
+ 300:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       accum += w;
+ 301:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 302:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       blkCntSample = vecDim >> 2;
+ 303:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       while(blkCntSample > 0)
+ 304:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       {
+ 305:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           outV = vld1q_f32(pOut);
+ 306:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           inV = vld1q_f32(pIn);
+ 307:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           outV = vmlaq_n_f32(outV,inV,w);
+ 308:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           vst1q_f32(pOut, outV);
+ 309:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           pOut += 4;
+ 310:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           pIn += 4;
+ 311:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 312:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           blkCntSample--;
+ 313:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       }
+ 314:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       
+ 315:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       blkCntSample = vecDim & 3;
+ 316:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       while(blkCntSample > 0)
+ 317:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       {
+ 318:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           *pOut = *pOut + *pIn++ * w;
+ 319:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           pOut++;
+ 320:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           blkCntSample--;
+ 321:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       }
+ 322:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 323:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       blkCntVector--;
+ 324:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    }
+ 325:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 326:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    /* Normalize */
+ 327:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    pOut = out;
+ 328:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    accum = 1.0f / accum;
+ 329:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 330:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    blkCntSample = vecDim >> 2;
+ 331:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    while(blkCntSample > 0)
+ 332:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    {
+ 333:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          tmp = vld1q_f32(pOut);
+ 334:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          tmp = vmulq_n_f32(tmp,accum);
+ 335:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          vst1q_f32(pOut, tmp);
+ 336:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          pOut += 4;
+ 337:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          blkCntSample--;
+ 338:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    }
+ 339:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 340:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    blkCntSample = vecDim & 3;
+ 341:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    while(blkCntSample > 0)
+ 342:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    {
+ 343:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          *pOut = *pOut * accum;
+ 344:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          pOut++;
+ 345:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          blkCntSample--;
+ 346:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    }
+ 347:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 348:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** }
+ 349:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** #else
+ 350:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** void arm_barycenter_f32(const float32_t *in, const float32_t *weights, float32_t *out, uint32_t nbV
+ 351:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** {
+  28              	 .loc 1 351 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 8DB0     	 sub sp,sp,#52
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 56
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 F860     	 str r0,[r7,#12]
+  44 0008 B960     	 str r1,[r7,#8]
+  45 000a 7A60     	 str r2,[r7,#4]
+  46 000c 3B60     	 str r3,[r7]
+ 352:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 353:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    const float32_t *pIn,*pW;
+ 354:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    float32_t *pOut;
+ 355:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    uint32_t blkCntVector,blkCntSample;
+ 356:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    float32_t accum, w;
+ 357:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 358:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    blkCntVector = nbVectors;
+  47              	 .loc 1 358 0
+  48 000e 3B68     	 ldr r3,[r7]
+  49 0010 3B62     	 str r3,[r7,#32]
+ 359:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    blkCntSample = vecDim;
+  50              	 .loc 1 359 0
+  51 0012 BB6B     	 ldr r3,[r7,#56]
+  52 0014 FB61     	 str r3,[r7,#28]
+ 360:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 361:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    accum = 0.0f;
+  53              	 .loc 1 361 0
+  54 0016 4FF00003 	 mov r3,#0
+  55 001a BB61     	 str r3,[r7,#24]
+ 362:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 363:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    pW = weights;
+  56              	 .loc 1 363 0
+  57 001c BB68     	 ldr r3,[r7,#8]
+  58 001e BB62     	 str r3,[r7,#40]
+ 364:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    pIn = in;
+  59              	 .loc 1 364 0
+  60 0020 FB68     	 ldr r3,[r7,#12]
+  61 0022 FB62     	 str r3,[r7,#44]
+ 365:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 366:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    /* Set counters to 0 */
+ 367:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    blkCntSample = vecDim;
+  62              	 .loc 1 367 0
+  63 0024 BB6B     	 ldr r3,[r7,#56]
+  64 0026 FB61     	 str r3,[r7,#28]
+ 368:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    pOut = out;
+  65              	 .loc 1 368 0
+  66 0028 7B68     	 ldr r3,[r7,#4]
+  67 002a 7B62     	 str r3,[r7,#36]
+ 369:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 370:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    while(blkCntSample > 0)
+  68              	 .loc 1 370 0
+  69 002c 09E0     	 b .L2
+  70              	.L3:
+ 371:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    {
+ 372:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          *pOut = 0.0f;
+  71              	 .loc 1 372 0
+  72 002e 7B6A     	 ldr r3,[r7,#36]
+  73 0030 4FF00002 	 mov r2,#0
+  74 0034 1A60     	 str r2,[r3]
+ 373:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          pOut++;
+  75              	 .loc 1 373 0
+  76 0036 7B6A     	 ldr r3,[r7,#36]
+  77 0038 0433     	 adds r3,r3,#4
+  78 003a 7B62     	 str r3,[r7,#36]
+ 374:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          blkCntSample--;
+  79              	 .loc 1 374 0
+  80 003c FB69     	 ldr r3,[r7,#28]
+  81 003e 013B     	 subs r3,r3,#1
+  82 0040 FB61     	 str r3,[r7,#28]
+  83              	.L2:
+ 370:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    {
+  84              	 .loc 1 370 0
+  85 0042 FB69     	 ldr r3,[r7,#28]
+  86 0044 002B     	 cmp r3,#0
+  87 0046 F2D1     	 bne .L3
+ 375:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    }
+ 376:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 377:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    /* Sum */
+ 378:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    while(blkCntVector > 0)
+  88              	 .loc 1 378 0
+  89 0048 2EE0     	 b .L4
+  90              	.L7:
+ 379:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    {
+ 380:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       pOut = out;
+  91              	 .loc 1 380 0
+  92 004a 7B68     	 ldr r3,[r7,#4]
+  93 004c 7B62     	 str r3,[r7,#36]
+ 381:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       w = *pW++;
+  94              	 .loc 1 381 0
+  95 004e BB6A     	 ldr r3,[r7,#40]
+  96 0050 1A1D     	 adds r2,r3,#4
+  97 0052 BA62     	 str r2,[r7,#40]
+  98 0054 1B68     	 ldr r3,[r3]
+  99 0056 7B61     	 str r3,[r7,#20]
+ 382:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       accum += w;
+ 100              	 .loc 1 382 0
+ 101 0058 97ED067A 	 flds s14,[r7,#24]
+ 102 005c D7ED057A 	 flds s15,[r7,#20]
+ 103 0060 77EE277A 	 fadds s15,s14,s15
+ 104 0064 C7ED067A 	 fsts s15,[r7,#24]
+ 383:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 384:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       blkCntSample = vecDim;
+ 105              	 .loc 1 384 0
+ 106 0068 BB6B     	 ldr r3,[r7,#56]
+ 107 006a FB61     	 str r3,[r7,#28]
+ 385:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       while(blkCntSample > 0)
+ 108              	 .loc 1 385 0
+ 109 006c 16E0     	 b .L5
+ 110              	.L6:
+ 386:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       {
+ 387:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           *pOut = *pOut + *pIn++ * w;
+ 111              	 .loc 1 387 0
+ 112 006e 7B6A     	 ldr r3,[r7,#36]
+ 113 0070 93ED007A 	 flds s14,[r3]
+ 114 0074 FB6A     	 ldr r3,[r7,#44]
+ 115 0076 1A1D     	 adds r2,r3,#4
+ 116 0078 FA62     	 str r2,[r7,#44]
+ 117 007a D3ED006A 	 flds s13,[r3]
+ 118 007e D7ED057A 	 flds s15,[r7,#20]
+ 119 0082 66EEA77A 	 fmuls s15,s13,s15
+ 120 0086 77EE277A 	 fadds s15,s14,s15
+ 121 008a 7B6A     	 ldr r3,[r7,#36]
+ 122 008c C3ED007A 	 fsts s15,[r3]
+ 388:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           pOut++;
+ 123              	 .loc 1 388 0
+ 124 0090 7B6A     	 ldr r3,[r7,#36]
+ 125 0092 0433     	 adds r3,r3,#4
+ 126 0094 7B62     	 str r3,[r7,#36]
+ 389:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****           blkCntSample--;
+ 127              	 .loc 1 389 0
+ 128 0096 FB69     	 ldr r3,[r7,#28]
+ 129 0098 013B     	 subs r3,r3,#1
+ 130 009a FB61     	 str r3,[r7,#28]
+ 131              	.L5:
+ 385:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       {
+ 132              	 .loc 1 385 0
+ 133 009c FB69     	 ldr r3,[r7,#28]
+ 134 009e 002B     	 cmp r3,#0
+ 135 00a0 E5D1     	 bne .L6
+ 390:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       }
+ 391:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 392:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****       blkCntVector--;
+ 136              	 .loc 1 392 0
+ 137 00a2 3B6A     	 ldr r3,[r7,#32]
+ 138 00a4 013B     	 subs r3,r3,#1
+ 139 00a6 3B62     	 str r3,[r7,#32]
+ 140              	.L4:
+ 378:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    {
+ 141              	 .loc 1 378 0
+ 142 00a8 3B6A     	 ldr r3,[r7,#32]
+ 143 00aa 002B     	 cmp r3,#0
+ 144 00ac CDD1     	 bne .L7
+ 393:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    }
+ 394:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 395:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    /* Normalize */
+ 396:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    blkCntSample = vecDim;
+ 145              	 .loc 1 396 0
+ 146 00ae BB6B     	 ldr r3,[r7,#56]
+ 147 00b0 FB61     	 str r3,[r7,#28]
+ 397:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    pOut = out;
+ 148              	 .loc 1 397 0
+ 149 00b2 7B68     	 ldr r3,[r7,#4]
+ 150 00b4 7B62     	 str r3,[r7,#36]
+ 398:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 399:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    while(blkCntSample > 0)
+ 151              	 .loc 1 399 0
+ 152 00b6 0FE0     	 b .L8
+ 153              	.L9:
+ 400:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    {
+ 401:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          *pOut = *pOut / accum;
+ 154              	 .loc 1 401 0
+ 155 00b8 7B6A     	 ldr r3,[r7,#36]
+ 156 00ba 93ED007A 	 flds s14,[r3]
+ 157 00be D7ED067A 	 flds s15,[r7,#24]
+ 158 00c2 C7EE277A 	 fdivs s15,s14,s15
+ 159 00c6 7B6A     	 ldr r3,[r7,#36]
+ 160 00c8 C3ED007A 	 fsts s15,[r3]
+ 402:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          pOut++;
+ 161              	 .loc 1 402 0
+ 162 00cc 7B6A     	 ldr r3,[r7,#36]
+ 163 00ce 0433     	 adds r3,r3,#4
+ 164 00d0 7B62     	 str r3,[r7,#36]
+ 403:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****          blkCntSample--;
+ 165              	 .loc 1 403 0
+ 166 00d2 FB69     	 ldr r3,[r7,#28]
+ 167 00d4 013B     	 subs r3,r3,#1
+ 168 00d6 FB61     	 str r3,[r7,#28]
+ 169              	.L8:
+ 399:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    {
+ 170              	 .loc 1 399 0
+ 171 00d8 FB69     	 ldr r3,[r7,#28]
+ 172 00da 002B     	 cmp r3,#0
+ 173 00dc ECD1     	 bne .L9
+ 404:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c ****    }
+ 405:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** 
+ 406:../Dave/Generated/CMSIS_DSP/Source/SupportFunctions/arm_barycenter_f32.c **** }
+ 174              	 .loc 1 406 0
+ 175 00de 3437     	 adds r7,r7,#52
+ 176              	.LCFI3:
+ 177              	 .cfi_def_cfa_offset 4
+ 178 00e0 BD46     	 mov sp,r7
+ 179              	.LCFI4:
+ 180              	 .cfi_def_cfa_register 13
+ 181              	 
+ 182 00e2 5DF8047B 	 ldr r7,[sp],#4
+ 183              	.LCFI5:
+ 184              	 .cfi_restore 7
+ 185              	 .cfi_def_cfa_offset 0
+ 186 00e6 7047     	 bx lr
+ 187              	 .cfi_endproc
+ 188              	.LFE149:
+ 190              	 .text
+ 191              	.Letext0:
+ 192              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 193              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 194              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 195              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_barycenter_f32.c
+    {standard input}:20     .text.arm_barycenter_f32:00000000 $t
+    {standard input}:25     .text.arm_barycenter_f32:00000000 arm_barycenter_f32
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

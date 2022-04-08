@@ -1,0 +1,284 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_sin_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_sin_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_sin_f32
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_sin_f32:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Title:        arm_sin_f32.c
+   4:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Description:  Fast sine calculation for floating-point values
+   5:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * $Date:        18. March 2019
+   7:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * $Revision:    V1.6.0
+   8:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+   9:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Target Processor: Cortex-M cores
+  10:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * -------------------------------------------------------------------- */
+  11:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** /*
+  12:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+  16:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * not use this file except in compliance with the License.
+  18:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * You may obtain a copy of the License at
+  19:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  *
+  22:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * See the License for the specific language governing permissions and
+  26:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  * limitations under the License.
+  27:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  */
+  28:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  29:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  30:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** #include "CMSIS_DSP/Include/arm_common_tables.h"
+  31:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  32:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** /**
+  33:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   @ingroup groupFastMath
+  34:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  */
+  35:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  36:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** /**
+  37:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   @defgroup sin Sine
+  38:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  39:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   Computes the trigonometric sine function using a combination of table lookup
+  40:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   and linear interpolation.  There are separate functions for
+  41:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   Q15, Q31, and floating-point data types.
+  42:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   The input to the floating-point version is in radians while the
+  43:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   fixed-point Q15 and Q31 have a scaled input with the range
+  44:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   [0 +0.9999] mapping to [0 2*pi).  The fixed-point range is chosen so that a
+  45:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   value of 2*pi wraps around to 0.
+  46:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  47:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   The implementation is based on table lookup using 256 values together with linear interpolation.
+  48:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   The steps used are:
+  49:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****    -# Calculation of the nearest integer table index
+  50:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****    -# Compute the fractional portion (fract) of the table index.
+  51:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****    -# The final result equals <code>(1.0f-fract)*a + fract*b;</code>
+  52:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  53:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   where
+  54:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   <pre>
+  55:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****      b = Table[index];
+  56:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****      c = Table[index+1];
+  57:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   </pre>
+  58:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  */
+  59:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  60:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** /**
+  61:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   @addtogroup sin
+  62:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   @{
+  63:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  */
+  64:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  65:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** /**
+  66:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   @brief         Fast approximation to the trigonometric sine function for floating-point data.
+  67:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   @param[in]     x  input value in radians.
+  68:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   @return        sin(x)
+  69:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****  */
+  70:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  71:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** float32_t arm_sin_f32(
+  72:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   float32_t x)
+  73:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** {
+  28              	 .loc 1 73 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 8BB0     	 sub sp,sp,#44
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 48
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 7860     	 str r0,[r7,#4]
+  74:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   float32_t sinVal, fract, in;                   /* Temporary input, output variables */
+  75:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   uint16_t index;                                /* Index variable */
+  76:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   float32_t a, b;                                /* Two nearest output values */
+  77:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   int32_t n;
+  78:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   float32_t findex;
+  79:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  80:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* input x is in radians */
+  81:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Scale input to [0 1] range from [0 2*PI] , divide input by 2*pi */
+  82:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   in = x * 0.159154943092f;
+  44              	 .loc 1 82 0
+  45 0008 D7ED017A 	 flds s15,[r7,#4]
+  46 000c 9FED397A 	 flds s14,.L7
+  47 0010 67EE877A 	 fmuls s15,s15,s14
+  48 0014 C7ED067A 	 fsts s15,[r7,#24]
+  83:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  84:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Calculation of floor value of input */
+  85:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   n = (int32_t) in;
+  49              	 .loc 1 85 0
+  50 0018 D7ED067A 	 flds s15,[r7,#24]
+  51 001c FDEEE77A 	 ftosizs s15,s15
+  52 0020 17EE903A 	 fmrs r3,s15
+  53 0024 3B62     	 str r3,[r7,#32]
+  86:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  87:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Make negative values towards -infinity */
+  88:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   if (in < 0.0f)
+  54              	 .loc 1 88 0
+  55 0026 D7ED067A 	 flds s15,[r7,#24]
+  56 002a F5EEC07A 	 fcmpezs s15
+  57 002e F1EE10FA 	 fmstat
+  58 0032 02D5     	 bpl .L2
+  89:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   {
+  90:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****     n--;
+  59              	 .loc 1 90 0
+  60 0034 3B6A     	 ldr r3,[r7,#32]
+  61 0036 013B     	 subs r3,r3,#1
+  62 0038 3B62     	 str r3,[r7,#32]
+  63              	.L2:
+  91:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   }
+  92:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  93:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Map input value to [0 1] */
+  94:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   in = in - (float32_t) n;
+  64              	 .loc 1 94 0
+  65 003a 3B6A     	 ldr r3,[r7,#32]
+  66 003c 07EE903A 	 fmsr s15,r3
+  67 0040 F8EEE77A 	 fsitos s15,s15
+  68 0044 97ED067A 	 flds s14,[r7,#24]
+  69 0048 77EE677A 	 fsubs s15,s14,s15
+  70 004c C7ED067A 	 fsts s15,[r7,#24]
+  95:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+  96:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Calculation of index of the table */
+  97:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   findex = (float32_t)FAST_MATH_TABLE_SIZE * in;
+  71              	 .loc 1 97 0
+  72 0050 D7ED067A 	 flds s15,[r7,#24]
+  73 0054 9FED287A 	 flds s14,.L7+4
+  74 0058 67EE877A 	 fmuls s15,s15,s14
+  75 005c C7ED077A 	 fsts s15,[r7,#28]
+  98:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   index = (uint16_t)findex;
+  76              	 .loc 1 98 0
+  77 0060 D7ED077A 	 flds s15,[r7,#28]
+  78 0064 FCEEE77A 	 ftouizs s15,s15
+  79 0068 C7ED007A 	 fsts s15,[r7]
+  80 006c 3B88     	 ldrh r3,[r7]
+  81 006e FB84     	 strh r3,[r7,#38]
+  99:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+ 100:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* when "in" is exactly 1, we need to rotate the index down to 0 */
+ 101:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   if (index >= FAST_MATH_TABLE_SIZE) {
+  82              	 .loc 1 101 0
+  83 0070 FB8C     	 ldrh r3,[r7,#38]
+  84 0072 B3F5007F 	 cmp r3,#512
+  85 0076 09D3     	 bcc .L4
+ 102:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****     index = 0;
+  86              	 .loc 1 102 0
+  87 0078 0023     	 movs r3,#0
+  88 007a FB84     	 strh r3,[r7,#38]
+ 103:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****     findex -= (float32_t)FAST_MATH_TABLE_SIZE;
+  89              	 .loc 1 103 0
+  90 007c D7ED077A 	 flds s15,[r7,#28]
+  91 0080 9FED1D7A 	 flds s14,.L7+4
+  92 0084 77EEC77A 	 fsubs s15,s15,s14
+  93 0088 C7ED077A 	 fsts s15,[r7,#28]
+  94              	.L4:
+ 104:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   }
+ 105:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+ 106:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* fractional value calculation */
+ 107:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   fract = findex - (float32_t) index;
+  95              	 .loc 1 107 0
+  96 008c FB8C     	 ldrh r3,[r7,#38]
+  97 008e 07EE903A 	 fmsr s15,r3
+  98 0092 F8EE677A 	 fuitos s15,s15
+  99 0096 97ED077A 	 flds s14,[r7,#28]
+ 100 009a 77EE677A 	 fsubs s15,s14,s15
+ 101 009e C7ED057A 	 fsts s15,[r7,#20]
+ 108:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+ 109:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Read two nearest values of input value from the sin table */
+ 110:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   a = sinTable_f32[index];
+ 102              	 .loc 1 110 0
+ 103 00a2 FB8C     	 ldrh r3,[r7,#38]
+ 104 00a4 154A     	 ldr r2,.L7+8
+ 105 00a6 9B00     	 lsls r3,r3,#2
+ 106 00a8 1344     	 add r3,r3,r2
+ 107 00aa 1B68     	 ldr r3,[r3]
+ 108 00ac 3B61     	 str r3,[r7,#16]
+ 111:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   b = sinTable_f32[index+1];
+ 109              	 .loc 1 111 0
+ 110 00ae FB8C     	 ldrh r3,[r7,#38]
+ 111 00b0 0133     	 adds r3,r3,#1
+ 112 00b2 124A     	 ldr r2,.L7+8
+ 113 00b4 9B00     	 lsls r3,r3,#2
+ 114 00b6 1344     	 add r3,r3,r2
+ 115 00b8 1B68     	 ldr r3,[r3]
+ 116 00ba FB60     	 str r3,[r7,#12]
+ 112:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+ 113:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Linear interpolation process */
+ 114:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   sinVal = (1.0f - fract) * a + fract * b;
+ 117              	 .loc 1 114 0
+ 118 00bc B7EE007A 	 fconsts s14,#112
+ 119 00c0 D7ED057A 	 flds s15,[r7,#20]
+ 120 00c4 37EE677A 	 fsubs s14,s14,s15
+ 121 00c8 D7ED047A 	 flds s15,[r7,#16]
+ 122 00cc 27EE277A 	 fmuls s14,s14,s15
+ 123 00d0 D7ED056A 	 flds s13,[r7,#20]
+ 124 00d4 D7ED037A 	 flds s15,[r7,#12]
+ 125 00d8 66EEA77A 	 fmuls s15,s13,s15
+ 126 00dc 77EE277A 	 fadds s15,s14,s15
+ 127 00e0 C7ED027A 	 fsts s15,[r7,#8]
+ 115:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** 
+ 116:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   /* Return output value */
+ 117:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c ****   return (sinVal);
+ 128              	 .loc 1 117 0
+ 129 00e4 BB68     	 ldr r3,[r7,#8]
+ 118:../Dave/Generated/CMSIS_DSP/Source/FastMathFunctions/arm_sin_f32.c **** }
+ 130              	 .loc 1 118 0
+ 131 00e6 1846     	 mov r0,r3
+ 132 00e8 2C37     	 adds r7,r7,#44
+ 133              	.LCFI3:
+ 134              	 .cfi_def_cfa_offset 4
+ 135 00ea BD46     	 mov sp,r7
+ 136              	.LCFI4:
+ 137              	 .cfi_def_cfa_register 13
+ 138              	 
+ 139 00ec 5DF8047B 	 ldr r7,[sp],#4
+ 140              	.LCFI5:
+ 141              	 .cfi_restore 7
+ 142              	 .cfi_def_cfa_offset 0
+ 143 00f0 7047     	 bx lr
+ 144              	.L8:
+ 145 00f2 00BF     	 .align 2
+ 146              	.L7:
+ 147 00f4 83F9223E 	 .word 1042479491
+ 148 00f8 00000044 	 .word 1140850688
+ 149 00fc 00000000 	 .word sinTable_f32
+ 150              	 .cfi_endproc
+ 151              	.LFE149:
+ 153              	 .text
+ 154              	.Letext0:
+ 155              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 156              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 157              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 158              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+ 159              	 .file 6 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_common_tables.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_sin_f32.c
+    {standard input}:20     .text.arm_sin_f32:00000000 $t
+    {standard input}:25     .text.arm_sin_f32:00000000 arm_sin_f32
+    {standard input}:147    .text.arm_sin_f32:000000f4 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+sinTable_f32

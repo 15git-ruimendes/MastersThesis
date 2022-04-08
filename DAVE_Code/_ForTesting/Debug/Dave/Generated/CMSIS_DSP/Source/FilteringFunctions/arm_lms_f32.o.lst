@@ -1,0 +1,790 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_lms_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_lms_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_lms_f32
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_lms_f32:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * Title:        arm_lms_f32.c
+   4:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * Description:  Processing function for the floating-point LMS filter
+   5:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * $Date:        18. March 2019
+   7:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * $Revision:    V1.6.0
+   8:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  *
+   9:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * Target Processor: Cortex-M cores
+  10:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * -------------------------------------------------------------------- */
+  11:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** /*
+  12:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  *
+  16:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * not use this file except in compliance with the License.
+  18:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * You may obtain a copy of the License at
+  19:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  *
+  22:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * See the License for the specific language governing permissions and
+  26:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  * limitations under the License.
+  27:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  */
+  28:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+  29:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  30:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+  31:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** /**
+  32:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @ingroup groupFilters
+  33:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  */
+  34:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+  35:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** /**
+  36:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @defgroup LMS Least Mean Square (LMS) Filters
+  37:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+  38:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   LMS filters are a class of adaptive filters that are able to "learn" an unknown transfer function
+  39:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   LMS filters use a gradient descent method in which the filter coefficients are updated based on t
+  40:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   Adaptive filters are often used in communication systems, equalizers, and noise removal.
+  41:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   The CMSIS DSP Library contains LMS filter functions that operate on Q15, Q31, and floating-point 
+  42:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   The library also contains normalized LMS filters in which the filter coefficient adaptation is in
+  43:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+  44:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   An LMS filter consists of two components as shown below.
+  45:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   The first component is a standard transversal or FIR filter.
+  46:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   The second component is a coefficient update mechanism.
+  47:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   The LMS filter has two input signals.
+  48:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   The "input" feeds the FIR filter while the "reference input" corresponds to the desired output of
+  49:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   That is, the FIR filter coefficients are updated so that the output of the FIR filter matches the
+  50:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   The filter coefficient update mechanism is based on the difference between the FIR filter output 
+  51:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   This "error signal" tends towards zero as the filter adapts.
+  52:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   The LMS processing functions accept the input and reference input signals and generate the filter
+  53:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   \image html LMS.gif "Internal structure of the Least Mean Square filter"
+  54:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+  55:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   The functions operate on blocks of data and each call to the function processes
+  56:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   <code>blockSize</code> samples through the filter.
+  57:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   <code>pSrc</code> points to input signal, <code>pRef</code> points to reference signal,
+  58:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   <code>pOut</code> points to output signal and <code>pErr</code> points to error signal.
+  59:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   All arrays contain <code>blockSize</code> values.
+  60:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+  61:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   The functions operate on a block-by-block basis.
+  62:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   Internally, the filter coefficients <code>b[n]</code> are updated on a sample-by-sample basis.
+  63:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   The convergence of the LMS filter is slower compared to the normalized LMS algorithm.
+  64:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+  65:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par           Algorithm
+  66:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    The output signal <code>y[n]</code> is computed by a standard FIR filter:
+  67:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   <pre>
+  68:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       y[n] = b[0] * x[n] + b[1] * x[n-1] + b[2] * x[n-2] + ...+ b[numTaps-1] * x[n-numTaps+1]
+  69:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   </pre>
+  70:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+  71:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par
+  72:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    The error signal equals the difference between the reference signal <code>d[n]</
+  73:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   <pre>
+  74:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       e[n] = d[n] - y[n].
+  75:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   </pre>
+  76:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+  77:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par
+  78:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    After each sample of the error signal is computed, the filter coefficients <code
+  79:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   <pre>
+  80:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       b[k] = b[k] + e[n] * mu * x[n-k],  for k=0, 1, ..., numTaps-1
+  81:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   </pre>
+  82:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    where <code>mu</code> is the step size and controls the rate of coefficient conv
+  83:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par
+  84:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    In the APIs, <code>pCoeffs</code> points to a coefficient array of size <code>nu
+  85:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    Coefficients are stored in time reversed order.
+  86:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par
+  87:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   <pre>
+  88:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****      {b[numTaps-1], b[numTaps-2], b[N-2], ..., b[1], b[0]}
+  89:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   </pre>
+  90:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par
+  91:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    <code>pState</code> points to a state array of size <code>numTaps + blockSize - 
+  92:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    Samples in the state buffer are stored in the order:
+  93:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par
+  94:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   <pre>
+  95:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****      {x[n-numTaps+1], x[n-numTaps], x[n-numTaps-1], x[n-numTaps-2]....x[0], x[1], ..., x[blockSize-
+  96:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   </pre>
+  97:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par
+  98:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    Note that the length of the state buffer exceeds the length of the coefficient a
+  99:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    The increased state buffer length allows circular addressing, which is tradition
+ 100:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    to be avoided and yields a significant speed improvement.
+ 101:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    The state variables are updated after each block of data is processed.
+ 102:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par           Instance Structure
+ 103:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    The coefficients and state variables for a filter are stored together in an inst
+ 104:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    A separate instance structure must be defined for each filter and
+ 105:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    coefficient and state arrays cannot be shared among instances.
+ 106:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    There are separate instance structure declarations for each of the 3 supported d
+ 107:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 108:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par           Initialization Functions
+ 109:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    There is also an associated initialization function for each data type.
+ 110:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    The initialization function performs the following operations:
+ 111:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    - Sets the values of the internal structure fields.
+ 112:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    - Zeros out the values in the state buffer.
+ 113:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    To do this manually without calling the init function, assign the follow subfiel
+ 114:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    numTaps, pCoeffs, mu, postShift (not for f32), pState. Also set all of the value
+ 115:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 116:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par
+ 117:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                  Use of the initialization function is optional.
+ 118:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                  However, if the initialization function is used, then the instance structure canno
+ 119:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                  To place an instance structure into a const data section, the instance structure m
+ 120:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                  Set the values in the state buffer to zeros before static initialization.
+ 121:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                  The code below statically initializes each of the 3 different data type filter ins
+ 122:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   <pre>
+ 123:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****      arm_lms_instance_f32 S = {numTaps, pState, pCoeffs, mu};
+ 124:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****      arm_lms_instance_q31 S = {numTaps, pState, pCoeffs, mu, postShift};
+ 125:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****      arm_lms_instance_q15 S = {numTaps, pState, pCoeffs, mu, postShift};
+ 126:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   </pre>
+ 127:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                  where <code>numTaps</code> is the number of filter coefficients in the filter; <co
+ 128:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                  <code>pCoeffs</code> is the address of the coefficient buffer; <code>mu</code> is 
+ 129:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 130:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par           Fixed-Point Behavior
+ 131:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    Care must be taken when using the Q15 and Q31 versions of the LMS filter.
+ 132:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    The following issues must be considered:
+ 133:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    - Scaling of coefficients
+ 134:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    - Overflow and saturation
+ 135:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 136:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par           Scaling of Coefficients
+ 137:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    Filter coefficients are represented as fractional values and
+ 138:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    coefficients are restricted to lie in the range <code>[-1 +1)</code>.
+ 139:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    The fixed-point functions have an additional scaling parameter <code>postShift</
+ 140:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    At the output of the filter's accumulator is a shift register which shifts the r
+ 141:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    This essentially scales the filter coefficients by <code>2^postShift</code> and
+ 142:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    allows the filter coefficients to exceed the range <code>[+1 -1)</code>.
+ 143:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    The value of <code>postShift</code> is set by the user based on the expected gai
+ 144:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 145:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @par           Overflow and Saturation
+ 146:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    Overflow and saturation behavior of the fixed-point Q15 and Q31 versions are
+ 147:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****                    described separately as part of the function specific documentation below.
+ 148:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  */
+ 149:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 150:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** /**
+ 151:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @addtogroup LMS
+ 152:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @{
+ 153:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  */
+ 154:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 155:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** /**
+ 156:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @brief         Processing function for floating-point LMS filter.
+ 157:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @param[in]     S          points to an instance of the floating-point LMS filter structure
+ 158:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @param[in]     pSrc       points to the block of input data
+ 159:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @param[in]     pRef       points to the block of reference data
+ 160:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @param[out]    pOut       points to the block of output data
+ 161:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @param[out]    pErr       points to the block of error data
+ 162:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @param[in]     blockSize  number of samples to process
+ 163:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   @return        none
+ 164:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****  */
+ 165:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** #if defined(ARM_MATH_NEON)
+ 166:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** void arm_lms_f32(
+ 167:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   const arm_lms_instance_f32 * S,
+ 168:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   const float32_t * pSrc,
+ 169:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   float32_t * pRef,
+ 170:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   float32_t * pOut,
+ 171:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   float32_t * pErr,
+ 172:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   uint32_t blockSize)
+ 173:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** {
+ 174:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   float32_t *pState = S->pState;                 /* State pointer */
+ 175:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   float32_t *pCoeffs = S->pCoeffs;               /* Coefficient pointer */
+ 176:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   float32_t *pStateCurnt;                        /* Points to the current sample of the state */
+ 177:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   float32_t *px, *pb;                            /* Temporary pointers for state and coefficient bu
+ 178:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   float32_t mu = S->mu;                          /* Adaptive factor */
+ 179:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   uint32_t numTaps = S->numTaps;                 /* Number of filter coefficients in the filter */
+ 180:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   uint32_t tapCnt, blkCnt;                       /* Loop counters */
+ 181:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   float32_t sum, e, d;                           /* accumulator, error, reference data sample */
+ 182:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   float32_t w = 0.0f;                            /* weight factor */
+ 183:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 184:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   float32x4_t tempV, sumV, xV, bV;
+ 185:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   float32x2_t tempV2;
+ 186:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 187:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   e = 0.0f;
+ 188:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   d = 0.0f;
+ 189:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 190:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* S->pState points to state array which contains previous frame (numTaps - 1) samples */
+ 191:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* pStateCurnt points to the location where the new input data should be written */
+ 192:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   pStateCurnt = &(S->pState[(numTaps - 1U)]);
+ 193:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 194:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   blkCnt = blockSize;
+ 195:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 196:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   while (blkCnt > 0U)
+ 197:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   {
+ 198:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Copy the new input sample into the state buffer */
+ 199:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     *pStateCurnt++ = *pSrc++;
+ 200:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 201:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Initialize pState pointer */
+ 202:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     px = pState;
+ 203:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 204:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Initialize coeff pointer */
+ 205:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     pb = (pCoeffs);
+ 206:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 207:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Set the accumulator to zero */
+ 208:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     sum = 0.0f;
+ 209:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     sumV = vdupq_n_f32(0.0);
+ 210:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 211:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Process 4 taps at a time. */
+ 212:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt = numTaps >> 2;
+ 213:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 214:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     while (tapCnt > 0U)
+ 215:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     {
+ 216:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Perform the multiply-accumulate */
+ 217:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       xV = vld1q_f32(px);
+ 218:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       bV = vld1q_f32(pb);
+ 219:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       sumV = vmlaq_f32(sumV, xV, bV);
+ 220:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 221:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       px += 4; 
+ 222:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       pb += 4;
+ 223:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 224:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Decrement the loop counter */
+ 225:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       tapCnt--;
+ 226:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     }
+ 227:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tempV2 = vpadd_f32(vget_low_f32(sumV),vget_high_f32(sumV));
+ 228:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     sum = vget_lane_f32(tempV2, 0) + vget_lane_f32(tempV2, 1);
+ 229:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 230:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 231:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* If the filter length is not a multiple of 4, compute the remaining filter taps */
+ 232:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt = numTaps % 0x4U;
+ 233:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 234:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     while (tapCnt > 0U)
+ 235:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     {
+ 236:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Perform the multiply-accumulate */
+ 237:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       sum += (*px++) * (*pb++);
+ 238:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 239:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Decrement the loop counter */
+ 240:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       tapCnt--;
+ 241:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     }
+ 242:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 243:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* The result in the accumulator, store in the destination buffer. */
+ 244:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     *pOut++ = sum;
+ 245:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 246:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Compute and store error */
+ 247:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     d = (float32_t) (*pRef++);
+ 248:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     e = d - sum;
+ 249:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     *pErr++ = e;
+ 250:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 251:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Calculation of Weighting factor for the updating filter coefficients */
+ 252:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     w = e * mu;
+ 253:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 254:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Initialize pState pointer */
+ 255:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     px = pState;
+ 256:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 257:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Initialize coeff pointer */
+ 258:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     pb = (pCoeffs);
+ 259:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 260:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Process 4 taps at a time. */
+ 261:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt = numTaps >> 2;
+ 262:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 263:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Update filter coefficients */
+ 264:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     while (tapCnt > 0U)
+ 265:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     {
+ 266:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Perform the multiply-accumulate */
+ 267:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       xV = vld1q_f32(px);
+ 268:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       bV = vld1q_f32(pb);
+ 269:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       px += 4;
+ 270:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       bV = vmlaq_n_f32(bV,xV,w);
+ 271:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 272:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       vst1q_f32(pb,bV); 
+ 273:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       pb += 4;
+ 274:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 275:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 276:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Decrement the loop counter */
+ 277:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       tapCnt--;
+ 278:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     }
+ 279:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 280:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* If the filter length is not a multiple of 4, compute the remaining filter taps */
+ 281:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt = numTaps % 0x4U;
+ 282:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 283:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     while (tapCnt > 0U)
+ 284:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     {
+ 285:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Perform the multiply-accumulate */
+ 286:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       *pb = *pb + (w * (*px++));
+ 287:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       pb++;
+ 288:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 289:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Decrement the loop counter */
+ 290:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       tapCnt--;
+ 291:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     }
+ 292:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 293:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Advance state pointer by 1 for the next sample */
+ 294:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     pState = pState + 1;
+ 295:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 296:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Decrement the loop counter */
+ 297:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     blkCnt--;
+ 298:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   }
+ 299:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 300:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 301:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* Processing is complete. Now copy the last numTaps - 1 samples to the
+ 302:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****      satrt of the state buffer. This prepares the state buffer for the
+ 303:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****      next function call. */
+ 304:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 305:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* Points to the start of the pState buffer */
+ 306:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   pStateCurnt = S->pState;
+ 307:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 308:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* Process 4 taps at a time for (numTaps - 1U) samples copy */
+ 309:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   tapCnt = (numTaps - 1U) >> 2U;
+ 310:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 311:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* copy data */
+ 312:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   while (tapCnt > 0U)
+ 313:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   {
+ 314:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tempV = vld1q_f32(pState);
+ 315:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     vst1q_f32(pStateCurnt,tempV); 
+ 316:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     pState += 4;
+ 317:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     pStateCurnt += 4;
+ 318:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 319:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Decrement the loop counter */
+ 320:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt--;
+ 321:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   }
+ 322:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 323:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* Calculate remaining number of copies */
+ 324:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   tapCnt = (numTaps - 1U) % 0x4U;
+ 325:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 326:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* Copy the remaining q31_t data */
+ 327:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   while (tapCnt > 0U)
+ 328:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   {
+ 329:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     *pStateCurnt++ = *pState++;
+ 330:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 331:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Decrement the loop counter */
+ 332:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt--;
+ 333:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   }
+ 334:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 335:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 336:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** }
+ 337:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** #else
+ 338:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** void arm_lms_f32(
+ 339:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   const arm_lms_instance_f32 * S,
+ 340:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   const float32_t * pSrc,
+ 341:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****         float32_t * pRef,
+ 342:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****         float32_t * pOut,
+ 343:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****         float32_t * pErr,
+ 344:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****         uint32_t blockSize)
+ 345:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** {       
+  28              	 .loc 1 345 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 91B0     	 sub sp,sp,#68
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 72
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 F860     	 str r0,[r7,#12]
+  44 0008 B960     	 str r1,[r7,#8]
+  45 000a 7A60     	 str r2,[r7,#4]
+  46 000c 3B60     	 str r3,[r7]
+ 346:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****         float32_t *pState = S->pState;                 /* State pointer */
+  47              	 .loc 1 346 0
+  48 000e FB68     	 ldr r3,[r7,#12]
+  49 0010 5B68     	 ldr r3,[r3,#4]
+  50 0012 FB63     	 str r3,[r7,#60]
+ 347:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****         float32_t *pCoeffs = S->pCoeffs;               /* Coefficient pointer */
+  51              	 .loc 1 347 0
+  52 0014 FB68     	 ldr r3,[r7,#12]
+  53 0016 9B68     	 ldr r3,[r3,#8]
+  54 0018 3B62     	 str r3,[r7,#32]
+ 348:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****         float32_t *pStateCurnt;                        /* Points to the current sample of the state
+ 349:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****         float32_t *px, *pb;                            /* Temporary pointers for state and coeffici
+ 350:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****         float32_t mu = S->mu;                          /* Adaptive factor */
+  55              	 .loc 1 350 0
+  56 001a FB68     	 ldr r3,[r7,#12]
+  57 001c DB68     	 ldr r3,[r3,#12]
+  58 001e FB61     	 str r3,[r7,#28]
+ 351:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****         float32_t acc, e;                              /* Accumulator, error */
+ 352:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****         float32_t w;                                   /* Weight factor */
+ 353:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****         uint32_t numTaps = S->numTaps;                 /* Number of filter coefficients in the filt
+  59              	 .loc 1 353 0
+  60 0020 FB68     	 ldr r3,[r7,#12]
+  61 0022 1B88     	 ldrh r3,[r3]
+  62 0024 BB61     	 str r3,[r7,#24]
+ 354:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****         uint32_t tapCnt, blkCnt;                       /* Loop counters */
+ 355:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 356:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* Initializations of error,  difference, Coefficient update */
+ 357:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   e = 0.0f;
+  63              	 .loc 1 357 0
+  64 0026 4FF00003 	 mov r3,#0
+  65 002a 7B61     	 str r3,[r7,#20]
+ 358:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   w = 0.0f;
+  66              	 .loc 1 358 0
+  67 002c 4FF00003 	 mov r3,#0
+  68 0030 3B61     	 str r3,[r7,#16]
+ 359:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 360:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* S->pState points to state array which contains previous frame (numTaps - 1) samples */
+ 361:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* pStateCurnt points to the location where the new input data should be written */
+ 362:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   pStateCurnt = &(S->pState[(numTaps - 1U)]);
+  69              	 .loc 1 362 0
+  70 0032 FB68     	 ldr r3,[r7,#12]
+  71 0034 5A68     	 ldr r2,[r3,#4]
+  72 0036 BB69     	 ldr r3,[r7,#24]
+  73 0038 03F18043 	 add r3,r3,#1073741824
+  74 003c 013B     	 subs r3,r3,#1
+  75 003e 9B00     	 lsls r3,r3,#2
+  76 0040 1344     	 add r3,r3,r2
+  77 0042 BB63     	 str r3,[r7,#56]
+ 363:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 364:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* initialise loop count */
+ 365:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   blkCnt = blockSize;
+  78              	 .loc 1 365 0
+  79 0044 FB6C     	 ldr r3,[r7,#76]
+  80 0046 7B62     	 str r3,[r7,#36]
+ 366:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 367:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   while (blkCnt > 0U)
+  81              	 .loc 1 367 0
+  82 0048 6CE0     	 b .L2
+  83              	.L7:
+ 368:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   {
+ 369:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Copy the new input sample into the state buffer */
+ 370:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     *pStateCurnt++ = *pSrc++;
+  84              	 .loc 1 370 0
+  85 004a BB6B     	 ldr r3,[r7,#56]
+  86 004c 1A1D     	 adds r2,r3,#4
+  87 004e BA63     	 str r2,[r7,#56]
+  88 0050 BA68     	 ldr r2,[r7,#8]
+  89 0052 111D     	 adds r1,r2,#4
+  90 0054 B960     	 str r1,[r7,#8]
+  91 0056 1268     	 ldr r2,[r2]
+  92 0058 1A60     	 str r2,[r3]
+ 371:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 372:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Initialize pState pointer */
+ 373:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     px = pState;
+  93              	 .loc 1 373 0
+  94 005a FB6B     	 ldr r3,[r7,#60]
+  95 005c 7B63     	 str r3,[r7,#52]
+ 374:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 375:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Initialize coefficient pointer */
+ 376:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     pb = pCoeffs;
+  96              	 .loc 1 376 0
+  97 005e 3B6A     	 ldr r3,[r7,#32]
+  98 0060 3B63     	 str r3,[r7,#48]
+ 377:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 378:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Set the accumulator to zero */
+ 379:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     acc = 0.0f;
+  99              	 .loc 1 379 0
+ 100 0062 4FF00003 	 mov r3,#0
+ 101 0066 FB62     	 str r3,[r7,#44]
+ 380:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 381:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** #if defined (ARM_MATH_LOOPUNROLL)
+ 382:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 383:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Loop unrolling: Compute 4 taps at a time. */
+ 384:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt = numTaps >> 2U;
+ 385:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 386:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     while (tapCnt > 0U)
+ 387:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     {
+ 388:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Perform the multiply-accumulate */
+ 389:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       acc += (*px++) * (*pb++);
+ 390:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 391:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       acc += (*px++) * (*pb++);
+ 392:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 393:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       acc += (*px++) * (*pb++);
+ 394:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 395:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       acc += (*px++) * (*pb++);
+ 396:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 397:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Decrement loop counter */
+ 398:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       tapCnt--;
+ 399:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     }
+ 400:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 401:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Loop unrolling: Compute remaining taps */
+ 402:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt = numTaps % 0x4U;
+ 403:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 404:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** #else
+ 405:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 406:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Initialize tapCnt with number of samples */
+ 407:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt = numTaps;
+ 102              	 .loc 1 407 0
+ 103 0068 BB69     	 ldr r3,[r7,#24]
+ 104 006a BB62     	 str r3,[r7,#40]
+ 408:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 409:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** #endif /* #if defined (ARM_MATH_LOOPUNROLL) */
+ 410:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 411:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     while (tapCnt > 0U)
+ 105              	 .loc 1 411 0
+ 106 006c 14E0     	 b .L3
+ 107              	.L4:
+ 412:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     {
+ 413:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Perform the multiply-accumulate */
+ 414:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       acc += (*px++) * (*pb++);
+ 108              	 .loc 1 414 0
+ 109 006e 7B6B     	 ldr r3,[r7,#52]
+ 110 0070 1A1D     	 adds r2,r3,#4
+ 111 0072 7A63     	 str r2,[r7,#52]
+ 112 0074 93ED007A 	 flds s14,[r3]
+ 113 0078 3B6B     	 ldr r3,[r7,#48]
+ 114 007a 1A1D     	 adds r2,r3,#4
+ 115 007c 3A63     	 str r2,[r7,#48]
+ 116 007e D3ED007A 	 flds s15,[r3]
+ 117 0082 67EE277A 	 fmuls s15,s14,s15
+ 118 0086 97ED0B7A 	 flds s14,[r7,#44]
+ 119 008a 77EE277A 	 fadds s15,s14,s15
+ 120 008e C7ED0B7A 	 fsts s15,[r7,#44]
+ 415:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 416:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Decrement the loop counter */
+ 417:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       tapCnt--;
+ 121              	 .loc 1 417 0
+ 122 0092 BB6A     	 ldr r3,[r7,#40]
+ 123 0094 013B     	 subs r3,r3,#1
+ 124 0096 BB62     	 str r3,[r7,#40]
+ 125              	.L3:
+ 411:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     {
+ 126              	 .loc 1 411 0
+ 127 0098 BB6A     	 ldr r3,[r7,#40]
+ 128 009a 002B     	 cmp r3,#0
+ 129 009c E7D1     	 bne .L4
+ 418:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     }
+ 419:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 420:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Store the result from accumulator into the destination buffer. */
+ 421:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     *pOut++ = acc;
+ 130              	 .loc 1 421 0
+ 131 009e 3B68     	 ldr r3,[r7]
+ 132 00a0 1A1D     	 adds r2,r3,#4
+ 133 00a2 3A60     	 str r2,[r7]
+ 134 00a4 FA6A     	 ldr r2,[r7,#44]
+ 135 00a6 1A60     	 str r2,[r3]
+ 422:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 423:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Compute and store error */
+ 424:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     e = (float32_t) *pRef++ - acc;
+ 136              	 .loc 1 424 0
+ 137 00a8 7B68     	 ldr r3,[r7,#4]
+ 138 00aa 1A1D     	 adds r2,r3,#4
+ 139 00ac 7A60     	 str r2,[r7,#4]
+ 140 00ae 93ED007A 	 flds s14,[r3]
+ 141 00b2 D7ED0B7A 	 flds s15,[r7,#44]
+ 142 00b6 77EE677A 	 fsubs s15,s14,s15
+ 143 00ba C7ED057A 	 fsts s15,[r7,#20]
+ 425:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     *pErr++ = e;
+ 144              	 .loc 1 425 0
+ 145 00be BB6C     	 ldr r3,[r7,#72]
+ 146 00c0 1A1D     	 adds r2,r3,#4
+ 147 00c2 BA64     	 str r2,[r7,#72]
+ 148 00c4 7A69     	 ldr r2,[r7,#20]
+ 149 00c6 1A60     	 str r2,[r3]
+ 426:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 427:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Calculation of Weighting factor for updating filter coefficients */
+ 428:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     w = e * mu;
+ 150              	 .loc 1 428 0
+ 151 00c8 97ED057A 	 flds s14,[r7,#20]
+ 152 00cc D7ED077A 	 flds s15,[r7,#28]
+ 153 00d0 67EE277A 	 fmuls s15,s14,s15
+ 154 00d4 C7ED047A 	 fsts s15,[r7,#16]
+ 429:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 430:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Initialize pState pointer */
+ 431:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Advance state pointer by 1 for the next sample */
+ 432:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     px = pState++;
+ 155              	 .loc 1 432 0
+ 156 00d8 FB6B     	 ldr r3,[r7,#60]
+ 157 00da 1A1D     	 adds r2,r3,#4
+ 158 00dc FA63     	 str r2,[r7,#60]
+ 159 00de 7B63     	 str r3,[r7,#52]
+ 433:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 434:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Initialize coefficient pointer */
+ 435:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     pb = pCoeffs;
+ 160              	 .loc 1 435 0
+ 161 00e0 3B6A     	 ldr r3,[r7,#32]
+ 162 00e2 3B63     	 str r3,[r7,#48]
+ 436:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 437:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** #if defined (ARM_MATH_LOOPUNROLL)
+ 438:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 439:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Loop unrolling: Compute 4 taps at a time. */
+ 440:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt = numTaps >> 2U;
+ 441:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 442:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Update filter coefficients */
+ 443:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     while (tapCnt > 0U)
+ 444:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     {
+ 445:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Perform the multiply-accumulate */
+ 446:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       *pb += w * (*px++);
+ 447:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       pb++;
+ 448:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 449:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       *pb += w * (*px++);
+ 450:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       pb++;
+ 451:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 452:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       *pb += w * (*px++);
+ 453:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       pb++;
+ 454:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 455:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       *pb += w * (*px++);
+ 456:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       pb++;
+ 457:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 458:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Decrement loop counter */
+ 459:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       tapCnt--;
+ 460:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     }
+ 461:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 462:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Loop unrolling: Compute remaining taps */
+ 463:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt = numTaps % 0x4U;
+ 464:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 465:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** #else
+ 466:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 467:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Initialize tapCnt with number of samples */
+ 468:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt = numTaps;
+ 163              	 .loc 1 468 0
+ 164 00e4 BB69     	 ldr r3,[r7,#24]
+ 165 00e6 BB62     	 str r3,[r7,#40]
+ 469:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 470:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** #endif /* #if defined (ARM_MATH_LOOPUNROLL) */
+ 471:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 472:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     while (tapCnt > 0U)
+ 166              	 .loc 1 472 0
+ 167 00e8 16E0     	 b .L5
+ 168              	.L6:
+ 473:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     {
+ 474:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Perform the multiply-accumulate */
+ 475:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       *pb += w * (*px++);
+ 169              	 .loc 1 475 0
+ 170 00ea 7B6B     	 ldr r3,[r7,#52]
+ 171 00ec 1A1D     	 adds r2,r3,#4
+ 172 00ee 7A63     	 str r2,[r7,#52]
+ 173 00f0 93ED007A 	 flds s14,[r3]
+ 174 00f4 D7ED047A 	 flds s15,[r7,#16]
+ 175 00f8 67EE277A 	 fmuls s15,s14,s15
+ 176 00fc 3B6B     	 ldr r3,[r7,#48]
+ 177 00fe 93ED007A 	 flds s14,[r3]
+ 178 0102 77EE277A 	 fadds s15,s14,s15
+ 179 0106 3B6B     	 ldr r3,[r7,#48]
+ 180 0108 C3ED007A 	 fsts s15,[r3]
+ 476:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       pb++;
+ 181              	 .loc 1 476 0
+ 182 010c 3B6B     	 ldr r3,[r7,#48]
+ 183 010e 0433     	 adds r3,r3,#4
+ 184 0110 3B63     	 str r3,[r7,#48]
+ 477:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 478:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       /* Decrement loop counter */
+ 479:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****       tapCnt--;
+ 185              	 .loc 1 479 0
+ 186 0112 BB6A     	 ldr r3,[r7,#40]
+ 187 0114 013B     	 subs r3,r3,#1
+ 188 0116 BB62     	 str r3,[r7,#40]
+ 189              	.L5:
+ 472:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     {
+ 190              	 .loc 1 472 0
+ 191 0118 BB6A     	 ldr r3,[r7,#40]
+ 192 011a 002B     	 cmp r3,#0
+ 193 011c E5D1     	 bne .L6
+ 480:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     }
+ 481:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 482:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Decrement loop counter */
+ 483:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     blkCnt--;
+ 194              	 .loc 1 483 0
+ 195 011e 7B6A     	 ldr r3,[r7,#36]
+ 196 0120 013B     	 subs r3,r3,#1
+ 197 0122 7B62     	 str r3,[r7,#36]
+ 198              	.L2:
+ 367:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   {
+ 199              	 .loc 1 367 0
+ 200 0124 7B6A     	 ldr r3,[r7,#36]
+ 201 0126 002B     	 cmp r3,#0
+ 202 0128 8FD1     	 bne .L7
+ 484:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   }
+ 485:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 486:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* Processing is complete.
+ 487:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****      Now copy the last numTaps - 1 samples to the start of the state buffer.
+ 488:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****      This prepares the state buffer for the next function call. */
+ 489:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 490:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* Points to the start of the pState buffer */
+ 491:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   pStateCurnt = S->pState;
+ 203              	 .loc 1 491 0
+ 204 012a FB68     	 ldr r3,[r7,#12]
+ 205 012c 5B68     	 ldr r3,[r3,#4]
+ 206 012e BB63     	 str r3,[r7,#56]
+ 492:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 493:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* copy data */
+ 494:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** #if defined (ARM_MATH_LOOPUNROLL)
+ 495:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 496:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* Loop unrolling: Compute 4 taps at a time. */
+ 497:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   tapCnt = (numTaps - 1U) >> 2U;
+ 498:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 499:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   while (tapCnt > 0U)
+ 500:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   {
+ 501:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     *pStateCurnt++ = *pState++;
+ 502:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     *pStateCurnt++ = *pState++;
+ 503:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     *pStateCurnt++ = *pState++;
+ 504:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     *pStateCurnt++ = *pState++;
+ 505:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 506:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Decrement loop counter */
+ 507:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt--;
+ 508:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   }
+ 509:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 510:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* Loop unrolling: Compute remaining taps */
+ 511:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   tapCnt = (numTaps - 1U) % 0x4U;
+ 512:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 513:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** #else
+ 514:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 515:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   /* Initialize tapCnt with number of samples */
+ 516:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   tapCnt = (numTaps - 1U);
+ 207              	 .loc 1 516 0
+ 208 0130 BB69     	 ldr r3,[r7,#24]
+ 209 0132 013B     	 subs r3,r3,#1
+ 210 0134 BB62     	 str r3,[r7,#40]
+ 517:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 518:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** #endif /* #if defined (ARM_MATH_LOOPUNROLL) */
+ 519:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 520:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   while (tapCnt > 0U)
+ 211              	 .loc 1 520 0
+ 212 0136 0AE0     	 b .L8
+ 213              	.L9:
+ 521:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   {
+ 522:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     *pStateCurnt++ = *pState++;
+ 214              	 .loc 1 522 0
+ 215 0138 BB6B     	 ldr r3,[r7,#56]
+ 216 013a 1A1D     	 adds r2,r3,#4
+ 217 013c BA63     	 str r2,[r7,#56]
+ 218 013e FA6B     	 ldr r2,[r7,#60]
+ 219 0140 111D     	 adds r1,r2,#4
+ 220 0142 F963     	 str r1,[r7,#60]
+ 221 0144 1268     	 ldr r2,[r2]
+ 222 0146 1A60     	 str r2,[r3]
+ 523:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 524:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     /* Decrement loop counter */
+ 525:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****     tapCnt--;
+ 223              	 .loc 1 525 0
+ 224 0148 BB6A     	 ldr r3,[r7,#40]
+ 225 014a 013B     	 subs r3,r3,#1
+ 226 014c BB62     	 str r3,[r7,#40]
+ 227              	.L8:
+ 520:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   {
+ 228              	 .loc 1 520 0
+ 229 014e BB6A     	 ldr r3,[r7,#40]
+ 230 0150 002B     	 cmp r3,#0
+ 231 0152 F1D1     	 bne .L9
+ 526:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c ****   }
+ 527:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** 
+ 528:../Dave/Generated/CMSIS_DSP/Source/FilteringFunctions/arm_lms_f32.c **** }
+ 232              	 .loc 1 528 0
+ 233 0154 4437     	 adds r7,r7,#68
+ 234              	.LCFI3:
+ 235              	 .cfi_def_cfa_offset 4
+ 236 0156 BD46     	 mov sp,r7
+ 237              	.LCFI4:
+ 238              	 .cfi_def_cfa_register 13
+ 239              	 
+ 240 0158 5DF8047B 	 ldr r7,[sp],#4
+ 241              	.LCFI5:
+ 242              	 .cfi_restore 7
+ 243              	 .cfi_def_cfa_offset 0
+ 244 015c 7047     	 bx lr
+ 245              	 .cfi_endproc
+ 246              	.LFE149:
+ 248 015e 00BF     	 .text
+ 249              	.Letext0:
+ 250              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 251              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 252              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 253              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_lms_f32.c
+    {standard input}:20     .text.arm_lms_f32:00000000 $t
+    {standard input}:25     .text.arm_lms_f32:00000000 arm_lms_f32
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

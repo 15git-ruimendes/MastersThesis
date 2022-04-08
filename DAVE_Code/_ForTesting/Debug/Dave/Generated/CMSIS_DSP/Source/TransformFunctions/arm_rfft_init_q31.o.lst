@@ -1,0 +1,503 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_rfft_init_q31.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_rfft_init_q31,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_rfft_init_q31
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_rfft_init_q31:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * Title:        arm_rfft_init_q31.c
+   4:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * Description:  RFFT & RIFFT Q31 initialisation function
+   5:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * $Date:        18. March 2019
+   7:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * $Revision:    V1.6.0
+   8:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  *
+   9:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * Target Processor: Cortex-M cores
+  10:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * -------------------------------------------------------------------- */
+  11:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** /*
+  12:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  *
+  16:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * not use this file except in compliance with the License.
+  18:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * You may obtain a copy of the License at
+  19:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  *
+  22:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * See the License for the specific language governing permissions and
+  26:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  * limitations under the License.
+  27:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  */
+  28:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  29:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  30:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #include "CMSIS_DSP/Include/arm_common_tables.h"
+  31:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #include "CMSIS_DSP/Include/arm_const_structs.h"
+  32:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  33:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  34:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  35:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** /**
+  36:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****   @addtogroup RealFFT
+  37:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****   @{
+  38:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****  */
+  39:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  40:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** /**
+  41:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****   @brief         Initialization function for the Q31 RFFT/RIFFT.
+  42:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****   @param[in,out] S              points to an instance of the Q31 RFFT/RIFFT structure
+  43:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****   @param[in]     fftLenReal     length of the FFT
+  44:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****   @param[in]     ifftFlagR      flag that selects transform direction
+  45:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                    - value = 0: forward transform
+  46:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                    - value = 1: inverse transform
+  47:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****   @param[in]     bitReverseFlag flag that enables / disables bit reversal of output
+  48:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                    - value = 0: disables bit reversal of output
+  49:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                    - value = 1: enables bit reversal of output
+  50:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****   @return        execution status
+  51:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                    - \ref ARM_MATH_SUCCESS        : Operation successful
+  52:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                    - \ref ARM_MATH_ARGUMENT_ERROR : <code>fftLenReal</code> is not a supported leng
+  53:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  54:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****   @par           Details
+  55:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                    The parameter <code>fftLenReal</code> specifies length of RFFT/RIFFT Process.
+  56:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                    Supported FFT Lengths are 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192.
+  57:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****   @par
+  58:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                    The parameter <code>ifftFlagR</code> controls whether a forward or inverse trans
+  59:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                    Set(=1) ifftFlagR to calculate RIFFT, otherwise RFFT is calculated.
+  60:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****   @par
+  61:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                    The parameter <code>bitReverseFlag</code> controls whether output is in normal o
+  62:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                    Set(=1) bitReverseFlag for output to be in normal order otherwise output is in b
+  63:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****   @par
+  64:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                    This function also initializes Twiddle factor table.
+  65:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** */
+  66:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  67:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** arm_status arm_rfft_init_q31(
+  68:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     arm_rfft_instance_q31 * S,
+  69:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     uint32_t fftLenReal,
+  70:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     uint32_t ifftFlagR,
+  71:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     uint32_t bitReverseFlag)
+  72:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** {
+  28              	 .loc 1 72 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 87B0     	 sub sp,sp,#28
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 32
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 F860     	 str r0,[r7,#12]
+  44 0008 B960     	 str r1,[r7,#8]
+  45 000a 7A60     	 str r2,[r7,#4]
+  46 000c 3B60     	 str r3,[r7]
+  73:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     /*  Initialise the default arm status */
+  74:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     arm_status status = ARM_MATH_SUCCESS;
+  47              	 .loc 1 74 0
+  48 000e 0023     	 movs r3,#0
+  49 0010 FB75     	 strb r3,[r7,#23]
+  75:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  76:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     /*  Initialize the Real FFT length */
+  77:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     S->fftLenReal = (uint16_t) fftLenReal;
+  50              	 .loc 1 77 0
+  51 0012 BB68     	 ldr r3,[r7,#8]
+  52 0014 9BB2     	 uxth r3,r3
+  53 0016 1A46     	 mov r2,r3
+  54 0018 FB68     	 ldr r3,[r7,#12]
+  55 001a 1A60     	 str r2,[r3]
+  78:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  79:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     /*  Initialize the Twiddle coefficientA pointer */
+  80:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     S->pTwiddleAReal = (q31_t *) realCoefAQ31;
+  56              	 .loc 1 80 0
+  57 001c FB68     	 ldr r3,[r7,#12]
+  58 001e 3E4A     	 ldr r2,.L17
+  59 0020 DA60     	 str r2,[r3,#12]
+  81:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  82:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     /*  Initialize the Twiddle coefficientB pointer */
+  83:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     S->pTwiddleBReal = (q31_t *) realCoefBQ31;
+  60              	 .loc 1 83 0
+  61 0022 FB68     	 ldr r3,[r7,#12]
+  62 0024 3D4A     	 ldr r2,.L17+4
+  63 0026 1A61     	 str r2,[r3,#16]
+  84:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  85:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     /*  Initialize the Flag for selection of RFFT or RIFFT */
+  86:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     S->ifftFlagR = (uint8_t) ifftFlagR;
+  64              	 .loc 1 86 0
+  65 0028 7B68     	 ldr r3,[r7,#4]
+  66 002a DAB2     	 uxtb r2,r3
+  67 002c FB68     	 ldr r3,[r7,#12]
+  68 002e 1A71     	 strb r2,[r3,#4]
+  87:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  88:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     /*  Initialize the Flag for calculation Bit reversal or not */
+  89:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     S->bitReverseFlagR = (uint8_t) bitReverseFlag;
+  69              	 .loc 1 89 0
+  70 0030 3B68     	 ldr r3,[r7]
+  71 0032 DAB2     	 uxtb r2,r3
+  72 0034 FB68     	 ldr r3,[r7,#12]
+  73 0036 5A71     	 strb r2,[r3,#5]
+  90:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  91:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     /*  Initialization of coef modifier depending on the FFT length */
+  92:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     switch (S->fftLenReal)
+  74              	 .loc 1 92 0
+  75 0038 FB68     	 ldr r3,[r7,#12]
+  76 003a 1B68     	 ldr r3,[r3]
+  77 003c B3F5007F 	 cmp r3,#512
+  78 0040 3BD0     	 beq .L3
+  79 0042 B3F5007F 	 cmp r3,#512
+  80 0046 0CD8     	 bhi .L4
+  81 0048 402B     	 cmp r3,#64
+  82 004a 4BD0     	 beq .L5
+  83 004c 402B     	 cmp r3,#64
+  84 004e 02D8     	 bhi .L6
+  85 0050 202B     	 cmp r3,#32
+  86 0052 4ED0     	 beq .L7
+  87 0054 55E0     	 b .L2
+  88              	.L6:
+  89 0056 802B     	 cmp r3,#128
+  90 0058 3DD0     	 beq .L8
+  91 005a B3F5807F 	 cmp r3,#256
+  92 005e 33D0     	 beq .L9
+  93 0060 4FE0     	 b .L2
+  94              	.L4:
+  95 0062 B3F5006F 	 cmp r3,#2048
+  96 0066 1AD0     	 beq .L10
+  97 0068 B3F5006F 	 cmp r3,#2048
+  98 006c 03D8     	 bhi .L11
+  99 006e B3F5806F 	 cmp r3,#1024
+ 100 0072 1BD0     	 beq .L12
+ 101 0074 45E0     	 b .L2
+ 102              	.L11:
+ 103 0076 B3F5805F 	 cmp r3,#4096
+ 104 007a 09D0     	 beq .L13
+ 105 007c B3F5005F 	 cmp r3,#8192
+ 106 0080 3FD1     	 bne .L2
+  93:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     {
+  94:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+  95:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     case 8192U:
+  96:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  97:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+  98:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         S->twidCoefRModifier = 1U;
+ 107              	 .loc 1 98 0
+ 108 0082 FB68     	 ldr r3,[r7,#12]
+ 109 0084 0122     	 movs r2,#1
+ 110 0086 9A60     	 str r2,[r3,#8]
+  99:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+ 100:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #if defined(ARM_MATH_MVEI)
+ 101:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            status=arm_cfft_init_q31(&(S->cfftInst),4096);
+ 102:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            if (status != ARM_MATH_SUCCESS)
+ 103:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            {
+ 104:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                return(status);
+ 105:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            }
+ 106:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #else
+ 107:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            S->pCfft = &arm_cfft_sR_q31_len4096;
+ 111              	 .loc 1 107 0
+ 112 0088 FB68     	 ldr r3,[r7,#12]
+ 113 008a 254A     	 ldr r2,.L17+8
+ 114 008c 5A61     	 str r2,[r3,#20]
+ 108:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #endif
+ 109:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         break;
+ 115              	 .loc 1 109 0
+ 116 008e 3BE0     	 b .L15
+ 117              	.L13:
+ 110:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #endif
+ 111:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 112:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     case 4096U:
+ 113:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         S->twidCoefRModifier = 2U;
+ 118              	 .loc 1 113 0
+ 119 0090 FB68     	 ldr r3,[r7,#12]
+ 120 0092 0222     	 movs r2,#2
+ 121 0094 9A60     	 str r2,[r3,#8]
+ 114:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+ 115:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #if defined(ARM_MATH_MVEI)
+ 116:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            status=arm_cfft_init_q31(&(S->cfftInst),2048);
+ 117:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            if (status != ARM_MATH_SUCCESS)
+ 118:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            {
+ 119:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                return(status);
+ 120:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            }
+ 121:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #else
+ 122:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            S->pCfft = &arm_cfft_sR_q31_len2048;
+ 122              	 .loc 1 122 0
+ 123 0096 FB68     	 ldr r3,[r7,#12]
+ 124 0098 224A     	 ldr r2,.L17+12
+ 125 009a 5A61     	 str r2,[r3,#20]
+ 123:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #endif
+ 124:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         break;
+ 126              	 .loc 1 124 0
+ 127 009c 34E0     	 b .L15
+ 128              	.L10:
+ 125:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #endif
+ 126:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 127:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     case 2048U:
+ 128:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         S->twidCoefRModifier = 4U;
+ 129              	 .loc 1 128 0
+ 130 009e FB68     	 ldr r3,[r7,#12]
+ 131 00a0 0422     	 movs r2,#4
+ 132 00a2 9A60     	 str r2,[r3,#8]
+ 129:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+ 130:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #if defined(ARM_MATH_MVEI)
+ 131:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            status=arm_cfft_init_q31(&(S->cfftInst),1024);
+ 132:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            if (status != ARM_MATH_SUCCESS)
+ 133:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            {
+ 134:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                return(status);
+ 135:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            }
+ 136:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #else
+ 137:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****           S->pCfft = &arm_cfft_sR_q31_len1024;
+ 133              	 .loc 1 137 0
+ 134 00a4 FB68     	 ldr r3,[r7,#12]
+ 135 00a6 204A     	 ldr r2,.L17+16
+ 136 00a8 5A61     	 str r2,[r3,#20]
+ 138:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #endif
+ 139:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         break;
+ 137              	 .loc 1 139 0
+ 138 00aa 2DE0     	 b .L15
+ 139              	.L12:
+ 140:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #endif
+ 141:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 142:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     case 1024U:
+ 143:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         S->twidCoefRModifier = 8U;
+ 140              	 .loc 1 143 0
+ 141 00ac FB68     	 ldr r3,[r7,#12]
+ 142 00ae 0822     	 movs r2,#8
+ 143 00b0 9A60     	 str r2,[r3,#8]
+ 144:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #if defined(ARM_MATH_MVEI)
+ 145:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            status=arm_cfft_init_q31(&(S->cfftInst),512);
+ 146:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            if (status != ARM_MATH_SUCCESS)
+ 147:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            {
+ 148:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                return(status);
+ 149:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            }
+ 150:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #else
+ 151:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            S->pCfft = &arm_cfft_sR_q31_len512;
+ 144              	 .loc 1 151 0
+ 145 00b2 FB68     	 ldr r3,[r7,#12]
+ 146 00b4 1D4A     	 ldr r2,.L17+20
+ 147 00b6 5A61     	 str r2,[r3,#20]
+ 152:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #endif
+ 153:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         break;
+ 148              	 .loc 1 153 0
+ 149 00b8 26E0     	 b .L15
+ 150              	.L3:
+ 154:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #endif
+ 155:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 156:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     case 512U:
+ 157:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         S->twidCoefRModifier = 16U;
+ 151              	 .loc 1 157 0
+ 152 00ba FB68     	 ldr r3,[r7,#12]
+ 153 00bc 1022     	 movs r2,#16
+ 154 00be 9A60     	 str r2,[r3,#8]
+ 158:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #if defined(ARM_MATH_MVEI)
+ 159:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            status=arm_cfft_init_q31(&(S->cfftInst),256);
+ 160:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            if (status != ARM_MATH_SUCCESS)
+ 161:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            {
+ 162:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                return(status);
+ 163:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            }
+ 164:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #else
+ 165:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            S->pCfft = &arm_cfft_sR_q31_len256;
+ 155              	 .loc 1 165 0
+ 156 00c0 FB68     	 ldr r3,[r7,#12]
+ 157 00c2 1B4A     	 ldr r2,.L17+24
+ 158 00c4 5A61     	 str r2,[r3,#20]
+ 166:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #endif
+ 167:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         break;
+ 159              	 .loc 1 167 0
+ 160 00c6 1FE0     	 b .L15
+ 161              	.L9:
+ 168:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #endif 
+ 169:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 170:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     case 256U:
+ 171:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         S->twidCoefRModifier = 32U;
+ 162              	 .loc 1 171 0
+ 163 00c8 FB68     	 ldr r3,[r7,#12]
+ 164 00ca 2022     	 movs r2,#32
+ 165 00cc 9A60     	 str r2,[r3,#8]
+ 172:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #if defined(ARM_MATH_MVEI)
+ 173:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            status=arm_cfft_init_q31(&(S->cfftInst),128);
+ 174:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            if (status != ARM_MATH_SUCCESS)
+ 175:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            {
+ 176:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                return(status);
+ 177:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            }
+ 178:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #else
+ 179:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            S->pCfft = &arm_cfft_sR_q31_len128;
+ 166              	 .loc 1 179 0
+ 167 00ce FB68     	 ldr r3,[r7,#12]
+ 168 00d0 184A     	 ldr r2,.L17+28
+ 169 00d2 5A61     	 str r2,[r3,#20]
+ 180:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #endif
+ 181:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         break;
+ 170              	 .loc 1 181 0
+ 171 00d4 18E0     	 b .L15
+ 172              	.L8:
+ 182:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #endif 
+ 183:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 184:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     case 128U:
+ 185:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         S->twidCoefRModifier = 64U;
+ 173              	 .loc 1 185 0
+ 174 00d6 FB68     	 ldr r3,[r7,#12]
+ 175 00d8 4022     	 movs r2,#64
+ 176 00da 9A60     	 str r2,[r3,#8]
+ 186:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #if defined(ARM_MATH_MVEI)
+ 187:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            status=arm_cfft_init_q31(&(S->cfftInst),64);
+ 188:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            if (status != ARM_MATH_SUCCESS)
+ 189:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            {
+ 190:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                return(status);
+ 191:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            }
+ 192:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #else
+ 193:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            S->pCfft = &arm_cfft_sR_q31_len64;
+ 177              	 .loc 1 193 0
+ 178 00dc FB68     	 ldr r3,[r7,#12]
+ 179 00de 164A     	 ldr r2,.L17+32
+ 180 00e0 5A61     	 str r2,[r3,#20]
+ 194:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #endif
+ 195:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         break;
+ 181              	 .loc 1 195 0
+ 182 00e2 11E0     	 b .L15
+ 183              	.L5:
+ 196:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #endif
+ 197:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 198:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     case 64U:
+ 199:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         S->twidCoefRModifier = 128U;
+ 184              	 .loc 1 199 0
+ 185 00e4 FB68     	 ldr r3,[r7,#12]
+ 186 00e6 8022     	 movs r2,#128
+ 187 00e8 9A60     	 str r2,[r3,#8]
+ 200:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #if defined(ARM_MATH_MVEI)
+ 201:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            status=arm_cfft_init_q31(&(S->cfftInst),32);
+ 202:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            if (status != ARM_MATH_SUCCESS)
+ 203:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            {
+ 204:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                return(status);
+ 205:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            }
+ 206:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #else
+ 207:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            S->pCfft = &arm_cfft_sR_q31_len32;
+ 188              	 .loc 1 207 0
+ 189 00ea FB68     	 ldr r3,[r7,#12]
+ 190 00ec 134A     	 ldr r2,.L17+36
+ 191 00ee 5A61     	 str r2,[r3,#20]
+ 208:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #endif
+ 209:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         break;
+ 192              	 .loc 1 209 0
+ 193 00f0 0AE0     	 b .L15
+ 194              	.L7:
+ 210:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #endif 
+ 211:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || (defined(ARM_TABLE_TWIDDLECOE
+ 212:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     case 32U:
+ 213:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         S->twidCoefRModifier = 256U;
+ 195              	 .loc 1 213 0
+ 196 00f2 FB68     	 ldr r3,[r7,#12]
+ 197 00f4 4FF48072 	 mov r2,#256
+ 198 00f8 9A60     	 str r2,[r3,#8]
+ 214:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #if defined(ARM_MATH_MVEI)
+ 215:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            status=arm_cfft_init_q31(&(S->cfftInst),16);
+ 216:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            if (status != ARM_MATH_SUCCESS)
+ 217:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            {
+ 218:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****                return(status);
+ 219:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            }
+ 220:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #else
+ 221:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****            S->pCfft = &arm_cfft_sR_q31_len16;
+ 199              	 .loc 1 221 0
+ 200 00fa FB68     	 ldr r3,[r7,#12]
+ 201 00fc 104A     	 ldr r2,.L17+40
+ 202 00fe 5A61     	 str r2,[r3,#20]
+ 222:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         #endif
+ 223:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         break;
+ 203              	 .loc 1 223 0
+ 204 0100 02E0     	 b .L15
+ 205              	.L2:
+ 224:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** #endif
+ 225:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     default:
+ 226:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         /*  Reporting argument error if rfftSize is not valid value */
+ 227:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         status = ARM_MATH_ARGUMENT_ERROR;
+ 206              	 .loc 1 227 0
+ 207 0102 FF23     	 movs r3,#255
+ 208 0104 FB75     	 strb r3,[r7,#23]
+ 228:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****         break;
+ 209              	 .loc 1 228 0
+ 210 0106 00BF     	 nop
+ 211              	.L15:
+ 229:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     }
+ 230:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** 
+ 231:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     /* return the status of RFFT Init function */
+ 232:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c ****     return (status);
+ 212              	 .loc 1 232 0
+ 213 0108 FB7D     	 ldrb r3,[r7,#23]
+ 214 010a 5BB2     	 sxtb r3,r3
+ 233:../Dave/Generated/CMSIS_DSP/Source/TransformFunctions/arm_rfft_init_q31.c **** }
+ 215              	 .loc 1 233 0
+ 216 010c 1846     	 mov r0,r3
+ 217 010e 1C37     	 adds r7,r7,#28
+ 218              	.LCFI3:
+ 219              	 .cfi_def_cfa_offset 4
+ 220 0110 BD46     	 mov sp,r7
+ 221              	.LCFI4:
+ 222              	 .cfi_def_cfa_register 13
+ 223              	 
+ 224 0112 5DF8047B 	 ldr r7,[sp],#4
+ 225              	.LCFI5:
+ 226              	 .cfi_restore 7
+ 227              	 .cfi_def_cfa_offset 0
+ 228 0116 7047     	 bx lr
+ 229              	.L18:
+ 230              	 .align 2
+ 231              	.L17:
+ 232 0118 00000000 	 .word realCoefAQ31
+ 233 011c 00000000 	 .word realCoefBQ31
+ 234 0120 00000000 	 .word arm_cfft_sR_q31_len4096
+ 235 0124 00000000 	 .word arm_cfft_sR_q31_len2048
+ 236 0128 00000000 	 .word arm_cfft_sR_q31_len1024
+ 237 012c 00000000 	 .word arm_cfft_sR_q31_len512
+ 238 0130 00000000 	 .word arm_cfft_sR_q31_len256
+ 239 0134 00000000 	 .word arm_cfft_sR_q31_len128
+ 240 0138 00000000 	 .word arm_cfft_sR_q31_len64
+ 241 013c 00000000 	 .word arm_cfft_sR_q31_len32
+ 242 0140 00000000 	 .word arm_cfft_sR_q31_len16
+ 243              	 .cfi_endproc
+ 244              	.LFE149:
+ 246              	 .text
+ 247              	.Letext0:
+ 248              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 249              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 250              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 251              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+ 252              	 .file 6 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_common_tables.h"
+ 253              	 .file 7 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_const_structs.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_rfft_init_q31.c
+    {standard input}:20     .text.arm_rfft_init_q31:00000000 $t
+    {standard input}:25     .text.arm_rfft_init_q31:00000000 arm_rfft_init_q31
+    {standard input}:232    .text.arm_rfft_init_q31:00000118 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+realCoefAQ31
+realCoefBQ31
+arm_cfft_sR_q31_len4096
+arm_cfft_sR_q31_len2048
+arm_cfft_sR_q31_len1024
+arm_cfft_sR_q31_len512
+arm_cfft_sR_q31_len256
+arm_cfft_sR_q31_len128
+arm_cfft_sR_q31_len64
+arm_cfft_sR_q31_len32
+arm_cfft_sR_q31_len16

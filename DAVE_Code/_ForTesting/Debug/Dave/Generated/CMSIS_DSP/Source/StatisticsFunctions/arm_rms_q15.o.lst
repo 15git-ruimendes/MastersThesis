@@ -1,0 +1,280 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_rms_q15.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .global __aeabi_ldivmod
+  20              	 .section .text.arm_rms_q15,"ax",%progbits
+  21              	 .align 2
+  22              	 .global arm_rms_q15
+  23              	 .thumb
+  24              	 .thumb_func
+  26              	arm_rms_q15:
+  27              	.LFB149:
+  28              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * Title:        arm_rms_q15.c
+   4:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * Description:  Root Mean Square of the elements of a Q15 vector
+   5:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * $Date:        18. March 2019
+   7:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * $Revision:    V1.6.0
+   8:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  *
+   9:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * Target Processor: Cortex-M cores
+  10:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * -------------------------------------------------------------------- */
+  11:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** /*
+  12:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  13:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * SPDX-License-Identifier: Apache-2.0
+  15:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  *
+  16:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  17:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * not use this file except in compliance with the License.
+  18:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * You may obtain a copy of the License at
+  19:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * www.apache.org/licenses/LICENSE-2.0
+  21:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  *
+  22:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * Unless required by applicable law or agreed to in writing, software
+  23:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  24:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  25:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * See the License for the specific language governing permissions and
+  26:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  * limitations under the License.
+  27:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  */
+  28:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+  29:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  30:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+  31:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** /**
+  32:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   @ingroup groupStats
+  33:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  */
+  34:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+  35:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** /**
+  36:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   @addtogroup RMS
+  37:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   @{
+  38:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  */
+  39:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+  40:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** /**
+  41:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   @brief         Root Mean Square of the elements of a Q15 vector.
+  42:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   @param[in]     pSrc       points to the input vector
+  43:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   @param[in]     blockSize  number of samples in input vector
+  44:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   @param[out]    pResult    root mean square value returned here
+  45:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   @return        none
+  46:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+  47:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   @par           Scaling and Overflow Behavior
+  48:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****                    The function is implemented using a 64-bit internal accumulator.
+  49:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****                    The input is represented in 1.15 format.
+  50:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****                    Intermediate multiplication yields a 2.30 format, and this
+  51:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****                    result is added without saturation to a 64-bit accumulator in 34.30 format.
+  52:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****                    With 33 guard bits in the accumulator, there is no risk of overflow, and the
+  53:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****                    full precision of the intermediate multiplication is preserved.
+  54:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****                    Finally, the 34.30 result is truncated to 34.15 format by discarding the lower
+  55:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****                    15 bits, and then saturated to yield a result in 1.15 format.
+  56:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****  */
+  57:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** #if defined(ARM_MATH_MVEI)
+  58:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** void arm_rms_q15(
+  59:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   const q15_t * pSrc,
+  60:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****         uint32_t blockSize,
+  61:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****         q15_t * pResult)
+  62:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** {
+  63:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     q63_t pow = 0.0f;
+  64:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     q15_t normalizedPower;
+  65:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+  66:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     arm_power_q15(pSrc, blockSize, &pow);
+  67:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+  68:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     normalizedPower=__SSAT((pow / (q63_t) blockSize) >> 15,16);
+  69:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     arm_sqrt_q15(normalizedPower, pResult);
+  70:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** }
+  71:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** #else
+  72:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** void arm_rms_q15(
+  73:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   const q15_t * pSrc,
+  74:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****         uint32_t blockSize,
+  75:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****         q15_t * pResult)
+  76:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** {
+  29              	 .loc 1 76 0
+  30              	 .cfi_startproc
+  31              	 
+  32              	 
+  33 0000 B0B5     	 push {r4,r5,r7,lr}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 16
+  36              	 .cfi_offset 4,-16
+  37              	 .cfi_offset 5,-12
+  38              	 .cfi_offset 7,-8
+  39              	 .cfi_offset 14,-4
+  40 0002 8CB0     	 sub sp,sp,#48
+  41              	.LCFI1:
+  42              	 .cfi_def_cfa_offset 64
+  43 0004 00AF     	 add r7,sp,#0
+  44              	.LCFI2:
+  45              	 .cfi_def_cfa_register 7
+  46 0006 F860     	 str r0,[r7,#12]
+  47 0008 B960     	 str r1,[r7,#8]
+  48 000a 7A60     	 str r2,[r7,#4]
+  77:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****         uint32_t blkCnt;                               /* Loop counter */
+  78:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****         q63_t sum = 0;                                 /* Temporary result storage */
+  49              	 .loc 1 78 0
+  50 000c 4FF00002 	 mov r2,#0
+  51 0010 4FF00003 	 mov r3,#0
+  52 0014 C7E90823 	 strd r2,[r7,#32]
+  79:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****         q15_t in;                                      /* Temporary variable to store input value *
+  80:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+  81:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** #if defined (ARM_MATH_LOOPUNROLL) && defined (ARM_MATH_DSP)
+  82:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****         q31_t in32;                                    /* Temporary variable to store input value *
+  83:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** #endif
+  84:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+  85:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** #if defined (ARM_MATH_LOOPUNROLL)
+  86:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+  87:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   /* Loop unrolling: Compute 4 outputs at a time */
+  88:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   blkCnt = blockSize >> 2U;
+  89:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+  90:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   while (blkCnt > 0U)
+  91:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   {
+  92:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     /* C = A[0] * A[0] + A[1] * A[1] + ... + A[blockSize-1] * A[blockSize-1] */
+  93:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+  94:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     /* Compute sum of squares and store result in a temporary variable. */
+  95:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** #if defined (ARM_MATH_DSP)
+  96:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     in32 = read_q15x2_ia ((q15_t **) &pSrc);
+  97:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     sum = __SMLALD(in32, in32, sum);
+  98:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+  99:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     in32 = read_q15x2_ia ((q15_t **) &pSrc);
+ 100:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     sum = __SMLALD(in32, in32, sum);
+ 101:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** #else
+ 102:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     in = *pSrc++;
+ 103:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     sum += ((q31_t) in * in);
+ 104:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+ 105:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     in = *pSrc++;
+ 106:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     sum += ((q31_t) in * in);
+ 107:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+ 108:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     in = *pSrc++;
+ 109:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     sum += ((q31_t) in * in);
+ 110:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+ 111:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     in = *pSrc++;
+ 112:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     sum += ((q31_t) in * in);
+ 113:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** #endif /* #if defined (ARM_MATH_DSP) */
+ 114:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+ 115:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     /* Decrement loop counter */
+ 116:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     blkCnt--;
+ 117:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   }
+ 118:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+ 119:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   /* Loop unrolling: Compute remaining outputs */
+ 120:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   blkCnt = blockSize % 0x4U;
+ 121:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+ 122:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** #else
+ 123:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+ 124:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   /* Initialize blkCnt with number of samples */
+ 125:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   blkCnt = blockSize;
+  53              	 .loc 1 125 0
+  54 0018 BB68     	 ldr r3,[r7,#8]
+  55 001a FB62     	 str r3,[r7,#44]
+ 126:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+ 127:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** #endif /* #if defined (ARM_MATH_LOOPUNROLL) */
+ 128:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+ 129:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   while (blkCnt > 0U)
+  56              	 .loc 1 129 0
+  57 001c 17E0     	 b .L2
+  58              	.L3:
+ 130:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   {
+ 131:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     /* C = A[0] * A[0] + A[1] * A[1] + ... + A[blockSize-1] * A[blockSize-1] */
+ 132:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+ 133:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     in = *pSrc++;
+  59              	 .loc 1 133 0
+  60 001e FB68     	 ldr r3,[r7,#12]
+  61 0020 9A1C     	 adds r2,r3,#2
+  62 0022 FA60     	 str r2,[r7,#12]
+  63 0024 1B88     	 ldrh r3,[r3]
+  64 0026 FB83     	 strh r3,[r7,#30]
+ 134:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     /* Compute sum of squares and store result in a temporary variable. */
+ 135:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     sum += ((q31_t) in * in);
+  65              	 .loc 1 135 0
+  66 0028 B7F91E30 	 ldrsh r3,[r7,#30]
+  67 002c B7F91E20 	 ldrsh r2,[r7,#30]
+  68 0030 02FB03F3 	 mul r3,r2,r3
+  69 0034 1A46     	 mov r2,r3
+  70 0036 4FEAE273 	 asr r3,r2,#31
+  71 003a D7E90801 	 ldrd r0,[r7,#32]
+  72 003e 1218     	 adds r2,r2,r0
+  73 0040 43EB0103 	 adc r3,r3,r1
+  74 0044 C7E90823 	 strd r2,[r7,#32]
+ 136:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+ 137:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     /* Decrement loop counter */
+ 138:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****     blkCnt--;
+  75              	 .loc 1 138 0
+  76 0048 FB6A     	 ldr r3,[r7,#44]
+  77 004a 013B     	 subs r3,r3,#1
+  78 004c FB62     	 str r3,[r7,#44]
+  79              	.L2:
+ 129:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   {
+  80              	 .loc 1 129 0
+  81 004e FB6A     	 ldr r3,[r7,#44]
+  82 0050 002B     	 cmp r3,#0
+  83 0052 E4D1     	 bne .L3
+  84              	.LBB2:
+ 139:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   }
+ 140:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** 
+ 141:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   /* Truncating and saturating the accumulator to 1.15 format */
+ 142:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   /* Store result in destination */
+ 143:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c ****   arm_sqrt_q15(__SSAT((sum / (q63_t)blockSize) >> 15, 16), pResult);
+  85              	 .loc 1 143 0
+  86 0054 BB68     	 ldr r3,[r7,#8]
+  87 0056 1A46     	 mov r2,r3
+  88 0058 4FF00003 	 mov r3,#0
+  89 005c D7E90801 	 ldrd r0,[r7,#32]
+  90 0060 FFF7FEFF 	 bl __aeabi_ldivmod
+  91 0064 0246     	 mov r2,r0
+  92 0066 0B46     	 mov r3,r1
+  93 0068 D40B     	 lsrs r4,r2,#15
+  94 006a 44EA4344 	 orr r4,r4,r3,lsl#17
+  95 006e DD13     	 asrs r5,r3,#15
+  96 0070 2346     	 mov r3,r4
+  97 0072 BB61     	 str r3,[r7,#24]
+  98 0074 BB69     	 ldr r3,[r7,#24]
+  99              	
+ 100 0076 03F30F03 	 ssat r3,#16,r3
+ 101              	
+ 102              	 .thumb
+ 103 007a 7B61     	 str r3,[r7,#20]
+ 104 007c 7B69     	 ldr r3,[r7,#20]
+ 105              	.LBE2:
+ 106 007e 9BB2     	 uxth r3,r3
+ 107 0080 1BB2     	 sxth r3,r3
+ 108 0082 1846     	 mov r0,r3
+ 109 0084 7968     	 ldr r1,[r7,#4]
+ 110 0086 FFF7FEFF 	 bl arm_sqrt_q15
+ 144:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_rms_q15.c **** }
+ 111              	 .loc 1 144 0
+ 112 008a 3037     	 adds r7,r7,#48
+ 113              	.LCFI3:
+ 114              	 .cfi_def_cfa_offset 16
+ 115 008c BD46     	 mov sp,r7
+ 116              	.LCFI4:
+ 117              	 .cfi_def_cfa_register 13
+ 118              	 
+ 119 008e B0BD     	 pop {r4,r5,r7,pc}
+ 120              	 .cfi_endproc
+ 121              	.LFE149:
+ 123              	 .text
+ 124              	.Letext0:
+ 125              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 126              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 127              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 128              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_rms_q15.c
+    {standard input}:21     .text.arm_rms_q15:00000000 $t
+    {standard input}:26     .text.arm_rms_q15:00000000 arm_rms_q15
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+__aeabi_ldivmod
+arm_sqrt_q15

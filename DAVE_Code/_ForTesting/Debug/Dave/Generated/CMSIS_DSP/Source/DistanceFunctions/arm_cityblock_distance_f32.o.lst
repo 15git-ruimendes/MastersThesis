@@ -1,0 +1,260 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_cityblock_distance_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_cityblock_distance_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_cityblock_distance_f32
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_cityblock_distance_f32:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+   2:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** /* ----------------------------------------------------------------------
+   3:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * Project:      CMSIS DSP Library
+   4:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * Title:        arm_cityblock_distance_f32.c
+   5:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * Description:  Cityblock (Manhattan) distance between two vectors
+   6:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  *
+   7:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  *
+   8:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * Target Processor: Cortex-M cores
+   9:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * -------------------------------------------------------------------- */
+  10:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** /*
+  11:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  12:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  *
+  13:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  14:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  *
+  15:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  16:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * not use this file except in compliance with the License.
+  17:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * You may obtain a copy of the License at
+  18:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  *
+  19:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  20:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  *
+  21:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  22:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  23:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  24:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * See the License for the specific language governing permissions and
+  25:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * limitations under the License.
+  26:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  */
+  27:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  28:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  29:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** #include <limits.h>
+  30:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** #include <math.h>
+  31:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  32:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** /**
+  33:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****   @addtogroup FloatDist
+  34:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****   @{
+  35:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  */
+  36:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  37:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  38:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** /**
+  39:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * @brief        Cityblock (Manhattan) distance between two vectors
+  40:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * @param[in]    pA         First vector
+  41:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * @param[in]    pB         Second vector
+  42:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * @param[in]    blockSize  vector length
+  43:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  * @return distance
+  44:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  *
+  45:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  */
+  46:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
+  47:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  48:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** #include "CMSIS_DSP/Include/arm_helium_utils.h"
+  49:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** #include "CMSIS_DSP/Include/arm_vec_math.h"
+  50:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  51:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** float32_t arm_cityblock_distance_f32(const float32_t *pA,const float32_t *pB, uint32_t blockSize)
+  52:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** {
+  53:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****     uint32_t        blkCnt;
+  54:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****     f32x4_t         a, b, accumV, tempV;
+  55:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  56:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****     accumV = vdupq_n_f32(0.0f);
+  57:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  58:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****     blkCnt = blockSize >> 2;
+  59:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****     while (blkCnt > 0U) {
+  60:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         a = vld1q(pA);
+  61:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         b = vld1q(pB);
+  62:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  63:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         tempV = vabdq(a, b);
+  64:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         accumV = vaddq(accumV, tempV);
+  65:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  66:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         pA += 4;
+  67:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         pB += 4;
+  68:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         blkCnt--;
+  69:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****     }
+  70:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  71:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****     /*
+  72:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****      * tail
+  73:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****      * (will be merged thru tail predication)
+  74:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****      */
+  75:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****     blkCnt = blockSize & 3;
+  76:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****     if (blkCnt > 0U) {
+  77:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         mve_pred16_t    p0 = vctp32q(blkCnt);
+  78:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  79:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         a = vldrwq_z_f32(pA, p0);
+  80:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         b = vldrwq_z_f32(pB, p0);
+  81:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  82:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         tempV = vabdq(a, b);
+  83:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         accumV = vaddq_m(accumV, accumV, tempV, p0);
+  84:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****     }
+  85:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  86:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****     return vecAddAcrossF32Mve(accumV);
+  87:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** }
+  88:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  89:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** #else
+  90:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** #if defined(ARM_MATH_NEON)
+  91:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  92:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** #include "NEMath.h"
+  93:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+  94:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** float32_t arm_cityblock_distance_f32(const float32_t *pA,const float32_t *pB, uint32_t blockSize)
+  95:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** {
+  96:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    float32_t accum=0.0f, tmpA, tmpB;
+  97:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    uint32_t blkCnt;
+  98:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    float32x4_t a,b,accumV, tempV;
+  99:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    float32x2_t accumV2;
+ 100:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+ 101:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    accumV = vdupq_n_f32(0.0f);
+ 102:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+ 103:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    blkCnt = blockSize >> 2;
+ 104:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    while(blkCnt > 0)
+ 105:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    {
+ 106:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         a = vld1q_f32(pA);
+ 107:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         b = vld1q_f32(pB);
+ 108:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  
+ 109:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         tempV = vabdq_f32(a,b);
+ 110:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         accumV = vaddq_f32(accumV, tempV);
+ 111:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****  
+ 112:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         pA += 4;
+ 113:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         pB += 4;
+ 114:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****         blkCnt --;
+ 115:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    }
+ 116:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    accumV2 = vpadd_f32(vget_low_f32(accumV),vget_high_f32(accumV));
+ 117:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    accumV2 = vpadd_f32(accumV2,accumV2);
+ 118:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    accum = vget_lane_f32(accumV2,0);
+ 119:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    
+ 120:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+ 121:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    blkCnt = blockSize & 3;
+ 122:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    while(blkCnt > 0)
+ 123:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    {
+ 124:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****       tmpA = *pA++;
+ 125:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****       tmpB = *pB++;
+ 126:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****       accum += fabsf(tmpA - tmpB);
+ 127:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****       
+ 128:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****       blkCnt --;
+ 129:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    }
+ 130:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    return(accum);
+ 131:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** }
+ 132:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+ 133:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** #else
+ 134:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** float32_t arm_cityblock_distance_f32(const float32_t *pA,const float32_t *pB, uint32_t blockSize)
+ 135:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** {
+  28              	 .loc 1 135 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32              	 
+  33 0000 80B4     	 push {r7}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 4
+  36              	 .cfi_offset 7,-4
+  37 0002 89B0     	 sub sp,sp,#36
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 40
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 F860     	 str r0,[r7,#12]
+  44 0008 B960     	 str r1,[r7,#8]
+  45 000a 7A60     	 str r2,[r7,#4]
+ 136:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    float32_t accum,tmpA, tmpB;
+ 137:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** 
+ 138:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    accum = 0.0f;
+  46              	 .loc 1 138 0
+  47 000c 4FF00003 	 mov r3,#0
+  48 0010 FB61     	 str r3,[r7,#28]
+ 139:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    while(blockSize > 0)
+  49              	 .loc 1 139 0
+  50 0012 1AE0     	 b .L2
+  51              	.L3:
+ 140:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    {
+ 141:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****       tmpA = *pA++;
+  52              	 .loc 1 141 0
+  53 0014 FB68     	 ldr r3,[r7,#12]
+  54 0016 1A1D     	 adds r2,r3,#4
+  55 0018 FA60     	 str r2,[r7,#12]
+  56 001a 1B68     	 ldr r3,[r3]
+  57 001c BB61     	 str r3,[r7,#24]
+ 142:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****       tmpB = *pB++;
+  58              	 .loc 1 142 0
+  59 001e BB68     	 ldr r3,[r7,#8]
+  60 0020 1A1D     	 adds r2,r3,#4
+  61 0022 BA60     	 str r2,[r7,#8]
+  62 0024 1B68     	 ldr r3,[r3]
+  63 0026 7B61     	 str r3,[r7,#20]
+ 143:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****       accum  += fabsf(tmpA - tmpB);
+  64              	 .loc 1 143 0
+  65 0028 97ED067A 	 flds s14,[r7,#24]
+  66 002c D7ED057A 	 flds s15,[r7,#20]
+  67 0030 77EE677A 	 fsubs s15,s14,s15
+  68 0034 F0EEE77A 	 fabss s15,s15
+  69 0038 97ED077A 	 flds s14,[r7,#28]
+  70 003c 77EE277A 	 fadds s15,s14,s15
+  71 0040 C7ED077A 	 fsts s15,[r7,#28]
+ 144:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****       
+ 145:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****       blockSize --;
+  72              	 .loc 1 145 0
+  73 0044 7B68     	 ldr r3,[r7,#4]
+  74 0046 013B     	 subs r3,r3,#1
+  75 0048 7B60     	 str r3,[r7,#4]
+  76              	.L2:
+ 139:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    {
+  77              	 .loc 1 139 0
+  78 004a 7B68     	 ldr r3,[r7,#4]
+  79 004c 002B     	 cmp r3,#0
+  80 004e E1D1     	 bne .L3
+ 146:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    }
+ 147:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****   
+ 148:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c ****    return(accum);
+  81              	 .loc 1 148 0
+  82 0050 FB69     	 ldr r3,[r7,#28]
+ 149:../Dave/Generated/CMSIS_DSP/Source/DistanceFunctions/arm_cityblock_distance_f32.c **** }
+  83              	 .loc 1 149 0
+  84 0052 1846     	 mov r0,r3
+  85 0054 2437     	 adds r7,r7,#36
+  86              	.LCFI3:
+  87              	 .cfi_def_cfa_offset 4
+  88 0056 BD46     	 mov sp,r7
+  89              	.LCFI4:
+  90              	 .cfi_def_cfa_register 13
+  91              	 
+  92 0058 5DF8047B 	 ldr r7,[sp],#4
+  93              	.LCFI5:
+  94              	 .cfi_restore 7
+  95              	 .cfi_def_cfa_offset 0
+  96 005c 7047     	 bx lr
+  97              	 .cfi_endproc
+  98              	.LFE149:
+ 100 005e 00BF     	 .text
+ 101              	.Letext0:
+ 102              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 103              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 104              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 105              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_cityblock_distance_f32.c
+    {standard input}:20     .text.arm_cityblock_distance_f32:00000000 $t
+    {standard input}:25     .text.arm_cityblock_distance_f32:00000000 arm_cityblock_distance_f32
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

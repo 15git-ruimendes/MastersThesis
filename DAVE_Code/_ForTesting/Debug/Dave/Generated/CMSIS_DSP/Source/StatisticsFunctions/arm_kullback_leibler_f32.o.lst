@@ -1,0 +1,308 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "arm_kullback_leibler_f32.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .section .text.arm_kullback_leibler_f32,"ax",%progbits
+  20              	 .align 2
+  21              	 .global arm_kullback_leibler_f32
+  22              	 .thumb
+  23              	 .thumb_func
+  25              	arm_kullback_leibler_f32:
+  26              	.LFB149:
+  27              	 .file 1 "../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c"
+   1:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** /* ----------------------------------------------------------------------
+   2:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * Project:      CMSIS DSP Library
+   3:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * Title:        arm_logsumexp_f32.c
+   4:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * Description:  LogSumExp
+   5:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  *
+   6:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  *
+   7:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * Target Processor: Cortex-M and Cortex-A cores
+   8:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * -------------------------------------------------------------------- */
+   9:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** /*
+  10:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * Copyright (C) 2010-2019 ARM Limited or its affiliates. All rights reserved.
+  11:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  *
+  12:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * SPDX-License-Identifier: Apache-2.0
+  13:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  *
+  14:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  15:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * not use this file except in compliance with the License.
+  16:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * You may obtain a copy of the License at
+  17:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  *
+  18:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * www.apache.org/licenses/LICENSE-2.0
+  19:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  *
+  20:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * Unless required by applicable law or agreed to in writing, software
+  21:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  22:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  23:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * See the License for the specific language governing permissions and
+  24:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * limitations under the License.
+  25:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  */
+  26:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  27:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** #include "CMSIS_DSP/cmsis_dsp.h"
+  28:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** #include <limits.h>
+  29:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** #include <math.h>
+  30:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  31:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  32:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** /**
+  33:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * @addtogroup groupStats
+  34:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * @{
+  35:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  */
+  36:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  37:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  38:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** /**
+  39:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * @brief Kullback-Leibler
+  40:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  *
+  41:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * Distribution A may contain 0 with Neon version.
+  42:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * Result will be right but some exception flags will be set.
+  43:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  *
+  44:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * Distribution B must not contain 0 probability.
+  45:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  *
+  46:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * @param[in]  *pSrcA         points to an array of input values for probaility distribution A.
+  47:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * @param[in]  *pSrcB         points to an array of input values for probaility distribution B.
+  48:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * @param[in]  blockSize      number of samples in the input array.
+  49:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  * @return Kullback-Leibler divergence D(A || B)
+  50:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  *
+  51:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  */
+  52:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  53:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
+  54:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  55:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** #include "CMSIS_DSP/Include/arm_helium_utils.h"
+  56:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** #include "CMSIS_DSP/Include/arm_vec_math.h"
+  57:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  58:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** float32_t arm_kullback_leibler_f32(const float32_t * pSrcA,const float32_t * pSrcB,uint32_t blockSi
+  59:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** {
+  60:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     uint32_t blkCnt;
+  61:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     float32_t accum, pA,pB;
+  62:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  
+  63:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     
+  64:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     blkCnt = blockSize;
+  65:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  66:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     accum = 0.0f;
+  67:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  68:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     f32x4_t         vSum = vdupq_n_f32(0.0f);
+  69:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     blkCnt = blockSize >> 2;
+  70:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     while(blkCnt > 0)
+  71:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     {
+  72:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****         f32x4_t         vecA = vld1q(pSrcA);
+  73:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****         f32x4_t         vecB = vld1q(pSrcB);
+  74:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****         f32x4_t         vRatio;
+  75:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  76:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****         vRatio = vdiv_f32(vecB, vecA);
+  77:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****         vSum = vaddq_f32(vSum, vmulq(vecA, vlogq_f32(vRatio)));
+  78:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  79:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****         /*
+  80:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****          * Decrement the blockSize loop counter
+  81:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****          * Advance vector source and destination pointers
+  82:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****          */
+  83:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****         pSrcA += 4;
+  84:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****         pSrcB += 4;
+  85:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****         blkCnt --;
+  86:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     }
+  87:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  88:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     accum = vecAddAcrossF32Mve(vSum);
+  89:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+  90:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     blkCnt = blockSize & 3;
+  91:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     while(blkCnt > 0)
+  92:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     {
+  93:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        pA = *pSrcA++;
+  94:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        pB = *pSrcB++;
+  95:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        accum += pA * logf(pB / pA);
+  96:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        
+  97:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        blkCnt--;
+  98:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     
+  99:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     }
+ 100:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 101:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     return(-accum);
+ 102:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** }
+ 103:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 104:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** #else
+ 105:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** #if defined(ARM_MATH_NEON) && !defined(ARM_MATH_AUTOVECTORIZE)
+ 106:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 107:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** #include "NEMath.h"
+ 108:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 109:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** float32_t arm_kullback_leibler_f32(const float32_t * pSrcA,const float32_t * pSrcB,uint32_t blockSi
+ 110:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** {
+ 111:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     const float32_t *pInA, *pInB;
+ 112:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     uint32_t blkCnt;
+ 113:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     float32_t accum, pA,pB;
+ 114:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 115:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     float32x4_t accumV;
+ 116:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     float32x2_t accumV2;
+ 117:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     float32x4_t tmpVA, tmpVB,tmpV;
+ 118:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  
+ 119:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     pInA = pSrcA;
+ 120:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     pInB = pSrcB;
+ 121:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 122:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     accum = 0.0f;
+ 123:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     accumV = vdupq_n_f32(0.0f);
+ 124:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 125:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     blkCnt = blockSize >> 2;
+ 126:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     while(blkCnt > 0)
+ 127:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     {
+ 128:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****       tmpVA = vld1q_f32(pInA);
+ 129:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****       pInA += 4;
+ 130:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 131:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****       tmpVB = vld1q_f32(pInB);
+ 132:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****       pInB += 4;
+ 133:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 134:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****       tmpV = vinvq_f32(tmpVA);
+ 135:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****       tmpVB = vmulq_f32(tmpVB, tmpV);
+ 136:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****       tmpVB = vlogq_f32(tmpVB);
+ 137:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 138:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****       accumV = vmlaq_f32(accumV, tmpVA, tmpVB);
+ 139:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        
+ 140:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****       blkCnt--;
+ 141:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     
+ 142:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     }
+ 143:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 144:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     accumV2 = vpadd_f32(vget_low_f32(accumV),vget_high_f32(accumV));
+ 145:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     accum = vget_lane_f32(accumV2, 0) + vget_lane_f32(accumV2, 1);
+ 146:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 147:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     blkCnt = blockSize & 3;
+ 148:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     while(blkCnt > 0)
+ 149:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     {
+ 150:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        pA = *pInA++;
+ 151:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        pB = *pInB++;
+ 152:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        accum += pA * logf(pB/pA);
+ 153:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        
+ 154:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        blkCnt--;
+ 155:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     
+ 156:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     }
+ 157:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 158:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     return(-accum);
+ 159:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** }
+ 160:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 161:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** #else
+ 162:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** float32_t arm_kullback_leibler_f32(const float32_t * pSrcA,const float32_t * pSrcB,uint32_t blockSi
+ 163:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** {
+  28              	 .loc 1 163 0
+  29              	 .cfi_startproc
+  30              	 
+  31              	 
+  32 0000 80B5     	 push {r7,lr}
+  33              	.LCFI0:
+  34              	 .cfi_def_cfa_offset 8
+  35              	 .cfi_offset 7,-8
+  36              	 .cfi_offset 14,-4
+  37 0002 8AB0     	 sub sp,sp,#40
+  38              	.LCFI1:
+  39              	 .cfi_def_cfa_offset 48
+  40 0004 00AF     	 add r7,sp,#0
+  41              	.LCFI2:
+  42              	 .cfi_def_cfa_register 7
+  43 0006 F860     	 str r0,[r7,#12]
+  44 0008 B960     	 str r1,[r7,#8]
+  45 000a 7A60     	 str r2,[r7,#4]
+ 164:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     const float32_t *pInA, *pInB;
+ 165:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     uint32_t blkCnt;
+ 166:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     float32_t accum, pA,pB;
+ 167:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****  
+ 168:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     pInA = pSrcA;
+  46              	 .loc 1 168 0
+  47 000c FB68     	 ldr r3,[r7,#12]
+  48 000e 7B62     	 str r3,[r7,#36]
+ 169:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     pInB = pSrcB;
+  49              	 .loc 1 169 0
+  50 0010 BB68     	 ldr r3,[r7,#8]
+  51 0012 3B62     	 str r3,[r7,#32]
+ 170:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     blkCnt = blockSize;
+  52              	 .loc 1 170 0
+  53 0014 7B68     	 ldr r3,[r7,#4]
+  54 0016 FB61     	 str r3,[r7,#28]
+ 171:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 172:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     accum = 0.0f;
+  55              	 .loc 1 172 0
+  56 0018 4FF00003 	 mov r3,#0
+  57 001c BB61     	 str r3,[r7,#24]
+ 173:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 174:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     while(blkCnt > 0)
+  58              	 .loc 1 174 0
+  59 001e 22E0     	 b .L2
+  60              	.L3:
+ 175:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     {
+ 176:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        pA = *pInA++;
+  61              	 .loc 1 176 0
+  62 0020 7B6A     	 ldr r3,[r7,#36]
+  63 0022 1A1D     	 adds r2,r3,#4
+  64 0024 7A62     	 str r2,[r7,#36]
+  65 0026 1B68     	 ldr r3,[r3]
+  66 0028 7B61     	 str r3,[r7,#20]
+ 177:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        pB = *pInB++;
+  67              	 .loc 1 177 0
+  68 002a 3B6A     	 ldr r3,[r7,#32]
+  69 002c 1A1D     	 adds r2,r3,#4
+  70 002e 3A62     	 str r2,[r7,#32]
+  71 0030 1B68     	 ldr r3,[r3]
+  72 0032 3B61     	 str r3,[r7,#16]
+ 178:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        accum += pA * logf(pB / pA);
+  73              	 .loc 1 178 0
+  74 0034 97ED047A 	 flds s14,[r7,#16]
+  75 0038 D7ED057A 	 flds s15,[r7,#20]
+  76 003c C7EE277A 	 fdivs s15,s14,s15
+  77 0040 17EE900A 	 fmrs r0,s15
+  78 0044 FFF7FEFF 	 bl logf
+  79 0048 07EE100A 	 fmsr s14,r0
+  80 004c D7ED057A 	 flds s15,[r7,#20]
+  81 0050 67EE277A 	 fmuls s15,s14,s15
+  82 0054 97ED067A 	 flds s14,[r7,#24]
+  83 0058 77EE277A 	 fadds s15,s14,s15
+  84 005c C7ED067A 	 fsts s15,[r7,#24]
+ 179:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        
+ 180:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****        blkCnt--;
+  85              	 .loc 1 180 0
+  86 0060 FB69     	 ldr r3,[r7,#28]
+  87 0062 013B     	 subs r3,r3,#1
+  88 0064 FB61     	 str r3,[r7,#28]
+  89              	.L2:
+ 174:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     {
+  90              	 .loc 1 174 0
+  91 0066 FB69     	 ldr r3,[r7,#28]
+  92 0068 002B     	 cmp r3,#0
+  93 006a D9D1     	 bne .L3
+ 181:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     
+ 182:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     }
+ 183:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** 
+ 184:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c ****     return(-accum);
+  94              	 .loc 1 184 0
+  95 006c D7ED067A 	 flds s15,[r7,#24]
+  96 0070 F1EE677A 	 fnegs s15,s15
+  97 0074 17EE903A 	 fmrs r3,s15
+ 185:../Dave/Generated/CMSIS_DSP/Source/StatisticsFunctions/arm_kullback_leibler_f32.c **** }
+  98              	 .loc 1 185 0
+  99 0078 1846     	 mov r0,r3
+ 100 007a 2837     	 adds r7,r7,#40
+ 101              	.LCFI3:
+ 102              	 .cfi_def_cfa_offset 8
+ 103 007c BD46     	 mov sp,r7
+ 104              	.LCFI4:
+ 105              	 .cfi_def_cfa_register 13
+ 106              	 
+ 107 007e 80BD     	 pop {r7,pc}
+ 108              	 .cfi_endproc
+ 109              	.LFE149:
+ 111              	 .text
+ 112              	.Letext0:
+ 113              	 .file 2 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 114              	 .file 3 "c:\\infineon\\tools\\dave ide\\4.5.0.202105191637\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 115              	 .file 4 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Dave/Generated/CMSIS_DSP/Include/arm_math.h"
+ 116              	 .file 5 "C:/Users/Rui Mendes/Desktop/DAVE/_Naive/_ForTesting/Libraries/CMSIS/Include/cmsis_gcc.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 arm_kullback_leibler_f32.c
+    {standard input}:20     .text.arm_kullback_leibler_f32:00000000 $t
+    {standard input}:25     .text.arm_kullback_leibler_f32:00000000 arm_kullback_leibler_f32
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+logf

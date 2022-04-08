@@ -1,0 +1,514 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "lib_math.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .comm Math_RandSeedCur,4,4
+  20              	 .section .text.Math_Init,"ax",%progbits
+  21              	 .align 2
+  22              	 .global Math_Init
+  23              	 .thumb
+  24              	 .thumb_func
+  26              	Math_Init:
+  27              	.LFB0:
+  28              	 .file 1 "../Dave/Generated/UCPROBE/lib_math.c"
+   1:../Dave/Generated/UCPROBE/lib_math.c **** /*
+   2:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+   3:../Dave/Generated/UCPROBE/lib_math.c **** *                                                uC/LIB
+   4:../Dave/Generated/UCPROBE/lib_math.c **** *                                        CUSTOM LIBRARY MODULES
+   5:../Dave/Generated/UCPROBE/lib_math.c **** *
+   6:../Dave/Generated/UCPROBE/lib_math.c **** *                         (c) Copyright 2004-2014; Micrium, Inc.; Weston, FL
+   7:../Dave/Generated/UCPROBE/lib_math.c **** *
+   8:../Dave/Generated/UCPROBE/lib_math.c **** *                  All rights reserved.  Protected by international copyright laws.
+   9:../Dave/Generated/UCPROBE/lib_math.c **** *
+  10:../Dave/Generated/UCPROBE/lib_math.c **** *                  uC/LIB is provided in source form to registered licensees ONLY.  It is
+  11:../Dave/Generated/UCPROBE/lib_math.c **** *                  illegal to distribute this source code to any third party unless you receive
+  12:../Dave/Generated/UCPROBE/lib_math.c **** *                  written permission by an authorized Micrium representative.  Knowledge of
+  13:../Dave/Generated/UCPROBE/lib_math.c **** *                  the source code may NOT be used to develop a similar product.
+  14:../Dave/Generated/UCPROBE/lib_math.c **** *
+  15:../Dave/Generated/UCPROBE/lib_math.c **** *                  Please help us continue to provide the Embedded community with the finest
+  16:../Dave/Generated/UCPROBE/lib_math.c **** *                  software available.  Your honesty is greatly appreciated.
+  17:../Dave/Generated/UCPROBE/lib_math.c **** *
+  18:../Dave/Generated/UCPROBE/lib_math.c **** *                  You can find our product's user manual, API reference, release notes and
+  19:../Dave/Generated/UCPROBE/lib_math.c **** *                  more information at: https://doc.micrium.com
+  20:../Dave/Generated/UCPROBE/lib_math.c **** *
+  21:../Dave/Generated/UCPROBE/lib_math.c **** *                  You can contact us at: http://www.micrium.com
+  22:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  23:../Dave/Generated/UCPROBE/lib_math.c **** */
+  24:../Dave/Generated/UCPROBE/lib_math.c **** 
+  25:../Dave/Generated/UCPROBE/lib_math.c **** /*
+  26:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  27:../Dave/Generated/UCPROBE/lib_math.c **** *
+  28:../Dave/Generated/UCPROBE/lib_math.c **** *                                        MATHEMATIC OPERATIONS
+  29:../Dave/Generated/UCPROBE/lib_math.c **** *
+  30:../Dave/Generated/UCPROBE/lib_math.c **** * Filename      : lib_math.c
+  31:../Dave/Generated/UCPROBE/lib_math.c **** * Version       : V1.38.01
+  32:../Dave/Generated/UCPROBE/lib_math.c **** * Programmer(s) : SR
+  33:../Dave/Generated/UCPROBE/lib_math.c **** *                 ITJ
+  34:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  35:../Dave/Generated/UCPROBE/lib_math.c **** * Note(s)       : (1) NO compiler-supplied standard library functions are used in library or produc
+  36:../Dave/Generated/UCPROBE/lib_math.c **** *
+  37:../Dave/Generated/UCPROBE/lib_math.c **** *                     (a) ALL standard library functions are implemented in the custom library modu
+  38:../Dave/Generated/UCPROBE/lib_math.c **** *
+  39:../Dave/Generated/UCPROBE/lib_math.c **** *                         (1) \<Custom Library Directory>\lib_*.*
+  40:../Dave/Generated/UCPROBE/lib_math.c **** *
+  41:../Dave/Generated/UCPROBE/lib_math.c **** *                         (2) \<Custom Library Directory>\Ports\<cpu>\<compiler>\lib*_a.*
+  42:../Dave/Generated/UCPROBE/lib_math.c **** *
+  43:../Dave/Generated/UCPROBE/lib_math.c **** *                               where
+  44:../Dave/Generated/UCPROBE/lib_math.c **** *                                       <Custom Library Directory>      directory path for custom l
+  45:../Dave/Generated/UCPROBE/lib_math.c **** *                                       <cpu>                           directory name for specific
+  46:../Dave/Generated/UCPROBE/lib_math.c **** *                                       <compiler>                      directory name for specific
+  47:../Dave/Generated/UCPROBE/lib_math.c **** *
+  48:../Dave/Generated/UCPROBE/lib_math.c **** *                     (b) Product-specific library functions are implemented in individual products
+  49:../Dave/Generated/UCPROBE/lib_math.c **** *
+  50:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  51:../Dave/Generated/UCPROBE/lib_math.c **** * Notice(s)     : (1) The Institute of Electrical and Electronics Engineers and The Open Group, hav
+  52:../Dave/Generated/UCPROBE/lib_math.c **** *                     us permission to reprint portions of their documentation.  Portions of this t
+  53:../Dave/Generated/UCPROBE/lib_math.c **** *                     reprinted and reproduced in electronic form from the IEEE Std 1003.1, 2004 Ed
+  54:../Dave/Generated/UCPROBE/lib_math.c **** *                     Standard for Information Technology -- Portable Operating System Interface (P
+  55:../Dave/Generated/UCPROBE/lib_math.c **** *                     The Open Group Base Specifications Issue 6, Copyright (C) 2001-2004 by the In
+  56:../Dave/Generated/UCPROBE/lib_math.c **** *                     of Electrical and Electronics Engineers, Inc and The Open Group.  In the even
+  57:../Dave/Generated/UCPROBE/lib_math.c **** *                     discrepancy between these versions and the original IEEE and The Open Group S
+  58:../Dave/Generated/UCPROBE/lib_math.c **** *                     the original IEEE and The Open Group Standard is the referee document.  The o
+  59:../Dave/Generated/UCPROBE/lib_math.c **** *                     Standard can be obtained online at http://www.opengroup.org/unix/online.html.
+  60:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  61:../Dave/Generated/UCPROBE/lib_math.c **** */
+  62:../Dave/Generated/UCPROBE/lib_math.c **** 
+  63:../Dave/Generated/UCPROBE/lib_math.c **** 
+  64:../Dave/Generated/UCPROBE/lib_math.c **** /*
+  65:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  66:../Dave/Generated/UCPROBE/lib_math.c **** *                                            INCLUDE FILES
+  67:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  68:../Dave/Generated/UCPROBE/lib_math.c **** */
+  69:../Dave/Generated/UCPROBE/lib_math.c **** 
+  70:../Dave/Generated/UCPROBE/lib_math.c **** #define    MICRIUM_SOURCE
+  71:../Dave/Generated/UCPROBE/lib_math.c **** #define    LIB_MATH_MODULE
+  72:../Dave/Generated/UCPROBE/lib_math.c **** #include  "lib_math.h"
+  73:../Dave/Generated/UCPROBE/lib_math.c **** 
+  74:../Dave/Generated/UCPROBE/lib_math.c **** 
+  75:../Dave/Generated/UCPROBE/lib_math.c **** /*
+  76:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  77:../Dave/Generated/UCPROBE/lib_math.c **** *                                            LOCAL DEFINES
+  78:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  79:../Dave/Generated/UCPROBE/lib_math.c **** */
+  80:../Dave/Generated/UCPROBE/lib_math.c **** 
+  81:../Dave/Generated/UCPROBE/lib_math.c **** 
+  82:../Dave/Generated/UCPROBE/lib_math.c **** /*
+  83:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  84:../Dave/Generated/UCPROBE/lib_math.c **** *                                           LOCAL CONSTANTS
+  85:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  86:../Dave/Generated/UCPROBE/lib_math.c **** */
+  87:../Dave/Generated/UCPROBE/lib_math.c **** 
+  88:../Dave/Generated/UCPROBE/lib_math.c **** 
+  89:../Dave/Generated/UCPROBE/lib_math.c **** /*
+  90:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  91:../Dave/Generated/UCPROBE/lib_math.c **** *                                          LOCAL DATA TYPES
+  92:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  93:../Dave/Generated/UCPROBE/lib_math.c **** */
+  94:../Dave/Generated/UCPROBE/lib_math.c **** 
+  95:../Dave/Generated/UCPROBE/lib_math.c **** 
+  96:../Dave/Generated/UCPROBE/lib_math.c **** /*
+  97:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+  98:../Dave/Generated/UCPROBE/lib_math.c **** *                                            LOCAL TABLES
+  99:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 100:../Dave/Generated/UCPROBE/lib_math.c **** */
+ 101:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 102:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 103:../Dave/Generated/UCPROBE/lib_math.c **** /*
+ 104:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 105:../Dave/Generated/UCPROBE/lib_math.c **** *                                       LOCAL GLOBAL VARIABLES
+ 106:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 107:../Dave/Generated/UCPROBE/lib_math.c **** */
+ 108:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 109:../Dave/Generated/UCPROBE/lib_math.c **** RAND_NBR  Math_RandSeedCur;                                     /* Cur rand nbr seed.              
+ 110:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 111:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 112:../Dave/Generated/UCPROBE/lib_math.c **** /*
+ 113:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 114:../Dave/Generated/UCPROBE/lib_math.c **** *                                      LOCAL FUNCTION PROTOTYPES
+ 115:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 116:../Dave/Generated/UCPROBE/lib_math.c **** */
+ 117:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 118:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 119:../Dave/Generated/UCPROBE/lib_math.c **** /*
+ 120:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 121:../Dave/Generated/UCPROBE/lib_math.c **** *                                     LOCAL CONFIGURATION ERRORS
+ 122:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 123:../Dave/Generated/UCPROBE/lib_math.c **** */
+ 124:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 125:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 126:../Dave/Generated/UCPROBE/lib_math.c **** /*
+ 127:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 128:../Dave/Generated/UCPROBE/lib_math.c **** *                                             Math_Init()
+ 129:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 130:../Dave/Generated/UCPROBE/lib_math.c **** * Description : (1) Initialize Mathematic Module :
+ 131:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 132:../Dave/Generated/UCPROBE/lib_math.c **** *                   (a) Initialize random number seed value
+ 133:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 134:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 135:../Dave/Generated/UCPROBE/lib_math.c **** * Argument(s) : none.
+ 136:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 137:../Dave/Generated/UCPROBE/lib_math.c **** * Return(s)   : none.
+ 138:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 139:../Dave/Generated/UCPROBE/lib_math.c **** * Caller(s)   : Application.
+ 140:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 141:../Dave/Generated/UCPROBE/lib_math.c **** * Note(s)     : (2) IEEE Std 1003.1, 2004 Edition, Section 'rand() : DESCRIPTION' states that "if r
+ 142:../Dave/Generated/UCPROBE/lib_math.c **** *                   is called before any calls to srand() are made, the same sequence shall be gene
+ 143:../Dave/Generated/UCPROBE/lib_math.c **** *                   as when srand() is first called with a seed value of 1".
+ 144:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 145:../Dave/Generated/UCPROBE/lib_math.c **** */
+ 146:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 147:../Dave/Generated/UCPROBE/lib_math.c **** void  Math_Init (void)
+ 148:../Dave/Generated/UCPROBE/lib_math.c **** {
+  29              	 .loc 1 148 0
+  30              	 .cfi_startproc
+  31              	 
+  32              	 
+  33 0000 80B5     	 push {r7,lr}
+  34              	.LCFI0:
+  35              	 .cfi_def_cfa_offset 8
+  36              	 .cfi_offset 7,-8
+  37              	 .cfi_offset 14,-4
+  38 0002 00AF     	 add r7,sp,#0
+  39              	.LCFI1:
+  40              	 .cfi_def_cfa_register 7
+ 149:../Dave/Generated/UCPROBE/lib_math.c ****     Math_RandSetSeed((RAND_NBR)RAND_SEED_INIT_VAL);             /* See Note #2.                    
+  41              	 .loc 1 149 0
+  42 0004 0120     	 movs r0,#1
+  43 0006 FFF7FEFF 	 bl Math_RandSetSeed
+ 150:../Dave/Generated/UCPROBE/lib_math.c **** }
+  44              	 .loc 1 150 0
+  45 000a 80BD     	 pop {r7,pc}
+  46              	 .cfi_endproc
+  47              	.LFE0:
+  49              	 .section .text.Math_RandSetSeed,"ax",%progbits
+  50              	 .align 2
+  51              	 .global Math_RandSetSeed
+  52              	 .thumb
+  53              	 .thumb_func
+  55              	Math_RandSetSeed:
+  56              	.LFB1:
+ 151:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 152:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 153:../Dave/Generated/UCPROBE/lib_math.c **** /*
+ 154:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 155:../Dave/Generated/UCPROBE/lib_math.c **** *                                         Math_RandSetSeed()
+ 156:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 157:../Dave/Generated/UCPROBE/lib_math.c **** * Description : Set the current pseudo-random number generator seed.
+ 158:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 159:../Dave/Generated/UCPROBE/lib_math.c **** * Argument(s) : seed        Initial (or current) value to set for the pseudo-random number sequence
+ 160:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 161:../Dave/Generated/UCPROBE/lib_math.c **** * Return(s)   : none.
+ 162:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 163:../Dave/Generated/UCPROBE/lib_math.c **** * Caller(s)   : Application.
+ 164:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 165:../Dave/Generated/UCPROBE/lib_math.c **** * Note(s)     : (1) IEEE Std 1003.1, 2004 Edition, Section 'rand() : DESCRIPTION' states that "sran
+ 166:../Dave/Generated/UCPROBE/lib_math.c **** *                   ... uses the argument as a seed for a new sequence of pseudo-random numbers to 
+ 167:../Dave/Generated/UCPROBE/lib_math.c **** *                   returned by subsequent calls to rand()".
+ 168:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 169:../Dave/Generated/UCPROBE/lib_math.c **** *               (2) 'Math_RandSeedCur' MUST always be accessed exclusively in critical sections.
+ 170:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 171:../Dave/Generated/UCPROBE/lib_math.c **** *                   See also 'Math_Rand()  Note #1b'.
+ 172:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 173:../Dave/Generated/UCPROBE/lib_math.c **** */
+ 174:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 175:../Dave/Generated/UCPROBE/lib_math.c **** void  Math_RandSetSeed (RAND_NBR  seed)
+ 176:../Dave/Generated/UCPROBE/lib_math.c **** {
+  57              	 .loc 1 176 0
+  58              	 .cfi_startproc
+  59              	 
+  60              	 
+  61 0000 80B5     	 push {r7,lr}
+  62              	.LCFI2:
+  63              	 .cfi_def_cfa_offset 8
+  64              	 .cfi_offset 7,-8
+  65              	 .cfi_offset 14,-4
+  66 0002 84B0     	 sub sp,sp,#16
+  67              	.LCFI3:
+  68              	 .cfi_def_cfa_offset 24
+  69 0004 00AF     	 add r7,sp,#0
+  70              	.LCFI4:
+  71              	 .cfi_def_cfa_register 7
+  72 0006 7860     	 str r0,[r7,#4]
+ 177:../Dave/Generated/UCPROBE/lib_math.c ****     CPU_SR_ALLOC();
+  73              	 .loc 1 177 0
+  74 0008 0023     	 movs r3,#0
+  75 000a FB60     	 str r3,[r7,#12]
+ 178:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 179:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 180:../Dave/Generated/UCPROBE/lib_math.c ****     CPU_CRITICAL_ENTER();
+  76              	 .loc 1 180 0
+  77 000c FFF7FEFF 	 bl CPU_SR_Save
+  78 0010 F860     	 str r0,[r7,#12]
+ 181:../Dave/Generated/UCPROBE/lib_math.c ****     Math_RandSeedCur = seed;
+  79              	 .loc 1 181 0
+  80 0012 044A     	 ldr r2,.L3
+  81 0014 7B68     	 ldr r3,[r7,#4]
+  82 0016 1360     	 str r3,[r2]
+ 182:../Dave/Generated/UCPROBE/lib_math.c ****     CPU_CRITICAL_EXIT();
+  83              	 .loc 1 182 0
+  84 0018 F868     	 ldr r0,[r7,#12]
+  85 001a FFF7FEFF 	 bl CPU_SR_Restore
+ 183:../Dave/Generated/UCPROBE/lib_math.c **** }
+  86              	 .loc 1 183 0
+  87 001e 1037     	 adds r7,r7,#16
+  88              	.LCFI5:
+  89              	 .cfi_def_cfa_offset 8
+  90 0020 BD46     	 mov sp,r7
+  91              	.LCFI6:
+  92              	 .cfi_def_cfa_register 13
+  93              	 
+  94 0022 80BD     	 pop {r7,pc}
+  95              	.L4:
+  96              	 .align 2
+  97              	.L3:
+  98 0024 00000000 	 .word Math_RandSeedCur
+  99              	 .cfi_endproc
+ 100              	.LFE1:
+ 102              	 .section .text.Math_Rand,"ax",%progbits
+ 103              	 .align 2
+ 104              	 .global Math_Rand
+ 105              	 .thumb
+ 106              	 .thumb_func
+ 108              	Math_Rand:
+ 109              	.LFB2:
+ 184:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 185:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 186:../Dave/Generated/UCPROBE/lib_math.c **** /*
+ 187:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 188:../Dave/Generated/UCPROBE/lib_math.c **** *                                             Math_Rand()
+ 189:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 190:../Dave/Generated/UCPROBE/lib_math.c **** * Description : Calculate the next pseudo-random number.
+ 191:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 192:../Dave/Generated/UCPROBE/lib_math.c **** * Argument(s) : none.
+ 193:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 194:../Dave/Generated/UCPROBE/lib_math.c **** * Return(s)   : Next pseudo-random number in the sequence after 'Math_RandSeedCur'.
+ 195:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 196:../Dave/Generated/UCPROBE/lib_math.c **** * Caller(s)   : Application.
+ 197:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 198:../Dave/Generated/UCPROBE/lib_math.c **** * Note(s)     : (1) (a) The pseudo-random number generator is implemented as a Linear Congruential
+ 199:../Dave/Generated/UCPROBE/lib_math.c **** *                       Generator (LCG).
+ 200:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 201:../Dave/Generated/UCPROBE/lib_math.c **** *                   (b) The pseudo-random number generated is in the range [0, RAND_LCG_PARAM_M].
+ 202:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 203:../Dave/Generated/UCPROBE/lib_math.c **** *                   See also 'Math_RandSeed()  Note #1'.
+ 204:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 205:../Dave/Generated/UCPROBE/lib_math.c **** *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'rand() : DESCRIPTION' states that "
+ 206:../Dave/Generated/UCPROBE/lib_math.c **** *                       ... need not be reentrant ... [and] is not required to be thread-safe".
+ 207:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 208:../Dave/Generated/UCPROBE/lib_math.c **** *                   (b) However, in order to implement Math_Rand() as re-entrant; 'Math_RandSeedCur
+ 209:../Dave/Generated/UCPROBE/lib_math.c **** *                       always be accessed & updated exclusively in critical sections.
+ 210:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 211:../Dave/Generated/UCPROBE/lib_math.c **** *                   See also 'Math_RandSeed()  Note #2'.
+ 212:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 213:../Dave/Generated/UCPROBE/lib_math.c **** */
+ 214:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 215:../Dave/Generated/UCPROBE/lib_math.c **** RAND_NBR  Math_Rand (void)
+ 216:../Dave/Generated/UCPROBE/lib_math.c **** {
+ 110              	 .loc 1 216 0
+ 111              	 .cfi_startproc
+ 112              	 
+ 113              	 
+ 114 0000 80B5     	 push {r7,lr}
+ 115              	.LCFI7:
+ 116              	 .cfi_def_cfa_offset 8
+ 117              	 .cfi_offset 7,-8
+ 118              	 .cfi_offset 14,-4
+ 119 0002 84B0     	 sub sp,sp,#16
+ 120              	.LCFI8:
+ 121              	 .cfi_def_cfa_offset 24
+ 122 0004 00AF     	 add r7,sp,#0
+ 123              	.LCFI9:
+ 124              	 .cfi_def_cfa_register 7
+ 217:../Dave/Generated/UCPROBE/lib_math.c ****     RAND_NBR  seed;
+ 218:../Dave/Generated/UCPROBE/lib_math.c ****     RAND_NBR  rand_nbr;
+ 219:../Dave/Generated/UCPROBE/lib_math.c ****     CPU_SR_ALLOC();
+ 125              	 .loc 1 219 0
+ 126 0006 0023     	 movs r3,#0
+ 127 0008 FB60     	 str r3,[r7,#12]
+ 220:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 221:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 222:../Dave/Generated/UCPROBE/lib_math.c ****     CPU_CRITICAL_ENTER();
+ 128              	 .loc 1 222 0
+ 129 000a FFF7FEFF 	 bl CPU_SR_Save
+ 130 000e F860     	 str r0,[r7,#12]
+ 223:../Dave/Generated/UCPROBE/lib_math.c ****     seed             = Math_RandSeedCur;
+ 131              	 .loc 1 223 0
+ 132 0010 084B     	 ldr r3,.L7
+ 133 0012 1B68     	 ldr r3,[r3]
+ 134 0014 BB60     	 str r3,[r7,#8]
+ 224:../Dave/Generated/UCPROBE/lib_math.c ****     rand_nbr         = Math_RandSeed(seed);
+ 135              	 .loc 1 224 0
+ 136 0016 B868     	 ldr r0,[r7,#8]
+ 137 0018 FFF7FEFF 	 bl Math_RandSeed
+ 138 001c 7860     	 str r0,[r7,#4]
+ 225:../Dave/Generated/UCPROBE/lib_math.c ****     Math_RandSeedCur = rand_nbr;
+ 139              	 .loc 1 225 0
+ 140 001e 054A     	 ldr r2,.L7
+ 141 0020 7B68     	 ldr r3,[r7,#4]
+ 142 0022 1360     	 str r3,[r2]
+ 226:../Dave/Generated/UCPROBE/lib_math.c ****     CPU_CRITICAL_EXIT();
+ 143              	 .loc 1 226 0
+ 144 0024 F868     	 ldr r0,[r7,#12]
+ 145 0026 FFF7FEFF 	 bl CPU_SR_Restore
+ 227:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 228:../Dave/Generated/UCPROBE/lib_math.c ****     return (rand_nbr);
+ 146              	 .loc 1 228 0
+ 147 002a 7B68     	 ldr r3,[r7,#4]
+ 229:../Dave/Generated/UCPROBE/lib_math.c **** }
+ 148              	 .loc 1 229 0
+ 149 002c 1846     	 mov r0,r3
+ 150 002e 1037     	 adds r7,r7,#16
+ 151              	.LCFI10:
+ 152              	 .cfi_def_cfa_offset 8
+ 153 0030 BD46     	 mov sp,r7
+ 154              	.LCFI11:
+ 155              	 .cfi_def_cfa_register 13
+ 156              	 
+ 157 0032 80BD     	 pop {r7,pc}
+ 158              	.L8:
+ 159              	 .align 2
+ 160              	.L7:
+ 161 0034 00000000 	 .word Math_RandSeedCur
+ 162              	 .cfi_endproc
+ 163              	.LFE2:
+ 165              	 .section .text.Math_RandSeed,"ax",%progbits
+ 166              	 .align 2
+ 167              	 .global Math_RandSeed
+ 168              	 .thumb
+ 169              	 .thumb_func
+ 171              	Math_RandSeed:
+ 172              	.LFB3:
+ 230:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 231:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 232:../Dave/Generated/UCPROBE/lib_math.c **** /*
+ 233:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 234:../Dave/Generated/UCPROBE/lib_math.c **** *                                           Math_RandSeed()
+ 235:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 236:../Dave/Generated/UCPROBE/lib_math.c **** * Description : Calculate the next pseudo-random number.
+ 237:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 238:../Dave/Generated/UCPROBE/lib_math.c **** * Argument(s) : seed        Initial (or current) value for the pseudo-random number sequence.
+ 239:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 240:../Dave/Generated/UCPROBE/lib_math.c **** * Return(s)   : Next pseudo-random number in the sequence after 'seed'.
+ 241:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 242:../Dave/Generated/UCPROBE/lib_math.c **** * Caller(s)   : Math_Rand(),
+ 243:../Dave/Generated/UCPROBE/lib_math.c **** *               Application.
+ 244:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 245:../Dave/Generated/UCPROBE/lib_math.c **** * Note(s)     : (1) (a) BSD/ANSI-C implements rand() as a Linear Congruential Generator (LCG) :
+ 246:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 247:../Dave/Generated/UCPROBE/lib_math.c **** *                       (A) random_number       =  [(a * random_number ) + b]  modulo m
+ 248:../Dave/Generated/UCPROBE/lib_math.c **** *                                        n + 1                        n
+ 249:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 250:../Dave/Generated/UCPROBE/lib_math.c **** *                               where
+ 251:../Dave/Generated/UCPROBE/lib_math.c **** *                                       (1) (a) random_number           Next     random number to g
+ 252:../Dave/Generated/UCPROBE/lib_math.c **** *                                                            n+1
+ 253:../Dave/Generated/UCPROBE/lib_math.c **** *                                           (b) random_number           Previous random number    g
+ 254:../Dave/Generated/UCPROBE/lib_math.c **** *                                                            n
+ 255:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 256:../Dave/Generated/UCPROBE/lib_math.c **** *                                       (2) a = RAND_LCG_PARAM_A        LCG multiplier
+ 257:../Dave/Generated/UCPROBE/lib_math.c **** *                                       (3) b = RAND_LCG_PARAM_B        LCG incrementor
+ 258:../Dave/Generated/UCPROBE/lib_math.c **** *                                       (4) m = RAND_LCG_PARAM_M + 1    LCG modulus
+ 259:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 260:../Dave/Generated/UCPROBE/lib_math.c **** *                   (b) The pseudo-random number generated is in the range [0, RAND_LCG_PARAM_M].
+ 261:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 262:../Dave/Generated/UCPROBE/lib_math.c ****                     See also 'lib_math.h  RANDOM NUMBER DEFINES  Note #1b'.
+ 263:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 264:../Dave/Generated/UCPROBE/lib_math.c **** *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'rand() : DESCRIPTION' states that "
+ 265:../Dave/Generated/UCPROBE/lib_math.c **** *                       ... need not be reentrant ... [and] is not required to be thread-safe".
+ 266:../Dave/Generated/UCPROBE/lib_math.c **** *
+ 267:../Dave/Generated/UCPROBE/lib_math.c **** *                   (b) However, Math_RandSeed() is re-entrant since it calculates the next random 
+ 268:../Dave/Generated/UCPROBE/lib_math.c **** *                       using ONLY local variables.
+ 269:../Dave/Generated/UCPROBE/lib_math.c **** ***************************************************************************************************
+ 270:../Dave/Generated/UCPROBE/lib_math.c **** */
+ 271:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 272:../Dave/Generated/UCPROBE/lib_math.c **** RAND_NBR  Math_RandSeed (RAND_NBR  seed)
+ 273:../Dave/Generated/UCPROBE/lib_math.c **** {
+ 173              	 .loc 1 273 0
+ 174              	 .cfi_startproc
+ 175              	 
+ 176              	 
+ 177              	 
+ 178 0000 80B4     	 push {r7}
+ 179              	.LCFI12:
+ 180              	 .cfi_def_cfa_offset 4
+ 181              	 .cfi_offset 7,-4
+ 182 0002 85B0     	 sub sp,sp,#20
+ 183              	.LCFI13:
+ 184              	 .cfi_def_cfa_offset 24
+ 185 0004 00AF     	 add r7,sp,#0
+ 186              	.LCFI14:
+ 187              	 .cfi_def_cfa_register 7
+ 188 0006 7860     	 str r0,[r7,#4]
+ 274:../Dave/Generated/UCPROBE/lib_math.c ****     RAND_NBR  rand_nbr;
+ 275:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 276:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 277:../Dave/Generated/UCPROBE/lib_math.c ****     rand_nbr = (((RAND_NBR)RAND_LCG_PARAM_A * seed) + (RAND_NBR)RAND_LCG_PARAM_B)  %  ((RAND_NBR)RA
+ 189              	 .loc 1 277 0
+ 190 0008 7B68     	 ldr r3,[r7,#4]
+ 191 000a 084A     	 ldr r2,.L11
+ 192 000c 02FB03F3 	 mul r3,r2,r3
+ 193 0010 03F54053 	 add r3,r3,#12288
+ 194 0014 3933     	 adds r3,r3,#57
+ 195 0016 23F00043 	 bic r3,r3,#-2147483648
+ 196 001a FB60     	 str r3,[r7,#12]
+ 278:../Dave/Generated/UCPROBE/lib_math.c **** 
+ 279:../Dave/Generated/UCPROBE/lib_math.c ****     return (rand_nbr);
+ 197              	 .loc 1 279 0
+ 198 001c FB68     	 ldr r3,[r7,#12]
+ 280:../Dave/Generated/UCPROBE/lib_math.c **** }
+ 199              	 .loc 1 280 0
+ 200 001e 1846     	 mov r0,r3
+ 201 0020 1437     	 adds r7,r7,#20
+ 202              	.LCFI15:
+ 203              	 .cfi_def_cfa_offset 4
+ 204 0022 BD46     	 mov sp,r7
+ 205              	.LCFI16:
+ 206              	 .cfi_def_cfa_register 13
+ 207              	 
+ 208 0024 5DF8047B 	 ldr r7,[sp],#4
+ 209              	.LCFI17:
+ 210              	 .cfi_restore 7
+ 211              	 .cfi_def_cfa_offset 0
+ 212 0028 7047     	 bx lr
+ 213              	.L12:
+ 214 002a 00BF     	 .align 2
+ 215              	.L11:
+ 216 002c 6D4EC641 	 .word 1103515245
+ 217              	 .cfi_endproc
+ 218              	.LFE3:
+ 220              	 .text
+ 221              	.Letext0:
+ 222              	 .file 2 "../Dave/Generated/UCPROBE/cpu.h"
+ 223              	 .file 3 "../Dave/Generated/UCPROBE/lib_math.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 lib_math.c
+                            *COM*:00000004 Math_RandSeedCur
+    {standard input}:21     .text.Math_Init:00000000 $t
+    {standard input}:26     .text.Math_Init:00000000 Math_Init
+    {standard input}:55     .text.Math_RandSetSeed:00000000 Math_RandSetSeed
+    {standard input}:50     .text.Math_RandSetSeed:00000000 $t
+    {standard input}:98     .text.Math_RandSetSeed:00000024 $d
+    {standard input}:103    .text.Math_Rand:00000000 $t
+    {standard input}:108    .text.Math_Rand:00000000 Math_Rand
+    {standard input}:171    .text.Math_RandSeed:00000000 Math_RandSeed
+    {standard input}:161    .text.Math_Rand:00000034 $d
+    {standard input}:166    .text.Math_RandSeed:00000000 $t
+    {standard input}:216    .text.Math_RandSeed:0000002c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+CPU_SR_Save
+CPU_SR_Restore
