@@ -1,8 +1,6 @@
 \chapter{State-Of-The-Art} \label{chap:sota}
 
 \section{Introduction}\label{sec:sota_intro}
-
-
 General automotive traffic, gas prices and overall environmental concerns increase the necessity for a public transit method with a low carbon footprint. Electric trains are considered as one of the least polluting modes of transportation.
 
 In this section, it will be discussed the state-of-the-art of all relevant components in a traction system configuration for an electric locomotive. It will also present a brief overview of the Portuguese railway services and future technologies deemed of relevance for future control and operations in railway services.
@@ -15,24 +13,31 @@ Founded in the 19th century, the Portuguese railway services (RFN - \textit{Rede
     \caption{Railway Network in usage in Portugal}
     \label{fig:CPLines}
 \end{figure}
+Analysing \cite{CP_accounting} there are 3 lines of particular relevance both in the number of passengers transported and the technical capabilities of each. Of note are the urban Lisbon lines, urban Porto lines and the Portuguese high speed rail \textit{Alfa-Pendular} lines.
 
-Passenger transport services are split into 3 main categories, Urban and Suburban transports, Inter-regional lines, and long-distance services namely \textit{Intercidades}, a medium speed solution, and \textit{Alfa-Pendular} lines, the high-speed Portuguese solution.
+With a continuous increase in usage, the importance of the Portuguese railway services has been acknowledged by the central government, resulting in the creation of multiple programs for the update and continued electrification efforts of all lines mainly \textit{Ferrovia} 4.0 \cite{ferrovia4}.
+
+In the following sections, the three most important lines will be detailed and the compositions that are used in said lines will also be described in greater detail.
+
+\subsection{Urban Lisbon Lines}
+Consistently the most used and highest usability line in Portugal it is of at most relevance to note the technologies and aging of the fleet used in this line.
+According to \cite{CP_accounting} the urban transportation services provided by this line compose around 75\% of all passengers transported. This is accomplished using 5 different compositions, of note are the 2300 units \cite{2300},2400 units \cite{2400}, 3100-3200 units \cite{3100-3200} and 3500 units \cite{3500}. With the exception of the 3100-3200 units the remaining use induction motors powered from the 25 kV  50Hz line. The average age of the traction drive train of all compositions is 24 years even throughout the varied efforts of updated interiors and exteriors besides general maintenance very little has been done regarding the drive train of these compositions. As a method of comparison the determined average top speed of these compositions is 117.5 km/h.
+
+\subsection{Urban Porto Line}
+Providing transportation to the second largest urban center in Portugal, this line is both relevant in the amount of passengers transported and the novel compositions used in this line. The 3400 lines \cite{3400} where introduced in 2002 and as such are the most up to date compositions in use in the Portuguese railway service. It utilizes induction motors with a top speed of 140 km/h placing it as the third fastest train in use only being surpassed by the long distance trains, \textit{Intercidades} and the following composition \textit{Alfa-Pendular}. 
+\subsection{\textit{Alfa-Pendular} Line}
+As currently the only high-speed solution presented in the Portuguese railway services, \textit{Alfa-Pendular} is of high relevance to this dissertation as it imposes the hardest control challenges.
+
+With an achievable top speed of 220 km/h, this composition makes use of 8 induction motors with 500 kW nominal power. Created as a variation of the Italian high-speed rail \textit{Pendulino} it also poses a tilting feature capable of decreasing the cornering forces exerted on the rail and allowing for more comfort and higher speed limit through certain corners.
+
+With nearly 25 years of service these trains are currently approaching the mid-life cycle where there maybe availability to update and renew drive train components. Increasing the value of research done in high-speed high-efficiency traction controllers.
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale =0.5]{Figures/Alfa.jpg}
-    \caption{Portuguese High-Speed Train \textit{Alfa-Pendular}}
+    \caption{Portuguese High-Speed Train \textit{Alfa-Pendular}\cite{AlfaPic}}
     \label{fig:Alfa}
 \end{figure}
-
-With a continuous increase in usage, the importance of the Portuguese railway services has been acknowledged by the central government, resulting in the creation of multiple programs for the update and continued electrification efforts of all lines.
-
-In the following sections, the three most important lines will be detailed and the compositions that compose said lines will also be described in greater detail.
-
-\subsection{Lisbon-Sintra Lines}
-\subsection{Suburban Porto Line}
-\subsection{\textit{Alfa-Pendular} Line}
-
 \section{Electric motorization in use in rolling stock}\label{sec:sota_motor}
 The best engine choice for electric locomotives varies wildly given both speed and torque requirements, as well as non-functional requirements like cost, cost of maintenance, and reliability.
 
@@ -121,23 +126,18 @@ From this, \ref{MecPower}, the mechanical torque generated can be described as:
     T_m = \frac{P_m}{\omega_r} = \frac{3\*R_r\*I_r^2}{s\*\omega_s}
 \end{equation}
 
-As a function of stator current and voltage, $I_r$ can be described as follows:
-\begin{equation}
-    I_r(I_s,V_s) = 
-\end{equation}
-
 Thusly the general control of the torque and by the effect the velocity of the axle can be described as a combination of the previous equations.
 
-Although the slip induced in IMs augments the complexity of vector control techniques for IMs, it provides the machine with an inherit means to support changes of speed in the rotor without needing to specifically determine the appropriate current for each load variation. This is particularly helpful in railway applications eliminating the necessity for individual control of each axis during cornering \cite{MainSOTA}.
+Although the slip induced in IMs augments the complexity of vector control techniques for IMs, as vector control depends greatly on the frequency of the flux generated, it provides the machine with an inherit means to support changes of speed in the rotor without needing to specifically determine the appropriate current for each load variation. This is particularly helpful in railway applications eliminating the necessity for individual control of each axis during cornering \cite{MainSOTA}.
 
-The slip also allows for the bulk control of several engines by a single converter, reducing implementation costs and control complexity \cite{Motor-SOTA}.
+The slip also allows for the bulk control of several engines by a single converter, reducing implementation costs and control complexity when compared to the individual control of multiple motors\cite{Motor-SOTA}.
 
 \subsection{Permanent Magnet Synchronous Motors}
 PMSMs notably have a higher torque density and much higher efficiency compared with induction motors as such, since 2005 \cite{Motor-SOTA}, efforts have been made in an attempt to implement permanent magnet motors in railway systems as a replacement for IM. However, due to the cost of rare earth elements used in the manufacturing of magnets the adoption of these types of motors has been limited \cite{MainSOTA}.
 
-As the name implies, PMSMs use permanent magnets as a way to create a magnetic field that can interact with the one created by excitation of the windings by an alternating current. The remainder of the acronym  translates the synchronous nature of the motor, i.e. the rotor spins at the same frequency as the magnetic field created.
+As the name implies, PMSMs use permanent magnets as a way to create a magnetic flux that can interact with the one created by excitation of the windings by an alternating current. The remainder of the acronym  translates the synchronous nature of the motor, i.e. the rotor spins at the same frequency as the magnetic field created.
 
-The fact that rotor frequency is equal to the magnetic field frequency introduces additional complexity to the control of these types of motors. As the speed of the motor is necessarily controlled by the frequency provided by the control it prohibits group drive of synchronous motors.\cite{MainSOTA},\cite{Motor-SOTA}. 
+The fact that rotor frequency is equal to the flux frequency introduces additional complexity to the control of multiple motors of these topology. As the speed of the motor is necessarily controlled by the frequency provided by the control it prohibits group drive of synchronous motors.\cite{MainSOTA},\cite{Motor-SOTA}. 
 
 Safety concerns also due to the synchronous nature of these motor types implicates the addition of complex control systems in several components as brakes increase again the general cost of implementing synchronous motors \cite{Motor-SOTA}.
 
@@ -149,12 +149,12 @@ Having a torque density comparable to PMSMs and an efficiency equally high, SynR
 However, SynRMs have a much higher control complexity and questions have been pointed regarding the mechanical strength of the rotor and the very low power factor \cite{Motor-SOTA}.
 
 \subsection{Comparison and Evaluation}
-Throughout the railway industry, the motorization is selected by a balance of the price of the solution for the necessary load, reliability, controllability, efficiency, torque density, and maximum speed, plus a multitude of other measurements of the possible solution that are specific to each application. In general, however, we can evaluate the efficacy of each motor typology for a general railway system. The following table was created \cite{MainSOTA} using a 5 scale evaluation of each parameter described. 
+Throughout the railway industry, the motorization is selected by a balance of the price of the solution for the necessary load, reliability, controllability, efficiency, torque density, and maximum speed, plus a multitude of other measurements of the possible solution that are specific to each application. In general, however, we can evaluate the efficacy of each motor typology for a general railway system. The following table was created \cite{MainSOTA} using a 0-5 scale evaluation of each parameter described. 
 
 \begin{table}[ht]
 
     \centering
-    \caption{Evaluation of traction motors available and implemented in rolling stock solutions}
+    \caption{Evaluation of traction motors available and implemented in rolling stock solutions \cite{MainSOTA}}
     \begin{tabular}{c|c c c c}
         \hline\hline
         Parameters     & DC & IM & PMSM & SynRM \\
@@ -233,7 +233,7 @@ In the next sections, each technology will be detailed and finally, a comparison
 \subsubsection{Diodes and thyristors (Gate Turn-Off thyristors)}
 The most simple and older of the technologies detailed in this segment, diodes are built using the simple combination of a P-N junction. The use of these allowed for passive speed control of DC motors as they can control the amount of energy released from the power supply.
 
-Thyristors are an advancement on the technologies that built diodes, these can be controlled and inhibit the current flowing through them from an external gate.
+Thyristors are an advancement on the technologies that built diodes, these can be controlled and inhibit the current flowing through them from an external gate. However the external control circuitry is more complex and prone to faliure when comparing more advanced semiconductor technologies as the technologies in the following section.
 \subsubsection{Insulated Gate Bipolar Transistors}
 Insulated gate bipolar transistors are an hybrid with a MOS similar gate and a driven part closely related with a bipolar transistor (i.e. a p-n-p or n-p-n junction). From the construction of these types of transistors a diode naturally appears has a result of the junctions created. 
 
@@ -262,7 +262,7 @@ Experimentation of these technologies are already under way in Japanese rail wit
 \begin{figure}[h]
     \centering
     \includegraphics{Figures/SivSiC.jpg}
-    \caption{Comparison(c) between Si-IGBT(a) modules and SiC hybrid modules(b)}
+    \caption{Comparison(c) between Si-IGBT(a) modules and SiC hybrid modules(b) \cite{MainSOTA}}
     \label{fig:SiVSiC}
 \end{figure}
 
@@ -313,7 +313,7 @@ The resulting values from this transform are still sinusoidal values. To obtain 
 
 The nature of the values allows for traditional control techniques, such as PI controllers, can more easily be used giving the ability to create more precise control techniques.
 
-From the application of the full Clark-Park transformation to the currents of an IM machine, we can relate $I_d$ as the vector responsible for the creation of flux and $I_q$ as the current vector responsible for torque creation. From this several control, techniques can be designed.
+From the application of the full Clark-Park transformation to the currents of an IM machine, we can relate $I_d$ as the vector responsible for the creation of flux and $I_q$ as the current vector responsible for torque creation. From this several control, techniques can be designed such as the ones presented in the following subsections.
 
 \subsubsection{Field Oriented Control}
 Field oriented control (FOC) utilizes the separation described above between the current that generates torque and the current that generates the necessary magnetic field. From this separation FOC utilizes a reference value in speed or torque or a current value for $I_q$ current and separately a reference for $I_d$ current is calculated such that the magnetic field generated is equal to the nominal field that is required.
@@ -354,8 +354,63 @@ Continuing the trend set by all other control techniques, MPC is also used in se
 MPC has the advantage of simplifying the implementation and testing of non linear controllers and providing improvements to DTC which as led to an increased interest for railway applications. However the weights that factor into the cost function have no deterministic methods for their calculation, increasing the difficulty of implementing this control technique. The parameter influence and variable frequency provided by pure MPC-DTC diminish the usability of this control technique in any application.
 
 \subsubsection{Comparison between different control methodologies}
-Using information gathered from \cite{MainSOTA} and condensing information from the remaining sources mentioned earlier the following table was compressed.
+Compiling the information gathered in multiple different literature and considering the valid points of evaluation represented in \cite{MainSOTA} we present the following table:
+\begin{table}[h]
+\centering
+\caption{Comparasion table of different traction control methodologies \cite{MainSOTA}}
 
+\begin{tabular}{l|l|l|l|l}\hline\hline
+ Comparision Points& FOC & DTC & DTC-SVM & MPC \\\hline
+ Parameter Sensitivity &  &  &  &  \\
+ Computation Time&  &  &  &  \\
+ Torque Ripple &  &  &  & \\
+ Stator flux ripple &  &  &  &  \\
+ Stator current THD &  &  &  &  \\
+ Sampling Frequency &  &  &  & \\
+ Switching Frequency &  &  &  & \\
+ Dynamic response &  &  &  &  \\
+ Machine Losses &  &  &  &  \\
+ PWM Modulator &  &  &  &  \\
+ Algorithm Complexity &  &  &  & \\\hline \hline
+\end{tabular}
+
+\end{table}
+The evaluation points of parameter sensitivity, switching frequency, dynamic response and machine losses pose the most important points in the choice of control strategies. Parameter sensitive may be reduced when combined with more complex parameter estimation techniques and other less sensitive controllers such as fuzzy logic controllers. Switching frequency is particularly relevant in order to diminish and better adjust sensor reading around a fixed switching frequency. Dynamic response and machine losses are always of relevance in any traction controller, however when commenting large power application as is railway services machine losses pose a much higher concern.
+
+Following this comparison the remainder of the project will be considering the points mentioned on this table and other experimental and simulation results to determine what control methodologies will be used.
+
+\subsection{Modulation techniques}
+Lightly mentioned in the previous sections, the modulation, i.e. the translation of the required sinusoidal current values to the correct semi-conductor commands. There is a multitude of different modulation functions used in different power electronic and conversion applications. When comparing and noting different modulation techniques there are quantitative parameters that facilitate said comparisons, such as frequency and amplitude modulation values. These values, in layman terms, translate the level of information of the input wave is translated to the carrier wave to then be propagated. These are dimensionless values, when over 1 it is said that there is over-modulation of the modulation wave which may result in a slight distortion but may also be responsible for an improvement of the harmonic contents of the resulting modulated wave.
+
+The distortion the information wave is also quantitatively evaluated by the use of THD (total harmonic distortion). This measures the ratio between the power at the fundamental frequency and the remainder frequency spikes. As such a low THD results in a more accurate modulation in terms of the harmonic contents which is desirable.
+
+It has to be noted that there is no need for modulation in certain traction control methods such has DTC where the usage of a look-up-table results directly in the semi-conductor commands. 
+
+Finally, regarding the modulation techniques that could be of most use in traction control techniques, space vector modulation or SVM. 
+
+Space vector modulation as been increasingly more used as micro-processors become even faster and more capable of rapid arithmetic calculations \cite{ModulationTechniques}. As the most common converter used in rail is a two level inverter the usage of SVM does not pose a major concern in terms of processing power and provides a lower THD when compared to more simple modulation techniques such as sinusoidal PWM\cite{ModulationTechniques}.
+
+Functionally, SVM for a 3-phase inverter uses the representation of the 8 possible voltages created by the different commutations of the inverter splinting the reference frame into 6 sectors. The voltage reference, that will have a determined amplitude and phase, will then settle around a certain sector as seen in \ref{fig:SVMVectors} (using the $\alpha \beta$ space reference frame).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 0.45]{Figures/SVM_Vectors.png}
+    \caption{a) Voltage vector representation in $\alpha \beta$ space reference frame, b) generic working principle of a generic sector k \cite{Mohan}}
+    \label{fig:SVMVectors}
+\end{figure} 
+
+From the angle and amplitude of the reference rector we can reflect it to the nearest voltage vectors that delineate the sector. The two voltage vector found plus a zero voltage vector make up the 3 vector to be commutated to resolve in an approximation of the reference voltage vectors. The only variable left to be determined is the duty-cycle to be spread between the three voltage vector, this can easily be determined, given that the voltage vectors share the same amplitude, by the following equations \cite{Mohan}:
+
+\begin{equation}
+t_k = \frac{3T_m|V_s^*|}{2V_{DC}}(cos(\theta-\theta_k) - sin(\frac{\theta -\theta_k}{\sqrt{3}}))
+\end{equation}
+\begin{equation}
+t_{k+1} = \frac{3T_m|V_s^*|}{V_{DC}}\frac{sin(\theta -\theta_k)}{\sqrt{3}}
+\end{equation}
+\begin{equation}
+t_0 = T_m - t_k - t_{k+1}
+\end{equation}
+Where $t_k$, $t_{k+1}$ and $t_0$ are respectively the active time of the two active vectors in sector k and the zero voltage vector, $\theta$ is the angle between the $\alpha$ axis and the reference voltage vector and $T_m$ represents the modulation period used.
 \section{Anti-Slip Technologies}
 Besides the main functions of a traction control system, there exists other problems brought up by the contact between the wheel and the rail. Mainly the reduction of the slip in breaking and acceleration operations can reduce both wear and increase safety and comfort within any application. 
 
@@ -366,6 +421,19 @@ More recently and given the advancements in technologies and sensing in traction
 In the next sections a short but detailed overview of these two different building blocks of anti-slip technologies will be provided.
 \subsection{Slip-detection}
 \subsection{Re-adhesion techniques}
+
+\section{Motor parameter estimation techniques}
+From the above section and as a general globalization, all vector control methodologies are dependent on at least some motor parameters such as rotor and stator resistance and inductance as well as magnetization curves when discussing IM.
+
+As not only the railway industry but also general automation and mobility move to more electric and more open markets, the likely-hood that the motor and converter come from different manufactures is greater than ever. As such it is useful, as the installation procedures are being done, the control unit be capable of measuring and estimating the relevant motor parameters, increasing the plug-and-play capabilities.
+
+It is also relevant particularly in railway applications that there is first a maintenance of the dynamic characteristics of the controller throughout its usage and also the capability to manage and predict the state of all components along the traction control mesh i.e. self diagnosis capabilities.
+
+Generally and as it may be deferred from the paragraphs above, there are two main formats to estimate motor parameters, offline i.e. while the controller is being initialized and online where there is a continued observation and estimation of motor parameters. 
+
+In the following sections a short description of possible solutions to estimate motor parameter 
+\subsection{Offline motor parameter estimation}
+\subsection{Online motor parameter estimation}
 
 \section{European Train Control Systems and Guiding Norms and Regulations}
 As mentioned previously the increased importance of railway both nationally and internationally between European countries as lead to an increased desire of creating an European standard grid and standard communication protocols. The increased opportunities to implement within the control schema of trains vision systems and other communication between trains as lead the European Union to create a gathering of capability levels that traction systems should follow.
