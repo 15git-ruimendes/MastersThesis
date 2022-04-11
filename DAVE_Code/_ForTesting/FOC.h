@@ -148,7 +148,7 @@ void InvParkTransform(FOC *Controller, float32_t *Val, float32_t *Vbet);
  * returns 1 if positive, -1 if negative and 0 if zero
  * @params sign input signal
  */
-uint32_t SignVal(float32_t sign);
+int32_t SignVal(float32_t sign);
 
 /*
  * @brief Derivative calculation formula calculated at time_step

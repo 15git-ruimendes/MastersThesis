@@ -46,8 +46,8 @@ float32_t RPM_REF;
 float32_t time = 0, unfilt[FIR_CURRENT_blockSize], filt, aux;
 
 // Cycle counters
-uint32_t ControlCycleCounter = 0;
-uint32_t MeasurmentCycleCounter = 0;
+int32_t ControlCycleCounter = 0;
+int32_t MeasurmentCycleCounter = 0;
 
 // Speed Controller
 /*

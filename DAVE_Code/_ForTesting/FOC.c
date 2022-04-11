@@ -111,7 +111,7 @@ void InvParkTransform(FOC *Controller, float32_t *Val, float32_t *Vbet)
 	Controller->Theta_Ref = atan2(aux2, aux1);
 }
 
-uint32_t SignVal(float32_t sign)
+int32_t SignVal(float32_t sign)
 {
 	if (sign > 0)
 		return 1;
