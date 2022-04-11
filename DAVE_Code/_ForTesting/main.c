@@ -34,16 +34,16 @@ FOC Controller;
  * Primary measurements, filtered and compensated.
  * Read and manipulated in ACQUISITION_LOOP
  */
-float32_t COS_RPM,SIN_RPM,VAL_RPM;
-float32_t Ia,Ib,Ic;
-float32_t Val,Vbet;
+float32_t COS_RPM, SIN_RPM, VAL_RPM;
+float32_t Ia, Ib, Ic;
+float32_t Val, Vbet;
 float32_t V_DC;
-float32_t Temp_Mot,Temp_IGBT;
+float32_t Temp_Mot, Temp_IGBT;
 float32_t Theta;
 
 // Reference and timing variables
 float32_t RPM_REF;
-float32_t time = 0,unfilt[FIR_CURRENT_blockSize],filt,aux;
+float32_t time = 0, unfilt[FIR_CURRENT_blockSize], filt, aux;
 
 // Cycle counters
 uint32_t ControlCycleCounter = 0;
@@ -55,7 +55,7 @@ uint32_t MeasurmentCycleCounter = 0;
  * @params RPM_Val Current speed value in RPM
  * @params Controller_Var FOC structure, function will change IqRef value limited to IQ_LIM
  */
-void SpeedController(float RPM_Val, FOC* Controller_Var);
+void SpeedController(float32_t RPM_Val, FOC *Controller_Var);
 
 // Field Weakening
 /*
@@ -66,7 +66,7 @@ void SpeedController(float RPM_Val, FOC* Controller_Var);
  * @params RPM_Val Current speed value in RPM
  * @params Controller_Var FOC structure, function will change IdRef value limited to ID_MIN
  */
-void FieldWeakening(float RPM_Val, FOC* Controller_Var);
+void FieldWeakening(float32_t RPM_Val, FOC *Controller_Var);
 
 ////////////////////////////////////////////////
 /*
@@ -88,25 +88,25 @@ void FieldWeakening(float RPM_Val, FOC* Controller_Var);
 void ACQUISITION_LOOP_FUNC()
 {
 	CURRENT_A_UNFILT = ((float)(ADC_MEASUREMENT_ADV_GetResult(&ADC_CURRENT_A) - CURRENT_SENS_A_OFFSET)) * CURRENT_SENS_A_GAIN + CURRENT_SENS_A_BIAS;
-	CURRENT_B_UNFILT = ((float)(ADC_MEASUREMENT_ADV_GetResult(&ADC_CURRENT_B) - CURRENT_SENS_B_OFFSET )) * CURRENT_SENS_B_GAIN + CURRENT_SENS_B_BIAS;
+	CURRENT_B_UNFILT = ((float)(ADC_MEASUREMENT_ADV_GetResult(&ADC_CURRENT_B) - CURRENT_SENS_B_OFFSET)) * CURRENT_SENS_B_GAIN + CURRENT_SENS_B_BIAS;
 	CURRENT_C_UNFILT = ((float)(ADC_MEASUREMENT_ADV_GetResult(&ADC_CURRENT_C) - CURRENT_SENS_C_OFFSET)) * CURRENT_SENS_C_GAIN + CURRENT_SENS_C_BIAS;
-	V_DC_UNFILT = ((float)(ADC_MEASUREMENT_ADV_GetResult(&ADC_V_DC) - V_DC_SENS_OFFSET )) * V_DC_SENS_GAIN + V_DC_SENS_BIAS;
+	V_DC_UNFILT = ((float)(ADC_MEASUREMENT_ADV_GetResult(&ADC_V_DC) - V_DC_SENS_OFFSET)) * V_DC_SENS_GAIN + V_DC_SENS_BIAS;
 	TEMP_SENS_MOT_UNFILT = ((float)(ADC_MEASUREMENT_ADV_GetResult(&ADC_TEMP_SENS_MOT) - TEMP_MOT_SENS_OFFSET)) * TEMP_MOT_SENS_GAIN + TEMP_MOT_SENS_BIAS;
 	TEMP_SENS_IGBT_UNFILT = ((float)(ADC_MEASUREMENT_ADV_GetResult(&ADC_TEMP_SENS_IGBT) - TEMP_IGBT_SENS_OFFSET)) * TEMP_IGBT_SENS_GAIN + TEMP_IGBT_SENS_BIAS;
 	RPM_COS_UNFILT = ((float)(ADC_MEASUREMENT_ADV_GetResult(&ADC_RPM_COS) - RPM_COS_SENS_OFFSET)) * RPM_COS_SENS_GAIN + RPM_COS_SENS_BIAS;
 	RPM_SIN_UNFILT = ((float)(ADC_MEASUREMENT_ADV_GetResult(&ADC_RPM_SIN) - RPM_SIN_SENS_OFFSET)) * RPM_SIN_SENS_GAIN + RPM_SIN_SENS_BIAS;
 
-	arm_fir_f32(&FIR_CURRENT_A,&(CURRENT_A_UNFILT),&Ia,FIR_CURRENT_blockSize);
-	arm_fir_f32(&FIR_CURRENT_B,&(CURRENT_B_UNFILT),&Ib,FIR_CURRENT_blockSize);
-	arm_fir_f32(&FIR_CURRENT_C,&(CURRENT_B_UNFILT),&Ic,FIR_CURRENT_blockSize);
+	arm_fir_f32(&FIR_CURRENT_A, &(CURRENT_A_UNFILT), &Ia, FIR_CURRENT_blockSize);
+	arm_fir_f32(&FIR_CURRENT_B, &(CURRENT_B_UNFILT), &Ib, FIR_CURRENT_blockSize);
+	arm_fir_f32(&FIR_CURRENT_C, &(CURRENT_B_UNFILT), &Ic, FIR_CURRENT_blockSize);
 
-	arm_fir_f32(&FIR_V_DC,&(V_DC_UNFILT),&V_DC,FIR_V_DC_blockSize);
+	arm_fir_f32(&FIR_V_DC, &(V_DC_UNFILT), &V_DC, FIR_V_DC_blockSize);
 
-	arm_fir_f32(&FIR_RPM_COS,&(RPM_COS_UNFILT),&COS_RPM,FIR_RPM_blockSize);
-	arm_fir_f32(&FIR_RPM_SIN,&(RPM_SIN_UNFILT),&SIN_RPM,FIR_RPM_blockSize);
+	arm_fir_f32(&FIR_RPM_COS, &(RPM_COS_UNFILT), &COS_RPM, FIR_RPM_blockSize);
+	arm_fir_f32(&FIR_RPM_SIN, &(RPM_SIN_UNFILT), &SIN_RPM, FIR_RPM_blockSize);
 
 	CheckValues();
-	VAL_RPM = SpeedSensorCoarse(COS_RPM,SIN_RPM);
+	VAL_RPM = SpeedSensorCoarse(COS_RPM, SIN_RPM);
 
 	time += ACQUISITION_TIME;
 	ControlCycleCounter++;
@@ -115,16 +115,16 @@ void ACQUISITION_LOOP_FUNC()
 
 void CONTROL_LOOP_FUNC()
 {
-	//if (ControlCycleCounter % ) //Subroutine @ 1000Hz
-	SpeedController(VAL_RPM,&Controller);
-	FieldWeakening(VAL_RPM,&Controller);
+	// if (ControlCycleCounter % ) //Subroutine @ 1000Hz
+	SpeedController(VAL_RPM, &Controller);
+	FieldWeakening(VAL_RPM, &Controller);
 
-	ThetaEstimation(VAL_RPM,&Controller);
-	ClarkeTransform(0,Ia,Ib,Ic,0,0,0,&Controller);
+	ThetaEstimation(VAL_RPM, &Controller);
+	ClarkeTransform(0, Ia, Ib, Ic, 0, 0, 0, &Controller);
 	ParkTransform(&Controller);
 
 	CurrentController(&Controller);
-	InvParkTransform(&Controller,&Val,&Vbet);
+	InvParkTransform(&Controller, &Val, &Vbet);
 
 	PWM_SVM_SVMUpdate(&PWM_SVM_0, Controller.V_Ref, Controller.Theta_Ref);
 }
@@ -143,20 +143,19 @@ int main(void)
 		}
 	}
 	PWM_SVM_Start(&PWM_SVM_0);
-	arm_fir_init_f32( &FIR_CURRENT_A, 	FIR_CURRENT_numTaps, 	FIR_CURRENT_pCoeffs, 	FIR_CURRENT_A_pState, 	FIR_CURRENT_blockSize 	);
+	arm_fir_init_f32(&FIR_CURRENT_A, FIR_CURRENT_numTaps, FIR_CURRENT_pCoeffs, FIR_CURRENT_A_pState, FIR_CURRENT_blockSize);
 	ProbeScope_Init(SystemCoreClock / TICKS_PER_SECOND); /// for micrium uScope
 	/* Placeholder for user application code. The while loop below can be replaced with user application code. */
 	while (1U)
 	{
-
 	}
 }
 
-void SpeedController(float RPM_Val, FOC* Controller_Var)
+void SpeedController(float32_t RPM_Val, FOC *Controller_Var)
 {
 	static float AccmErrRPM = 0, AuxRPM = 0;
 
-	float ErrRPM = RPM_REF - RPM_Val;
+	float32_t ErrRPM = RPM_REF - RPM_Val;
 
 	AuxRPM += 0.5 * T_PI_RPM * (ErrRPM + AccmErrRPM);
 
@@ -164,7 +163,7 @@ void SpeedController(float RPM_Val, FOC* Controller_Var)
 
 	AccmErrRPM = ErrRPM;
 }
-void FieldWeakening(float RPM_Val, FOC* Controller_Var)
+void FieldWeakening(float32_t RPM_Val, FOC *Controller_Var)
 {
 	if (RPM_Val > RPM_NOMINAL)
 	{

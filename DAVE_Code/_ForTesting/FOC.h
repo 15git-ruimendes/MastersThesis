@@ -36,7 +36,8 @@
  * @brief FOC Struct: Structure used to define current controller gain,
  * and current and voltage transform values
  */
-typedef struct FOC{
+typedef struct FOC
+{
 	float32_t Kp;
 	float32_t Ki;
 	float32_t T_PI;
@@ -54,7 +55,31 @@ typedef struct FOC{
 	float32_t Vq_Ref;
 	float32_t V_Ref;
 	float32_t Theta_Ref;
-}FOC;
+} FOC;
+
+/*
+ * @brief Diff instance corresponding to an auxiliary
+ * structure to implement differential calculation using function
+ * Derivative. In initialization time_step must be defined.
+ */
+typedef struct
+{
+	float32_t previous_in;
+	float32_t time_step;
+} Diff;
+
+/*
+ *
+ */
+typedef struct
+{
+	float32_t accm_val;
+	bool reset;
+	float32_t lim_max;
+	float32_t lim_min;
+	float32_t prev_val;
+	float32_t time_step;
+} Integ;
 
 /*
  * @brief Calculation of electrical angle
@@ -62,7 +87,7 @@ typedef struct FOC{
  * @param RPM Instant mechanical speed in RPM
  * @param Controller FOC type structure containing relevant parameters (requires initialization)
  */
-void ThetaEstimation(float32_t RPM,FOC* Controller);
+void ThetaEstimation(float32_t RPM, FOC *Controller);
 
 /*
  * @brief Adaptation of speed sensor signals
@@ -84,12 +109,11 @@ float32_t SpeedSensorCoarse(float32_t RPM_COS, float32_t RPM_SIN);
  */
 float32_t SpeedSensorFine(float32_t RPM_COS, float32_t RPM_SIN);
 
-
 /*
  * @brief Calulating D and Q voltage references using PI controller
  * @param Controller FOC type structure containing relevant parameters (requires initialization)
  */
-void CurrentController(FOC* Controller);
+void CurrentController(FOC *Controller);
 
 /*
  * @brief Clake transform. If opt = 0 then transform will be applied to Ia, Ib, Ic currents,
@@ -103,22 +127,38 @@ void CurrentController(FOC* Controller);
  * @params Vc
  * @params Controller FOC type structure containing relevant parameters (requires initialization)
  */
-void ClarkeTransform(int opt,float32_t Ia,float32_t Ib,float32_t Ic,float32_t Va,float32_t Vb,float32_t Vc,FOC* Controller);
+void ClarkeTransform(int opt, float32_t Ia, float32_t Ib, float32_t Ic, float32_t Va, float32_t Vb, float32_t Vc, FOC *Controller);
 
 /*
  * @brief Park transform. Applied to Ial, Ibet currents already present in Controller structure
  * (! Needs to follow ClarkeTransform)
  * @params Controller FOC type structure containing relevant parameters (requires initialization)
  */
-void ParkTransform(FOC* Controller);
+void ParkTransform(FOC *Controller);
 
 /*
  * @brief Inverse Park transform. Applied only to VdRef and VqRef already within Controller structure (must be used after PI controllers)
  * also calulates V_Ref and Theta to be used in SVMPWM app.
  * @params Controller FOC type structure containing relevant parameters (requires initialization)
  */
-void InvParkTransform(FOC* Controller,float32_t* Val,float32_t* Vbet);
+void InvParkTransform(FOC *Controller, float32_t *Val, float32_t *Vbet);
 
+/*
+ * @brief Determine the signal of the input value
+ * returns 1 if positive, -1 if negative and 0 if zero
+ * @params sign input signal
+ */
 uint32_t SignVal(float32_t sign);
 
+/*
+ * @brief Derivative calculation formula calculated at time_step
+ * @params input New value to calculate derivative value
+ * @params deriv_inst Instance of derivative calculation
+ */
+float32_t Derivative(float32_t input, Diff *deriv_inst);
+
+/*
+ *
+ */
+float32_t Integrator(float32_t input, Integ *integ_inst);
 #endif

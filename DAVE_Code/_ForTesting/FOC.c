@@ -1,46 +1,55 @@
 #include "FOC.h"
 
-void ThetaEstimation(float32_t RPM,FOC* Controller)
+void ThetaEstimation(float32_t RPM, FOC *Controller)
 {
-	if(Controller->Id > 0)
+	if (Controller->Id > 0)
 		Controller->Theta += Controller->T_Theta * (abs(RPM) * 2 * PI / 60 * P / 2 + (Controller->Iq / Controller->Id * Rr / (Lr + Lm)));
 	else
 		Controller->Theta = 0;
 	if (abs(Controller->Theta) >= 2 * PI)
-	  {
+	{
 		Controller->Theta = -2 * PI;
-	  }
+	}
 }
 
-float32_t SpeedSensorCoarse(float32_t RPM_COS,float32_t RPM_SIN)
+float32_t SpeedSensorCoarse(float32_t RPM_COS, float32_t RPM_SIN)
 {
 	static float32_t prev_RPM_COS = 0;
-	static float32_t theta_Mec = 0,time_step = 0;
+	static float32_t theta_Mec = 0, time_step = 0;
 	float32_t RPM = 0;
 	if (SignVal(RPM_COS) != SignVal(prev_RPM_COS))
 	{
-		if (theta_Mec >= 2*PI)
+		if (theta_Mec >= 2 * PI)
 			theta_Mec = 0;
 		theta_Mec += ANGLE_PER_ZERO;
-		RPM = 1/(2*time_step)*60;
+		RPM = 1 / (2 * time_step) * 60;
 		time_step = 0;
-
 	}
 	prev_RPM_COS = RPM_COS;
 	time_step += ACQUISITION_TIME;
 	return RPM;
 }
 
-float32_t SpeedSensorFine(float32_t RPM_COS,float32_t RPM_SIN)
+float32_t SpeedSensorFine(float32_t RPM_COS, float32_t RPM_SIN, Diff *RPM_Diff)
 {
 	static float32_t theta = 0;
-	theta += arm_atan2();
-	return 0;
+	static float32_t RPM_MEAS;
+	RPM_Diff->time_step = ACQUISITION_TIME;
+	theta += atan2(RPM_SIN, RPM_COS) + PI;
+	if (theta >= 2 * PI)
+	{
+		theta = 0;
+	}
+	else
+	{
+		RPM_MEAS = Derivative(theta, RPM_Diff);
+	}
+	return RPM_MEAS;
 }
 
-void CurrentController(FOC* Controller)
+void CurrentController(FOC *Controller)
 {
-	static float32_t AccmErrD = 0,AccmErrQ = 0,AuxD = 0,AuxQ = 0;
+	static float32_t AccmErrD = 0, AccmErrQ = 0, AuxD = 0, AuxQ = 0;
 
 	float32_t ErrD = Controller->Id_Ref - Controller->Id;
 	float32_t ErrQ = Controller->Iq_Ref - Controller->Iq;
@@ -55,7 +64,7 @@ void CurrentController(FOC* Controller)
 	AccmErrQ = ErrQ;
 }
 
-void ClarkeTransform(int opt,float32_t Ia,float32_t Ib,float32_t Ic,float32_t Va,float32_t Vb,float32_t Vc,FOC* Controller)
+void ClarkeTransform(int opt, float32_t Ia, float32_t Ib, float32_t Ic, float32_t Va, float32_t Vb, float32_t Vc, FOC *Controller)
 {
 	if (opt == 0)
 	{
@@ -64,43 +73,42 @@ void ClarkeTransform(int opt,float32_t Ia,float32_t Ib,float32_t Ic,float32_t Va
 	}
 	else if (opt == 1)
 	{ // Power Invariant
-	    Controller->Val = sqrt(3/2) * Va;
-	    Controller->Vbet = sqrt(2) / 2 * Va + sqrt(2) * Vb;
+		Controller->Val = sqrt(3 / 2) * Va;
+		Controller->Vbet = sqrt(2) / 2 * Va + sqrt(2) * Vb;
 	}
 }
 
-void ParkTransform(FOC* Controller)
+void ParkTransform(FOC *Controller)
 {
 	// Only used after Clarke(0) is performed
 	Controller->Id = Controller->Ial * cos(Controller->Theta) + Controller->Ibet * sin(Controller->Theta);
 	Controller->Iq = -Controller->Ial * sin(Controller->Theta) + Controller->Ibet * cos(Controller->Theta);
 }
 
-void InvParkTransform(FOC* Controller,float32_t* Val,float32_t* Vbet)
+void InvParkTransform(FOC *Controller, float32_t *Val, float32_t *Vbet)
 {
-	 // Limit voltage references between 1 and -1
-	 float32_t aux1, aux2;
-	 aux1 = Controller->Vd_Ref  * cos(Controller->Theta) - Controller->Vq_Ref  * sin(Controller->Theta);
-	 aux2 = Controller->Vd_Ref  * sin(Controller->Theta) + Controller->Vq_Ref  * cos(Controller->Theta);
+	// Limit voltage references between 1 and -1
+	float32_t aux1, aux2;
+	aux1 = Controller->Vd_Ref * cos(Controller->Theta) - Controller->Vq_Ref * sin(Controller->Theta);
+	aux2 = Controller->Vd_Ref * sin(Controller->Theta) + Controller->Vq_Ref * cos(Controller->Theta);
 
-	 /////////////////////////////////////////////
-	 if (abs(aux1) > 1)
-	 {
-		 *Val = (aux1 > 0) - (aux1 < 0);
-	 }
-	 else
-	     *Val = aux1;
-	 /////////////////////////////////////////////
-	 if (abs(aux2) > 1)
-	 {
-	    *Vbet = (aux2 > 0) - (aux2 < 0);
-	 }
-	 else
-	     *Vbet = aux2;
+	/////////////////////////////////////////////
+	if (abs(aux1) > 1)
+	{
+		*Val = (aux1 > 0) - (aux1 < 0);
+	}
+	else
+		*Val = aux1;
+	/////////////////////////////////////////////
+	if (abs(aux2) > 1)
+	{
+		*Vbet = (aux2 > 0) - (aux2 < 0);
+	}
+	else
+		*Vbet = aux2;
 
-
-	 Controller->V_Ref = sqrt(aux1*aux1 + aux2*aux2);
-	 Controller->Theta_Ref = atan2(aux2,aux1);
+	Controller->V_Ref = sqrt(aux1 * aux1 + aux2 * aux2);
+	Controller->Theta_Ref = atan2(aux2, aux1);
 }
 
 uint32_t SignVal(float32_t sign)
@@ -111,4 +119,51 @@ uint32_t SignVal(float32_t sign)
 		return -1;
 	else
 		return 0;
+}
+
+float32_t Derivative(float32_t input, Diff *deriv_inst)
+{
+	float32_t aux;
+	aux = (input - deriv_inst->previous_in) / deriv_inst->time_step;
+	deriv_inst->previous_in = input;
+	return aux;
+}
+
+float32_t Integrator(float32_t input, Integ *integ_inst)
+{
+	float32_t aux = (integ_inst->prev_val + input) * 0.5 * integ_inst->time_step;
+	if (integ_inst->reset)
+	{
+		if (aux + integ_inst->accm_val >= integ_inst->lim_max)
+		{
+			integ_inst->accm_val = integ_inst->lim_min;
+			return integ_inst->accm_val;
+		}
+		else if (aux + integ_inst->accm_val <= integ_inst->lim_min)
+		{
+			integ_inst->accm_val = integ_inst->lim_max;
+			return integ_inst->accm_val;
+		}
+		else
+		{
+			integ_inst->accm_val += aux;
+			return integ_inst->accm_val;
+		}
+	}
+	else
+	{
+		if (aux + integ_inst->accm_val >= integ_inst->lim_max)
+		{
+			return integ_inst->lim_max;
+		}
+		else if (aux + integ_inst->accm_val <= integ_inst->lim_min)
+		{
+			return integ_inst->lim_min;
+		}
+		else
+		{
+			integ_inst->accm_val += aux;
+			return integ_inst->accm_val;
+		}
+	}
 }
